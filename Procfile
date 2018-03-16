@@ -1,1 +1,1 @@
-web: gunicorn src/tman:app
+web: gunicorn hello:app

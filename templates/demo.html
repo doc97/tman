@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+<p>
+    Hello world!
+</p>
+<p>
+    {{ name }}
+</p>
+
+<ul>
+    {% for value in list %}
+    <li>{{ value }}</li>
+    {% endfor %}
+</ul>
+
+<table>
+    <tr>
+        <th>Name</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>{{ item.name }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
