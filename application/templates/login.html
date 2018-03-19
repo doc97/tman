@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="static/style.css">
+{% extends "layout.html" %}
 {% block body %}
     {% if session['logged_in'] %}
         <p>You are logged in already!</p>
@@ -27,7 +28,7 @@
     {% endif %}
     {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <ul class=flashes>
+            <ul class="flashes">
                 {% for message in messages %}
                     <li>{{ message }}</li>
                 {% endfor %}

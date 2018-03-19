@@ -1,7 +1,4 @@
-from tman import app
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy(app)
+from application import db
 
 category_task = db.Table('category_task',
         db.Column('category_id', db.Integer, db.ForeignKey('category.id')),

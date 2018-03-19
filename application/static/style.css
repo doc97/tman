@@ -11,10 +11,12 @@ body {
     background-color: #3498DB;
     padding: 50px;
 }
+
 .login {
     margin: 20px auto;
     width: 300px;
 }
+
 .login-screen {
     background-color: #FFF;
     padding: 20px;
@@ -29,6 +31,7 @@ body {
 .login-form {
     text-align: center;
 }
+
 .control-group {
     margin-bottom: 10px;
 }

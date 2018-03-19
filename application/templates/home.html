@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
+<h1>Home</h1>
 <h3>Categories</h3>
 <table>
     {% for category in categories %}
@@ -8,4 +9,5 @@
         </tr>
     {% endfor %}
 </table>
+<a href="/logout">Log out</a>
 {% endblock %}

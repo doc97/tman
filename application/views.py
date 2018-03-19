@@ -1,6 +1,6 @@
 from flask import flash, render_template, request, redirect, session, url_for
-from tman import app
-from db_model import Account, Category, TaskList, Task, db
+from application import app, db
+from application.tasks.models import Account, Category, TaskList, Task
 from argon2 import PasswordHasher
 import os
 
@@ -11,7 +11,7 @@ def index():
     if not session.get('logged_in'):
         return render_template('index.html')
     else:
-        return render_template('list.html', categories=Category.query.all())
+        return render_template('home.html', categories=Category.query.all())
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -62,4 +62,4 @@ def login():
 @app.route('/logout')
 def logout():
     session['logged_in'] = False
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))

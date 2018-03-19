@@ -1,1 +1,1 @@
-web: gunicorn tman:app
+web: gunicorn application:app
