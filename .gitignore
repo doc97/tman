@@ -1,2 +1,9 @@
 # Ignore Python virtual environment
 venv/
+
+# vim
+*.swp
+*.swo
+
+# compiled pythod
+*.pyc
