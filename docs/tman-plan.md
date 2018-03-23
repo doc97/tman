@@ -2,14 +2,15 @@
 
 ## Keywords
 
-- User: A user of the app
+- Account: An account of a user of the app
 - Task: A user-defined task
-- Task list: A list of tasks, a category
+- Task list: A list of tasks
+- Category: A user-defined task category
 - Preferences: Preferences for a user
 
 ## DB Schema
 
-- User 
+- Account 
     - ID : Integer
     - Username : String
     - Password : String
