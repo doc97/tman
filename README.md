@@ -16,9 +16,9 @@ step at the time.
 - [x] View Today, Tomorrow and Weekly task lists
 
 ## Links
-[Heroku app](https://tsoha-tman.herokuapp.com)
-[User stories](docs/user-stories.md)
-[Database scheme](docs/img/db-scheme.png)
+[Heroku app](https://tsoha-tman.herokuapp.com)  
+[User stories](docs/user-stories.md)  
+[Database schema](docs/img/db-schema.png)  
 
 ---
 
