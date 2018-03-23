@@ -6,16 +6,22 @@ import os
 
 ph = PasswordHasher()
 
+@app.after_request
+def remove_if_invalid(response):
+    if '__invalidate__' in session:
+        response.delete_cookie(app.session_cookie_name)
+    return response
+
 @app.route('/')
 def index():
-    if not session.get('logged_in'):
+    if not session.get('account_id'):
         return render_template('index.html')
     else:
         return render_template('home.html', categories=Category.query.all())
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    session['logged_in'] = False
+    session.pop('account_id', None)
     if request.method == 'POST':
         form_user = request.form['username']
         form_passwd = request.form['password']
@@ -50,7 +56,7 @@ def login():
 
             try:
                 ph.verify(db_passwd, form_passwd)
-                session['logged_in'] = True
+                session['account_id'] = result.id
                 return redirect(url_for('index'))
             except:
                 pass
@@ -61,5 +67,6 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session['logged_in'] = False
+    session.pop('account_id', None)
+    session['__invalidate__'] = True
     return redirect(url_for('login'))

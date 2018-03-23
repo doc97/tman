@@ -16,7 +16,8 @@ class Task(db.Model):
     account = db.relationship('Account', foreign_keys=account_id)
     tasklist = db.relationship('TaskList', foreign_keys=tasklist_id)
 
-    def __init__(self, tasklist_id, description):
+    def __init__(self, account_id, tasklist_id, description):
+        self.account_id = account_id
         self.tasklist_id = tasklist_id
         self.description = description
 
