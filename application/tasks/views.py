@@ -6,7 +6,7 @@ from application.tasks.models import Task, TaskList
 def tasks_today():
     if 'account_id' in session:
         session['url_function'] = 'tasks_today'
-        result = Task.query.filter((Task.tasklist_id == 1) & (Task.account_id == session['account_id']) & Task.is_completed == False).first()
+        result = Task.query.filter((Task.tasklist_id == 1) & (Task.account_id == session['account_id']) & (Task.is_completed == False)).first()
         return render_template('tasks_today.html', currentTask = result.description if result else "Congratulations, you have no tasks left today!")
     return redirect(url_for('logout'))
 
@@ -28,7 +28,7 @@ def tasks_week():
 
 @app.route('/new_task', methods=['POST'])
 def new_task():
-    if 'account_id' in session:
+    if 'account_id' in session and 'url_function' in session:
         form_desc = request.form['description']
 
         list_id = -1
