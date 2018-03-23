@@ -4,7 +4,7 @@ from application.tasks.models import Account, Category, Task, TaskList
 db.drop_all()
 db.create_all()
 
-default_category = Category(name=u'default category')
+default_category = Category(name=u'Default category')
 today_tasklist = TaskList(name=u'Today')
 tomorrow_tasklist = TaskList(name=u'Tomorrow')
 week_tasklist = TaskList(name=u'This week')
