@@ -17,7 +17,7 @@ def index():
     if not session.get('account_id'):
         return render_template('index.html')
     else:
-        return render_template('home.html', categories=Category.query.all())
+        return redirect(url_for('tasks_today'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

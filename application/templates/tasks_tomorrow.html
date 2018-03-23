@@ -1,0 +1,21 @@
+{% extends "tasks_layout.html" %}
+{% block title %}Today{% endblock %}
+{% block body %}
+    <div>
+        <ul>
+            {% if tasks %}
+                {% for task in tasks %}
+                <li id="task_{{ task.id }}" class="task">{{ task.description }}</li>
+                {% endfor %}
+            {% else %}
+                <li>No tasks</li>
+            {% endif %}
+        </ul>
+        <form id="new_task_form" action="{{ url_for('new_task') }}" method="POST">
+            <label>New task</label><br/>
+            <input type="text" id="description" value="" name="description">
+            <input type="submit" value="Add task">
+        </form>
+    </div>
+{% endblock %}
+{% block nav_tomorrow %} <li class="nav active"><a href="tasks_tomorrow">Tomorrow</a></li> {% endblock %}
