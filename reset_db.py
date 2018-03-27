@@ -1,5 +1,5 @@
 from application import app, db
-from application.tasks.models import Account, Category, Task, TaskList
+from application.tasks.models import Category, Task, TaskList
 
 db.drop_all()
 db.create_all()
