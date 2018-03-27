@@ -10,7 +10,6 @@ ph = PasswordHasher()
 
 @app.route('/auth/register', methods=['GET', 'POST'])
 def auth_register():
-    session.pop('account_id', None)
     if request.method == 'GET':
         return render_template('auth/register.html', form = RegistrationForm())
 
@@ -42,21 +41,17 @@ def auth_login():
 
     result = Account.query.filter(Account.username == form.username.data).first()
     if result:
-        db_passwd = result.password
         try:
-            ph.verify(db_passwd, form.password.data)
-            session['account_id'] = result.id
+            ph.verify(result.password, form.password.data)
             login_user(result)
-            return redirect(url_for('index'))
+            return redirect(session['next'] or url_for('tasks_today'))
         except:
-            return "Wrong password"
             pass
 
     return render_template('auth/login.html', form = form, login_error = 'No such username or password')
 
 @app.route('/auth/logout')
 def auth_logout():
-    session.pop('account_id', None)
     session['__invalidate__'] = True
     logout_user()
     return redirect(url_for('auth_login'))

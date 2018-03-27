@@ -2,6 +2,7 @@ import os
 
 DEBUG = True
 SECRET_KEY = os.urandom(32)
+USE_SESSION_FOR_NEXT = True
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 if os.environ.get('HEROKU'):
