@@ -12,7 +12,7 @@ def tasks_today(form = None):
         if not form:
             form = TaskForm()
         return render_template('tasks/tasks_today.html', currentTask = currentTask, form = form)
-    return redirect(url_for('logout'))
+    return redirect(url_for('auth_logout'))
 
 @app.route('/tasks_tomorrow')
 def tasks_tomorrow(form = None):
@@ -23,7 +23,7 @@ def tasks_tomorrow(form = None):
         if not form:
             form = TaskForm()
         return render_template('tasks/tasks_tomorrow.html', tasks = tasks, form = form)
-    return redirect(url_for('logout'))
+    return redirect(url_for('auth_logout'))
 
 @app.route('/tasks_week')
 def tasks_week(form = None):
@@ -34,7 +34,7 @@ def tasks_week(form = None):
         if not form:
             form = TaskForm()
         return render_template('tasks/tasks_week.html', tasks = tasks, form = form)
-    return redirect(url_for('logout'))
+    return redirect(url_for('auth_logout'))
 
 @app.route('/new_task', methods=['POST'])
 def new_task():
@@ -61,7 +61,7 @@ def new_task():
             db.session.add(new_task)
             db.session.commit()
         return redirect(url_for(session['url_function']))
-    return redirect(url_for('logout'))
+    return redirect(url_for('auth_logout'))
 
 @app.route('/complete_task', methods=['POST'])
 def complete_task():
@@ -73,4 +73,4 @@ def complete_task():
             task.is_completed = True
             db.session.commit()
         return url_for(session['url_function'])
-    return url_for('logout')
+    return url_for('auth_logout')

@@ -1,0 +1,30 @@
+<link rel="stylesheet" type="text/css" href="/static/style.css">
+{% extends "layout.html" %}
+{% block body %}
+    <p>{{ error }}</p>
+    {% if session['account_id'] %}
+        <p>You are logged in already!</p>
+    {% else %}
+        <form action="{{ url_for('auth_login') }}" method="POST">
+            <div class="login">
+                <div class="login-screen">
+                    <div class="app-title">
+                        <h1>Login</h1>
+                    </div>
+                    <div class="login-form">
+                        <div class="control-group">
+                            {{ form.username.label }}
+                            {{ form.username }}
+                        </div>
+                        <div class="control-group">
+                            {{ form.password.label }}
+                            {{ form.password }}
+                        </div>
+                        <input type="submit" value="Log in" class="btn">
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}

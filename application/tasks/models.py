@@ -1,4 +1,5 @@
 from application import db
+from application.auth.models import Account
 
 category_task = db.Table('CategoryTask',
         db.Column('category_id', db.Integer, db.ForeignKey('Category.id')),
@@ -28,16 +29,6 @@ class TaskList(db.Model):
 
     def __init__(self, name):
         self.name = name
-
-class Account(db.Model):
-    __tablename__ = 'Account'
-    id = db.Column('id', db.Integer, primary_key=True)
-    username = db.Column('username', db.Unicode)
-    password = db.Column('password', db.Unicode)
-
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
 
 class Category(db.Model):
     __tablename__ = 'Category'

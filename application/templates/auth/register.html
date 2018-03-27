@@ -1,0 +1,30 @@
+<link rel="stylesheet" type="text/css" href="/static/style.css">
+{% extends "layout.html" %}
+{% block body %}
+    {{ error }}
+    <form action="{{ url_for('auth_register') }}" method="POST">
+        <div class="login">
+            <div class="login-screen">
+                <div class="app-title">
+                    <h1>Register</h1>
+                </div>
+                <div class="login-form">
+                    <div class="control-group">
+                        {{ form.username.label }}
+                        {{ form.username }}
+                    </div>
+                    <div class="control-group">
+                        {{ form.password.label }}
+                        {{ form.password }}
+                    </div>
+                    <div class="control-group">
+                        {{ form.confirm.label }}
+                        {{ form.confirm }}
+                    </div>
+                    <input type="submit" value="Register" class="btn">
+                    <br>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
