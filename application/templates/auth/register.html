@@ -1,7 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/static/style.css">
 {% extends "layout.html" %}
 {% block body %}
-    {{ error }}
     <form action="{{ url_for('auth_register') }}" method="POST">
         <div class="login">
             <div class="login-screen">
@@ -10,12 +9,51 @@
                 </div>
                 <div class="login-form">
                     <div class="control-group">
-                        {{ form.username.label }}
-                        {{ form.username }}
+                        <table>
+                            <tr>
+                                <td>
+                                    {{ form.username.label }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <ul class="error">
+                                    {% for error in form.username.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                    <p class="error">{{ registration_error }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {{ form.username }}
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="control-group">
-                        {{ form.password.label }}
-                        {{ form.password }}
+                        <table>
+                            <tr>
+                                <td>
+                                    {{ form.password.label }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <ul class="error">
+                                    {% for error in form.password.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {{ form.password }}
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="control-group">
                         {{ form.confirm.label }}

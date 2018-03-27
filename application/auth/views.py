@@ -1,4 +1,5 @@
 from flask import render_template, request, redirect, session, url_for
+from flask_login import login_user, logout_user
 
 from application import app, db
 from application.auth.models import Account
@@ -28,7 +29,7 @@ def auth_register():
         db.session.commit()
         return redirect(url_for('auth_login'))
 
-    return render_template('auth/register.html', form = form, error = 'Username is already in use')
+    return render_template('auth/register.html', form = form, registration_error = 'Username is already in use')
 
 @app.route('/auth/login', methods=['GET', 'POST'])
 def auth_login():
@@ -37,22 +38,25 @@ def auth_login():
 
     form = LoginForm(request.form)
     if not form.validate():
-        return render_template('auth/login.html', form = form, error = 'Invalid format')
+        return render_template('auth/login.html', form = form)
 
     result = Account.query.filter(Account.username == form.username.data).first()
     if result:
         db_passwd = result.password
         try:
-            ph.verify(db_passwd, form.username.data)
+            ph.verify(db_passwd, form.password.data)
             session['account_id'] = result.id
+            login_user(result)
             return redirect(url_for('index'))
         except:
+            return "Wrong password"
             pass
 
-    return render_template('auth/login.html', form = form, error = 'No such username or password')
+    return render_template('auth/login.html', form = form, login_error = 'No such username or password')
 
 @app.route('/auth/logout')
 def auth_logout():
     session.pop('account_id', None)
     session['__invalidate__'] = True
+    logout_user()
     return redirect(url_for('auth_login'))

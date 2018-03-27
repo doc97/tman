@@ -7,3 +7,6 @@ venv/
 
 # compiled pythod
 *.pyc
+
+# ignore local databases
+*.db
