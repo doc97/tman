@@ -1,35 +1,50 @@
 from flask import render_template, redirect, url_for, request, session
 from application import app, db
 from application.tasks.models import Task, TaskList
+from application.tasks.forms import TaskForm
 
 @app.route('/tasks_today')
-def tasks_today():
+def tasks_today(form = None):
     if 'account_id' in session:
         session['url_function'] = 'tasks_today'
         result = Task.query.filter((Task.tasklist_id == 1) & (Task.account_id == session['account_id']) & (Task.is_completed == False)).first()
-        return render_template('tasks_today.html', currentTask = result.description if result else "Congratulations, you have no tasks left today!")
+        currentTask = result.description if result else "Congratulations, you have no tasks left today!"
+        if not form:
+            form = TaskForm()
+        return render_template('tasks/tasks_today.html', currentTask = currentTask, form = form)
     return redirect(url_for('logout'))
 
 @app.route('/tasks_tomorrow')
-def tasks_tomorrow():
+def tasks_tomorrow(form = None):
     if 'account_id' in session:
         session['url_function'] = 'tasks_tomorrow'
         result = Task.query.filter((Task.tasklist_id == 2) & (Task.account_id == session['account_id']) & (Task.is_completed == False)).all()
-        return render_template('tasks_tomorrow.html', tasks = result if result else [])
+        tasks = result if result else []
+        if not form:
+            form = TaskForm()
+        return render_template('tasks/tasks_tomorrow.html', tasks = tasks, form = form)
     return redirect(url_for('logout'))
 
 @app.route('/tasks_week')
-def tasks_week():
+def tasks_week(form = None):
     if 'account_id' in session:
         session['url_function'] = 'tasks_week'
         result = Task.query.filter((Task.tasklist_id == 3) & (Task.account_id == session['account_id']) & (Task.is_completed == False)).all()
-        return render_template('tasks_week.html', tasks = result if result else [])
+        tasks = result if result else []
+        if not form:
+            form = TaskForm()
+        return render_template('tasks/tasks_week.html', tasks = tasks, form = form)
     return redirect(url_for('logout'))
 
 @app.route('/new_task', methods=['POST'])
 def new_task():
     if 'account_id' in session and 'url_function' in session:
-        form_desc = request.form['description']
+        form = TaskForm(request.form)
+
+        if not form.validate():
+            return redirect(url_for(session['url_function']), form)
+
+        form_desc = form.description.data
 
         list_id = -1
         if session['url_function'] == 'tasks_today':

@@ -18,8 +18,30 @@
                 {% block nav_week %} <li class="nav"><a href="tasks_week">This week</a></li> {% endblock %}
             </ul>
         </nav>
-        {% block body %}
+        {% block content %}
             <p>Content</p>
         {% endblock %}
+        <form id="new_task_form" action="{{ url_for('new_task') }}" method="POST">
+            <table>
+                <tr>
+                    <td>
+                        {{ form.description.label }}
+                    </td>
+                    <td>
+                        {{ form.description }}
+                    </td>
+                    <td>
+                        {% for error in form.description.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="Add task">
+                    </td>
+                </tr>
+            </table>
+        </form>
     </body>
 </html>

@@ -1,6 +1,6 @@
-{% extends "tasks_layout.html" %}
+{% extends "tasks/tasks_layout.html" %}
 {% block title %}Today{% endblock %}
-{% block body %}
+{% block content %}
     <div>
         <ul>
             {% if tasks %}
@@ -11,12 +11,6 @@
                 <li>No tasks</li>
             {% endif %}
         </ul>
-        <form action="{{ url_for('new_task') }}" method="POST">
-            <label>New task</label><br/>
-            <input type="text" id="description" value="" name="description">
-            <input type="submit" value="Add task">
-        </form>
-
     </div>
 {% endblock %}
 {% block nav_week %} <li class="nav active"><a href="tasks_week">This week</a></li> {% endblock %}
