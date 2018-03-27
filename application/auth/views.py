@@ -33,7 +33,7 @@ def auth_register():
 def auth_login():
     if request.method == 'GET':
         if 'account_id' in session:
-            return redirect_next()
+            return redirect(url_for('tasks_today'))
         return render_template('auth/login.html', form = LoginForm())
 
     form = LoginForm(request.form)
@@ -45,7 +45,7 @@ def auth_login():
         try:
             ph.verify(result.password, form.password.data)
             session['account_id'] = result.id
-            return redirect_next()
+            return redirect(url_for('tasks_today'))
         except:
             pass
 
@@ -56,11 +56,3 @@ def auth_logout():
     session.pop('account_id', None)
     session['__invalidate__'] = True
     return redirect(url_for('auth_login'))
-
-def redirect_next():
-    if 'next' in session:
-        next_view = url_for(session.get('next'))
-        session.pop('next', None)
-    else:
-        next_view = url_for('tasks_today')
-    return redirect(next_view)
