@@ -1,6 +1,11 @@
 import os
 
 DEBUG = True
-SECRET_KEY = b'Em\x9b\xf6\xd5\xd3\xac\xad2\x88\xe1\xf4p\x11L8\xbf\x8c0\xe0_2\xb2\x86'
-SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+SECRET_KEY = os.urandom(32)
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+if os.environ.get('HEROKU'):
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+else:
+    SQLALCHEMY_DATABASE_URI = "postgresql:///testdb"
+    SQLALCHEMY_ECHO = True

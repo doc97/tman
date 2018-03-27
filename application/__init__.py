@@ -9,4 +9,7 @@ from application import views
 from application.tasks import models
 from application.tasks import views
 
-db.create_all()
+try:
+    db.create_all()
+except:
+    pass
