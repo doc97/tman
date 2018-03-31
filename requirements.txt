@@ -1,3 +1,4 @@
+setuptools==39.0.1
 argon2-cffi==18.1.0
 cffi==1.11.5
 click==6.7
