@@ -1,4 +1,5 @@
 from flask import render_template, request, redirect, session, url_for
+from flask_login import login_user, logout_user, current_user
 
 from application import app, db
 from application.auth.models import Account
@@ -32,7 +33,7 @@ def auth_register():
 @app.route('/auth/login', methods=['GET', 'POST'])
 def auth_login():
     if request.method == 'GET':
-        if 'account_id' in session:
+        if current_user.is_authenticated:
             return redirect(url_for('tasks_today'))
         return render_template('auth/login.html', form = LoginForm())
 
@@ -44,7 +45,10 @@ def auth_login():
     if result:
         try:
             ph.verify(result.password, form.password.data)
-            session['account_id'] = result.id
+            login_user(result)
+
+            if 'next' in session:
+                return redirect(session['next'])
             return redirect(url_for('tasks_today'))
         except:
             pass
@@ -53,6 +57,6 @@ def auth_login():
 
 @app.route('/auth/logout')
 def auth_logout():
-    session.pop('account_id', None)
     session['__invalidate__'] = True
+    logout_user()
     return redirect(url_for('auth_login'))
