@@ -5,4 +5,4 @@
         <p>Current Task: {{ currentTask }}</p>
     </div>
 {% endblock %}
-{% block nav_today %} <li class="nav active"><a href="tasks_today">Today</a></li> {% endblock %}
+{% block nav_today %} <li class="nav active"><a href={{ url_for("tasks_today") }}>Today</a></li> {% endblock %}

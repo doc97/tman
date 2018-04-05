@@ -5,7 +5,7 @@ from application import app, db
 from application.tasks.models import Task, TaskList
 from application.tasks.forms import TaskForm
 
-@app.route('/tasks_today')
+@app.route('/tasks/today')
 @login_required
 def tasks_today(form = None):
     session['url_function'] = 'tasks_today'
@@ -15,7 +15,7 @@ def tasks_today(form = None):
         form = TaskForm()
     return render_template('tasks/tasks_today.html', currentTask = currentTask, form = form)
 
-@app.route('/tasks_tomorrow')
+@app.route('/tasks/tomorrow')
 @login_required
 def tasks_tomorrow(form = None):
     session['url_function'] = 'tasks_tomorrow'
@@ -25,7 +25,7 @@ def tasks_tomorrow(form = None):
         form = TaskForm()
     return render_template('tasks/tasks_tomorrow.html', tasks = tasks, form = form)
 
-@app.route('/tasks_week')
+@app.route('/tasks/week')
 @login_required
 def tasks_week(form = None):
     session['url_function'] = 'tasks_week'
@@ -35,7 +35,7 @@ def tasks_week(form = None):
         form = TaskForm()
     return render_template('tasks/tasks_week.html', tasks = tasks, form = form)
 
-@app.route('/new_task', methods=['POST'])
+@app.route('/tasks/new', methods=['POST'])
 @login_required
 def new_task():
     if not 'url_function' in session:
@@ -65,7 +65,7 @@ def new_task():
         db.session.commit()
     return redirect(url_for(session['url_function']))
 
-@app.route('/complete_task', methods=['POST'])
+@app.route('/tasks/complete', methods=['POST'])
 @login_required
 def complete_task():
     jsonData = request.json['task_id']

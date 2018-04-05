@@ -6,16 +6,16 @@
             {% block title %}
             {% endblock %}
         </title>
-        <link rel="stylesheet" type="text/css" href="static/tasks.css">
+        <link rel="stylesheet" type="text/css" href="/static/tasks.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="/static/tasks.js"></script>
     </head>
     <body>
         <nav>
             <ul class="nav">
-                {% block nav_today %} <li class="nav"><a href="tasks_today">Today</a></li> {% endblock %}
-                {% block nav_tomorrow %} <li class="nav"><a href="tasks_tomorrow">Tomorrow</a></li> {% endblock %}
-                {% block nav_week %} <li class="nav"><a href="tasks_week">This week</a></li> {% endblock %}
+                {% block nav_today %} <li class="nav"><a href={{ url_for("tasks_today") }}>Today</a></li> {% endblock %}
+                {% block nav_tomorrow %} <li class="nav"><a href={{ url_for("tasks_tomorrow") }}>Tomorrow</a></li> {% endblock %}
+                {% block nav_week %} <li class="nav"><a href={{ url_for("tasks_week") }}>This week</a></li> {% endblock %}
             </ul>
         </nav>
         {% block content %}
