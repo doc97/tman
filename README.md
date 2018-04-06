@@ -9,11 +9,15 @@ step at the time.
 
 ## Features
 - [x] Registration and login
+- [x] Remember Me for login
 - [x] Add tasks
-- [ ] Delete tasks
+- [x] Delete tasks
 - [x] Complete tasks
 - [ ] Undo completion of tasks
 - [x] View Today, Tomorrow and Weekly task lists
+- [ ] Assign/remove tags to/from tasks
+- [ ] Filter tasks by tags
+- [ ] Account settings
 
 ## Links
 [Heroku app](https://tsoha-tman.herokuapp.com)  
