@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="/static/style.css">
+<link rel="stylesheet" type="text/css" href="/static/auth.css">
 {% extends "layout.html" %}
 {% block body %}
     <form action="{{ url_for('auth_login') }}" method="POST">
@@ -50,6 +50,18 @@
                             <tr>
                                 <td>
                                     {{ form.password }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="control-group">
+                        <table>
+                            <tr>
+                                <td>
+                                    {{ form.remember.label }}
+                                </td>
+                                <td>
+                                    {{ form.remember }}
                                 </td>
                             </tr>
                         </table>

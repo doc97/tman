@@ -45,7 +45,7 @@ def auth_login():
     if result:
         try:
             ph.verify(result.password, form.password.data)
-            login_user(result)
+            login_user(result, remember=form.remember.data)
 
             if 'next' in session:
                 return redirect(session['next'])

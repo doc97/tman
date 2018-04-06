@@ -94,3 +94,8 @@ input:focus {
 ul {
     list-style-type: none;
 }
+
+td {
+    white-space: nowrap;
+    overflow: hidden;
+}

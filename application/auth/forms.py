@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, TextField, validators
+from wtforms import PasswordField, TextField, BooleanField, validators
 
 class LoginForm(FlaskForm):
     username = TextField('Username', [validators.InputRequired()])
     password = PasswordField('Password', [validators.Length(min=7)])
+    remember = BooleanField('Remember me')
 
     class Meta:
         csrf = False
