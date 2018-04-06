@@ -2,7 +2,27 @@
 {% block title %}Today{% endblock %}
 {% block content %}
     <div>
-        <p>Current Task: {{ currentTask }}</p>
+        <ul class="task-list">
+            <li id="task_{{ currentTask.id }}" class="task">
+                <table>
+                    <tbody>
+                        <tr id="table_row">
+                            <td id="table_column" class="checker">
+                                <div class="complete-btn"></div>
+                            </td>
+                            <td class="task-content">
+                                <span>
+                                    {{ currentTask.description }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="delete-btn">x</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+        </ul>
     </div>
 {% endblock %}
 {% block nav_today %} <li class="nav active"><a href={{ url_for("tasks_today") }}>Today</a></li> {% endblock %}

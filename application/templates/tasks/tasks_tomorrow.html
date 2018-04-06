@@ -2,10 +2,28 @@
 {% block title %}Today{% endblock %}
 {% block content %}
     <div>
-        <ul>
+        <ul class="task-list">
             {% if tasks %}
                 {% for task in tasks %}
-                <li id="task_{{ task.id }}" class="task">{{ task.description }}</li>
+                    <li id="task_{{ task.id }}" class="task">
+                        <table>
+                            <tbody>
+                                <tr id="table_row">
+                                    <td id="table_column" class="checker">
+                                        <div class="complete-btn"></div>
+                                    </td>
+                                    <td class="task-content">
+                                        <span>
+                                            {{ task.description }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="delete-btn">x</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </li>
                 {% endfor %}
             {% else %}
                 <li>No tasks</li>

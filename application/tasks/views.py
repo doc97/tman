@@ -5,40 +5,50 @@ from application import app, db
 from application.tasks.models import Task, TaskList
 from application.tasks.forms import TaskForm
 
+
 @app.route('/tasks/today')
 @login_required
-def tasks_today(form = None):
+def tasks_today(form=None):
     session['url_function'] = 'tasks_today'
-    result = Task.query.filter((Task.tasklist_id == 1) & (Task.account_id == current_user.id) & (Task.is_completed == False)).first()
-    currentTask = result.description if result else "Congratulations, you have no tasks left today!"
+    result = Task.query.filter(
+        (Task.tasklist_id == 1) & (Task.account_id == current_user.id) & (Task.is_completed == False)
+    ).first()
+    current_task = result if result else "Congratulations, you have no tasks left today!"
     if not form:
         form = TaskForm()
-    return render_template('tasks/tasks_today.html', currentTask = currentTask, form = form)
+    return render_template('tasks/tasks_today.html', currentTask=current_task, form=form)
+
 
 @app.route('/tasks/tomorrow')
 @login_required
-def tasks_tomorrow(form = None):
+def tasks_tomorrow(form=None):
     session['url_function'] = 'tasks_tomorrow'
-    result = Task.query.filter((Task.tasklist_id == 2) & (Task.account_id == current_user.id) & (Task.is_completed == False)).all()
+    result = Task.query.filter(
+        (Task.tasklist_id == 2) & (Task.account_id == current_user.id) & (Task.is_completed == False)
+    ).all()
     tasks = result if result else []
     if not form:
         form = TaskForm()
-    return render_template('tasks/tasks_tomorrow.html', tasks = tasks, form = form)
+    return render_template('tasks/tasks_tomorrow.html', tasks=tasks, form=form)
+
 
 @app.route('/tasks/week')
 @login_required
-def tasks_week(form = None):
+def tasks_week(form=None):
     session['url_function'] = 'tasks_week'
-    result = Task.query.filter((Task.tasklist_id == 3) & (Task.account_id == current_user.id) & (Task.is_completed == False)).all()
+    result = Task.query.filter(
+        (Task.tasklist_id == 3) & (Task.account_id == current_user.id) & (Task.is_completed == False)
+    ).all()
     tasks = result if result else []
     if not form:
         form = TaskForm()
-    return render_template('tasks/tasks_week.html', tasks = tasks, form = form)
+    return render_template('tasks/tasks_week.html', tasks=tasks, form=form)
+
 
 @app.route('/tasks/new', methods=['POST'])
 @login_required
 def new_task():
-    if not 'url_function' in session:
+    if 'url_function' not in session:
         session['next'] = 'new_task'
         return redirect(url_for('auth_logout'))
 
@@ -57,21 +67,34 @@ def new_task():
     elif session['url_function'] == 'tasks_week':
         list_id = 3
 
-
-    tasklist_result = TaskList.query.filter(TaskList.id == list_id).first();
+    tasklist_result = TaskList.query.filter(TaskList.id == list_id).first()
     if tasklist_result:
-        new_task = Task(current_user.id, list_id, form_desc)
-        db.session.add(new_task)
+        created_task = Task(current_user.id, list_id, form_desc)
+        db.session.add(created_task)
         db.session.commit()
     return redirect(url_for(session['url_function']))
+
 
 @app.route('/tasks/complete', methods=['POST'])
 @login_required
 def complete_task():
-    jsonData = request.json['task_id']
-    task_id = int(jsonData[5:]) if jsonData.startswith('task_') else -1
-    task = db.session.query(Task).filter((Task.account_id == session['account_id']) & (Task.id == task_id)).one();
+    json_data = request.json['task_id']
+    task_id = int(json_data[5:]) if json_data.startswith('task_') else -1
+    task = db.session.query(Task).filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
     if task:
         task.is_completed = True
+        db.session.commit()
+    return url_for(session['url_function'])
+
+
+@app.route('/tasks/delete', methods=['POST'])
+@login_required
+def delete_task():
+    json_data = request.json['task_id']
+    print("task ID: " + json_data)
+    task_id = int(json_data[5:]) if json_data.startswith('task_') else -1
+    task = db.session.query(Task).filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
+    if task:
+        db.session.delete(task)
         db.session.commit()
     return url_for(session['url_function'])

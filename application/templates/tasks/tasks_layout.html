@@ -11,37 +11,45 @@
         <script src="/static/tasks.js"></script>
     </head>
     <body>
-        <nav>
-            <ul class="nav">
-                {% block nav_today %} <li class="nav"><a href={{ url_for("tasks_today") }}>Today</a></li> {% endblock %}
-                {% block nav_tomorrow %} <li class="nav"><a href={{ url_for("tasks_tomorrow") }}>Tomorrow</a></li> {% endblock %}
-                {% block nav_week %} <li class="nav"><a href={{ url_for("tasks_week") }}>This week</a></li> {% endblock %}
-            </ul>
-        </nav>
-        {% block content %}
-            <p>Content</p>
-        {% endblock %}
-        <form id="new_task_form" action="{{ url_for('new_task') }}" method="POST">
-            <table>
-                <tr>
-                    <td>
-                        {{ form.description.label }}
-                    </td>
-                    <td>
-                        {{ form.description }}
-                    </td>
-                    <td>
-                        {% for error in form.description.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <input type="submit" value="Add task">
-                    </td>
-                </tr>
-            </table>
-        </form>
+        <div id="page-background">
+            <div id="top-bar">
+                <nav class="margin-center-horizontal">
+                    <ul class="nav">
+                        {% block nav_today %} <li class="nav"><a href={{ url_for("tasks_today") }}>Today</a></li> {% endblock %}
+                        {% block nav_tomorrow %} <li class="nav"><a href={{ url_for("tasks_tomorrow") }}>Tomorrow</a></li> {% endblock %}
+                        {% block nav_week %} <li class="nav"><a href={{ url_for("tasks_week") }}>This week</a></li> {% endblock %}
+                    </ul>
+                </nav>
+            </div>
+            <div id="app-holder" class="margin-center-horizontal">
+                <div id="app-background">
+                    {% block content %}
+                        <p>Content</p>
+                    {% endblock %}
+                    <form id="new_task_form" action="{{ url_for('new_task') }}" method="POST">
+                        <table>
+                            <tr>
+                                <td>
+                                    {{ form.description.label }}
+                                </td>
+                                <td>
+                                    {{ form.description }}
+                                </td>
+                                <td>
+                                    {% for error in form.description.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="submit" value="Add task">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

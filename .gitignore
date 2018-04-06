@@ -1,6 +1,9 @@
 # Ignore Python virtual environment
 venv/
 
+# PyCharm
+.idea/
+
 # vim
 *.swp
 *.swo
