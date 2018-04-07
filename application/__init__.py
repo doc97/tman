@@ -15,13 +15,15 @@ from application.auth import views
 from application.auth.models import Account
 
 login_manager = LoginManager()
-login_manager.setup_app(app)
+login_manager.init_app(app)
 login_manager.login_view = 'auth_login'
 login_manager.login_message = 'Please log in to use this functionality'
+
 
 @login_manager.user_loader
 def load_user(user_id):
     return Account.query.get(user_id)
+
 
 try:
     db.create_all()

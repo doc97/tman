@@ -1,10 +1,10 @@
 from application import db
-from application.auth.models import Account
 
 category_task = db.Table('CategoryTask',
-        db.Column('category_id', db.Integer, db.ForeignKey('Category.id')),
-        db.Column('task_id', db.Integer, db.ForeignKey('Task.id'))
-)
+                         db.Column('category_id', db.Integer, db.ForeignKey('Category.id')),
+                         db.Column('task_id', db.Integer, db.ForeignKey('Task.id'))
+                         )
+
 
 class Task(db.Model):
     __tablename__ = 'Task'
@@ -22,6 +22,7 @@ class Task(db.Model):
         self.tasklist_id = tasklist_id
         self.description = description
 
+
 class TaskList(db.Model):
     __tablename__ = 'TaskList'
     id = db.Column('id', db.Integer, primary_key=True)
@@ -29,6 +30,7 @@ class TaskList(db.Model):
 
     def __init__(self, name):
         self.name = name
+
 
 class Category(db.Model):
     __tablename__ = 'Category'

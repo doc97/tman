@@ -16,7 +16,7 @@ def tasks_today(form=None):
     current_task = result if result else "Congratulations, you have no tasks left today!"
     if not form:
         form = TaskForm()
-    return render_template('tasks/tasks_today.html', currentTask=current_task, form=form)
+    return render_template('tasks/tasks_today.html', current_task=current_task, form=form)
 
 
 @app.route('/tasks/tomorrow')
@@ -91,7 +91,6 @@ def complete_task():
 @login_required
 def delete_task():
     json_data = request.json['task_id']
-    print("task ID: " + json_data)
     task_id = int(json_data[5:]) if json_data.startswith('task_') else -1
     task = db.session.query(Task).filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
     if task:

@@ -1,5 +1,6 @@
 from application import db
 
+
 class Account(db.Model):
     __tablename__ = 'Account'
     id = db.Column('id', db.Integer, primary_key=True)
@@ -15,11 +16,14 @@ class Account(db.Model):
     def get_id(self):
         return self.id
 
-    def is_active(self):
+    @staticmethod
+    def is_active():
         return True
 
-    def is_anonymous(self):
+    @staticmethod
+    def is_anonymous():
         return False
 
-    def is_authenticated(self):
+    @staticmethod
+    def is_authenticated():
         return True
