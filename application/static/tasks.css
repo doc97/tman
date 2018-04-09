@@ -59,12 +59,6 @@ li.nav.active a {
 }
 
 /* Id's */
-#app-holder {
-    max-width: 600px;
-    min-width: 300px;
-    height: 100%;
-}
-
 #page-background {
     height: 100%;
     overflow: auto;
@@ -75,9 +69,10 @@ li.nav.active a {
     background-color: #fff;
     border-left: 1px solid #bbb;
     border-right: 1px solid #bbb;
-    border-bottom: 1px solid #bbb;
-    margin-top: 48px;
-    padding: 30px;
+    max-width: 600px;
+    min-width: 300px;
+    height: 100%;
+    overflow-y: auto;
 }
 
 #top-bar {
@@ -89,6 +84,11 @@ li.nav.active a {
     -webkit-box-shadow: 0 4px 5px 5px #ccc;
     box-shadow: 0 3px 2px #ccc;
     z-index: 200;
+}
+
+#app-holder {
+    padding: 30px;
+    padding-top: 64px;
 }
 
 /* Classes */
@@ -104,14 +104,6 @@ li.nav.active a {
 .task-list {
     font-size: 14px;
     margin-bottom: 20px;
-}
-
-.task-list:last-child {
-    border-bottom: 1px dashed #aaa;
-}
-
-.task {
-    border-top: 1px dashed #aaa;
 }
 
 .checker {
@@ -148,8 +140,37 @@ li.nav.active a {
     background-color: #e53a20;
 }
 
+.task:last-child {
+    border-bottom: 1px dashed #aaa;
+}
+
+.task {
+    border-top: 1px dashed #aaa;
+}
+
 .task-content {
     max-width: 500px;
     width: 100%;
+}
+
+.task-description {
     cursor: text;
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+.task-edit {
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+.text-edit {
+    font-size: 14px;
+    min-height: 21px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 4px;
+    padding-top: 6px;
+    outline: 0;
 }

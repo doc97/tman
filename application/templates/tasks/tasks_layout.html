@@ -15,14 +15,14 @@
             <div id="top-bar">
                 <nav class="margin-center-horizontal">
                     <ul class="nav">
-                        {% block nav_today %} <li class="nav"><a href={{ url_for("tasks_today") }}>Today</a></li> {% endblock %}
-                        {% block nav_tomorrow %} <li class="nav"><a href={{ url_for("tasks_tomorrow") }}>Tomorrow</a></li> {% endblock %}
-                        {% block nav_week %} <li class="nav"><a href={{ url_for("tasks_week") }}>This week</a></li> {% endblock %}
+                        {% block nav_today %} <li class="nav"><a href="{{ url_for('tasks_today') }}">Today</a></li> {% endblock %}
+                        {% block nav_tomorrow %} <li class="nav"><a href="{{ url_for('tasks_tomorrow') }}">Tomorrow</a></li> {% endblock %}
+                        {% block nav_week %} <li class="nav"><a href="{{ url_for('tasks_week') }}">This week</a></li> {% endblock %}
                     </ul>
                 </nav>
             </div>
-            <div id="app-holder" class="margin-center-horizontal">
-                <div id="app-background">
+            <div id="app-background" class="margin-center-horizontal">
+                <div id="app-holder">
                     {% block content %}
                         <p>Content</p>
                     {% endblock %}
@@ -36,9 +36,11 @@
                                     {{ form.description }}
                                 </td>
                                 <td>
-                                    {% for error in form.description.errors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
+                                    <ul>
+                                        {% for error in form.description.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
                                 </td>
                             </tr>
                             <tr>

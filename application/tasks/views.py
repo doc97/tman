@@ -13,10 +13,9 @@ def tasks_today(form=None):
     result = Task.query.filter(
         (Task.tasklist_id == 1) & (Task.account_id == current_user.id) & (Task.is_completed == False)
     ).first()
-    current_task = result if result else "Congratulations, you have no tasks left today!"
     if not form:
         form = TaskForm()
-    return render_template('tasks/tasks_today.html', current_task=current_task, form=form)
+    return render_template('tasks/tasks_today.html', current_task=result, form=form)
 
 
 @app.route('/tasks/tomorrow')

@@ -1,19 +1,17 @@
 {% extends "tasks/tasks_layout.html" %}
 {% block title %}Today{% endblock %}
 {% block content %}
-    <div>
+    {% if current_task %}
         <ul class="task-list">
             <li id="task_{{ current_task.id }}" class="task">
                 <table>
                     <tbody>
-                        <tr id="table_row">
-                            <td id="table_column" class="checker">
+                        <tr>
+                            <td class="checker">
                                 <div class="complete-btn"></div>
                             </td>
                             <td class="task-content">
-                                <span>
-                                    {{ current_task.description }}
-                                </span>
+                                <div class="task-description">{{ current_task.description }}</div>
                             </td>
                             <td>
                                 <div class="delete-btn">x</div>
@@ -23,6 +21,8 @@
                 </table>
             </li>
         </ul>
-    </div>
+    {% else %}
+        <h3>No tasks!</h3>
+    {% endif %}
 {% endblock %}
-{% block nav_today %} <li class="nav active"><a href={{ url_for("tasks_today") }}>Today</a></li> {% endblock %}
+{% block nav_today %} <li class="nav active"><a href="{{ url_for('tasks_today') }}">Today</a></li> {% endblock %}
