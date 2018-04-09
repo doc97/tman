@@ -13,6 +13,7 @@ step at the time.
 - [x] Add tasks
 - [x] Delete tasks
 - [x] Complete tasks
+- [x] Edit task description
 - [ ] Undo completion of tasks
 - [x] View Today, Tomorrow and Weekly task lists
 - [ ] Assign/remove tags to/from tasks
@@ -25,6 +26,10 @@ step at the time.
 [Database schema](docs/img/db-schema.png)  
 
 ---
+
+### About 500 Internal Server Error
+Heroku's dynos seem to be unstable, try to refresh the page. If the issue persists, there might be
+an application bug, in which case submit an issue.
 
 **Note**: This project is still under active development and if you have any problems or find any
 bugs, please create a Github [issue](https://github.com/doc97/tman/issues)!
