@@ -86,6 +86,20 @@ def complete_task():
     return url_for(session['url_function'])
 
 
+@app.route('/tasks/update', methods=['POST'])
+@login_required
+def update_task():
+    json_id_data = request.json['task_id']
+    json_desc_data = request.json['desc']
+    task_id = int(json_id_data[5:]) if json_id_data.startswith('task_') else -1
+    task = db.session.query(Task).filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
+    if task and json_desc_data.strip():
+        task.description = json_desc_data
+        db.session.commit()
+        return task.description
+    return ""
+
+
 @app.route('/tasks/delete', methods=['POST'])
 @login_required
 def delete_task():

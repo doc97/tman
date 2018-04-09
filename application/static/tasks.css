@@ -91,6 +91,24 @@ li.nav.active a {
     padding-top: 64px;
 }
 
+#task-edit-submit {
+    display: inline-block;
+    padding: 8px 12px;
+    margin-top: 3px;
+    margin-right: 3px;
+    cursor: pointer;
+    color: #fff;
+    background-color: #3498DB;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 3px;
+}
+
+#task-edit-submit:hover {
+    color: #eee;
+    background-color: #1c6897;
+}
+
 /* Classes */
 .margin-center-horizontal {
     margin-right: auto;
@@ -167,10 +185,21 @@ li.nav.active a {
 .text-edit {
     font-size: 14px;
     min-height: 21px;
-    width: 100%;
     border: 1px solid #ddd;
     border-radius: 3px;
     padding: 4px;
     padding-top: 6px;
     outline: 0;
+}
+
+.cancel {
+    display: inline-block;
+    margin-top: 3px;
+    color: #555;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.cancel:hover {
+    text-decoration: underline;
 }
