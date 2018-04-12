@@ -1,13 +1,9 @@
 html, body {
     margin: 0;
     height: 100%;
-}
-
-nav {
-    display: table;
-    font-size: 25px;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    overflow: auto;
+    background: #49dd9d !important;
+    background: #50d39a !important;
 }
 
 ul {
@@ -62,7 +58,6 @@ li.nav.active a {
 #page-background {
     height: 100%;
     overflow: auto;
-    background-color: #f4f4f4;
 }
 
 #app-background {
@@ -80,15 +75,11 @@ li.nav.active a {
     position: fixed;
     width: 100%;
     background-color: #3498DB;
-    -moz-box-shadow: 0 4px 5px 5px #ccc;
-    -webkit-box-shadow: 0 4px 5px 5px #ccc;
-    box-shadow: 0 3px 2px #ccc;
-    z-index: 200;
 }
 
 #app-holder {
     padding: 30px;
-    padding-top: 64px;
+    padding-top: 96px;
 }
 
 #task-edit-submit {
@@ -146,7 +137,7 @@ li.nav.active a {
 }
 
 .complete-btn:hover {
-    background-color: #e1e1e1;
+    background-color: #4dbc8c;
 }
 
 .delete-btn {
@@ -195,11 +186,19 @@ li.nav.active a {
 .cancel {
     display: inline-block;
     margin-top: 3px;
-    color: #555;
+    color: #FFF;
     cursor: pointer;
     text-decoration: none;
 }
 
 .cancel:hover {
     text-decoration: underline;
+    color: #FFF;
+}
+
+.drop-shadow {
+    -moz-box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5);
+    -o-box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 8px 3px rgba(0, 0, 0, 0.2);
 }

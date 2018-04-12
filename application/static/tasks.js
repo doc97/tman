@@ -28,6 +28,10 @@ $(function() {
     });
 
     $(".task-description").click(function(event) {
+        $(".task-edit").prev().css("display", "");
+        $(".task-edit").remove();
+
+        $(".task-edit").remove();
         elem = $(event.target).parent().parent().parent().parent().parent();
         elem.css("display", "none");
 
@@ -37,7 +41,7 @@ $(function() {
                 <table style='width: 100%'> \
                     <tr> \
                         <td> \
-                            <div id='edit-task-description' class='text-edit' autofocus contentEditable='true'></div> \
+                            <div id='edit-task-description' class='color-bg-gray text-edit' autofocus contentEditable='true'></div> \
                         </td> \
                     </tr> \
                 </table> \

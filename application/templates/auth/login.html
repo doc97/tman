@@ -2,72 +2,35 @@
 {% extends "layout.html" %}
 {% block body %}
     <form action="{{ url_for('auth_login') }}" method="POST">
-        <div class="login">
-            <div class="login-screen">
-                <div class="app-title">
-                    <h1>Login</h1>
+        <div class="login-widget bg-dark">
+            <div class="app-title">
+                <h1 class="color-gray">Login</h1>
+            </div>
+            <div class="login-form">
+                <div class="form-group">
+                    {{ form.username.label(class_="color-gray") }}
+                    <ul class="error">
+                        {% for error in form.username.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {{ form.username(class_="form-control color-black") }}
                 </div>
-                <div class="login-form">
-                    <div class="control-group">
-                        <table>
-                            <tr>
-                                <td>
-                                    {{ form.username.label }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <ul class="error">
-                                    {% for error in form.username.errors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {{ form.username }}
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="control-group">
-                        <table>
-                            <tr>
-                                <td>
-                                    {{ form.password.label }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <ul class="error">
-                                    {% for error in form.password.errors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {{ form.password }}
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="control-group">
-                        <table>
-                            <tr>
-                                <td>
-                                    {{ form.remember.label }}
-                                </td>
-                                <td>
-                                    {{ form.remember }}
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <p class="error">{{ login_error }}</p>
-                    <br>
+                <div class="form-group">
+                    {{ form.password.label(class_="color-gray") }}
+                    <ul class="error">
+                        {% for error in form.password.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {{ form.password(class_="form-control color-black") }}
+                </div>
+                <div>
+                    {{ form.remember(class_="checkbox") }}
+                    {{ form.remember.label(class_="color-gray") }}
+                </div>
+                <p class="error">{{ login_error }}</p>
+                <div class="form-group">
                     <input type="submit" value="Log in" class="btn">
                 </div>
             </div>

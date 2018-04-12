@@ -11,7 +11,7 @@
                                 <div class="complete-btn"></div>
                             </td>
                             <td class="task-content">
-                                <div class="task-description">{{ current_task.description }}</div>
+                                <div class="text-white task-description">{{ current_task.description }}</div>
                             </td>
                             <td>
                                 <div class="delete-btn">x</div>
@@ -22,7 +22,7 @@
             </li>
         </ul>
     {% else %}
-        <h3>No tasks!</h3>
+        <h3 class="color-white">No tasks!</h3>
     {% endif %}
 {% endblock %}
-{% block nav_today %} <li class="nav active"><a href="{{ url_for('tasks_today') }}">Today</a></li> {% endblock %}
+{% block nav_today %} <a class="nav-item nav-link active" href="{{ url_for('tasks_today') }}">Today</a> {% endblock %}

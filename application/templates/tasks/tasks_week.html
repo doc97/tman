@@ -12,7 +12,7 @@
                                     <div class="complete-btn"></div>
                                 </td>
                                 <td class="task-content">
-                                    <div class="task-description">{{ task.description }}</div>
+                                    <div class="text-white task-description">{{ task.description }}</div>
                                 </td>
                                 <td>
                                     <div class="delete-btn">x</div>
@@ -24,7 +24,7 @@
             {% endfor %}
         </ul>
     {% else %}
-        <h3>No tasks</h3>
+        <h3 class="color-white">No tasks</h3>
     {% endif %}
 {% endblock %}
-{% block nav_week %} <li class="nav active"><a href="{{ url_for('tasks_week') }}">This week</a></li> {% endblock %}
+{% block nav_week %} <a class="nav-item nav-link active" href="{{ url_for('tasks_week') }}">This week</a> {% endblock %}
