@@ -16,7 +16,7 @@ step at the time.
 - [x] Edit task description
 - [ ] Undo completion of tasks
 - [x] View Today, Tomorrow and Weekly task lists
-- [ ] Assign/remove tags to/from tasks
+- [x] Assign/remove tags to/from tasks
 - [ ] Filter tasks by tags
 - [ ] Account settings
 
