@@ -27,12 +27,11 @@ class Task(db.Model):
 
     @staticmethod
     def get_categories_by_task():
-        stmt = text('SELECT Task.id, Category.id, Category.name FROM Category'
-                    ' INNER JOIN CategoryTask'
-                    ' INNER JOIN Task ON Task.id = CategoryTask.task_id and Category.id = CategoryTask.category_id'
-                    )
+        stmt_string = ('SELECT Task.id, Category.id, Category.name FROM Category'
+                       ' INNER JOIN CategoryTask'
+                       ' INNER JOIN Task ON Task.id = CategoryTask.task_id and Category.id = CategoryTask.category_id')
 
-        res = db.engine.execute(stmt)
+        res = db.engine.execute(stmt_string)
         categories_by_task = {}
         for row in res:
             if row[0]:
@@ -44,12 +43,11 @@ class Task(db.Model):
 
     @staticmethod
     def get_categories_for_task(task_id):
-        stmt = text('SELECT Category.id, Category.name FROM Category'
-                    ' INNER JOIN CategoryTask ON CategoryTask.task_id = ' + str(task_id) +
-                    ' and CategoryTask.category_id = Category.id'
-                    )
+        stmt_string = ('SELECT Category.id, Category.name FROM Category'
+                       ' INNER JOIN CategoryTask ON CategoryTask.task_id = ' + str(task_id) +
+                       ' and CategoryTask.category_id = Category.id')
 
-        res = db.engine.execute(stmt)
+        res = db.engine.execute(text(stmt_string))
         categories = []
         for row in res:
             categories.append({"id": row[0], "name": row[1]})
