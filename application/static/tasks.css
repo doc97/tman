@@ -16,6 +16,14 @@ li {
     display: list-item;
 }
 
+i {
+    color: var(--theme-accent);
+}
+
+i:hover {
+    color: var(--theme-accent-dark);
+}
+
 ul.nav {
     margin: 0px;
     display: table-cell;
@@ -208,6 +216,19 @@ li.nav.active a {
 .cancel:hover {
     text-decoration: underline;
     color: #FFF;
+}
+
+.td_submit {
+    white-space: nowrap;
+}
+
+.td_extra {
+    width: 100% !important;
+}
+
+.extra_item {
+    cursor: pointer;
+    padding: 5px;
 }
 
 .drop-shadow {

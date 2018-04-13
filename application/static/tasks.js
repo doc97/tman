@@ -47,8 +47,13 @@ $(function() {
                 </table> \
                 <table> \
                     </tr> \
-                        <td><a href='#' id='task-edit-submit'>Save</a></td> \
-                        <td><a href='#' id='task-edit-cancel' class='cancel'>Cancel</a></td> \
+                        <td class='td_submit' align='left'> \
+                            <a href='#' id='task-edit-submit'>Save</a> \
+                            <a href='#' id='task-edit-cancel' class='cancel'>Cancel</a> \
+                        </td> \
+                        <td class='td_extra' align='right'> \
+                            <i class='extra_item material-icons'>label_outline</i> \
+                        </td> \
                     </tr> \
                 </table> \
             </form> \
