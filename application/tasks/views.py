@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, request, session
 from flask_login import login_required, current_user
 
 from application import app, db
-from application.tasks.models import Task, TaskList
+from application.tasks.models import category_task, Category, Task, TaskList
 from application.tasks.forms import TaskForm
 
 
@@ -13,9 +13,12 @@ def tasks_today(form=None):
     result = Task.query.filter(
         (Task.tasklist_id == 1) & (Task.account_id == current_user.id) & (Task.is_completed == False)
     ).first()
+
     if not form:
         form = TaskForm()
-    return render_template('tasks/tasks_today.html', current_task=result, form=form)
+
+    categories = Task.get_categories_by_task()
+    return render_template('tasks/tasks_today.html', current_task=result, categories=categories, form=form)
 
 
 @app.route('/tasks/tomorrow')
@@ -26,9 +29,13 @@ def tasks_tomorrow(form=None):
         (Task.tasklist_id == 2) & (Task.account_id == current_user.id) & (Task.is_completed == False)
     ).all()
     tasks = result if result else []
+
     if not form:
         form = TaskForm()
-    return render_template('tasks/tasks_tomorrow.html', tasks=tasks, form=form)
+
+    categories = Task.get_categories_by_task()
+    return render_template('tasks/tasks_tomorrow.html',
+                           tasks=tasks, categories=categories, form=form)
 
 
 @app.route('/tasks/week')
@@ -39,9 +46,12 @@ def tasks_week(form=None):
         (Task.tasklist_id == 3) & (Task.account_id == current_user.id) & (Task.is_completed == False)
     ).all()
     tasks = result if result else []
+
     if not form:
         form = TaskForm()
-    return render_template('tasks/tasks_week.html', tasks=tasks, form=form)
+
+    categories = Task.get_categories_by_task()
+    return render_template('tasks/tasks_week.html', tasks=tasks, categories=categories, form=form)
 
 
 @app.route('/tasks/new', methods=['POST'])

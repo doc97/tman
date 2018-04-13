@@ -2,25 +2,27 @@
 {% block title %}Today{% endblock %}
 {% block content %}
     {% if current_task %}
-        <ul class="task-list">
-            <li id="task_{{ current_task.id }}" class="task">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td class="checker">
-                                <div class="complete-btn"></div>
-                            </td>
-                            <td class="task-content">
-                                <div class="text-white task-description">{{ current_task.description }}</div>
-                            </td>
-                            <td>
-                                <div class="delete-btn">x</div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </li>
-        </ul>
+        <h3 class="color-white">Current task</h3>
+        <div id="task_{{ current_task.id }}">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="checker">
+                            <div class="complete-btn"></div>
+                        </td>
+                        <td class="task-content">
+                            <div class="text-white task-description">{{ current_task.description }}</div>
+                            {% for name in categories[current_task.id] %}
+                                <span class="badge badge-pill badge-primary">{{ name }}</span>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <div class="delete-btn">Delete</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     {% else %}
         <h3 class="color-white">No tasks!</h3>
     {% endif %}

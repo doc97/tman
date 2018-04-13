@@ -1,4 +1,5 @@
 from application import db
+from sqlalchemy.sql import text
 
 category_task = db.Table('CategoryTask',
                          db.Column('category_id', db.Integer, db.ForeignKey('Category.id')),
@@ -21,6 +22,23 @@ class Task(db.Model):
         self.account_id = account_id
         self.tasklist_id = tasklist_id
         self.description = description
+
+    @staticmethod
+    def get_categories_by_task():
+        stmt = text('SELECT Task.id, Category.name FROM Category'
+                    ' JOIN CategoryTask'
+                    ' LEFT JOIN Task ON Task.id = CategoryTask.task_id and Category.id = CategoryTask.category_id'
+                    ' GROUP BY Task.id'
+                    )
+
+        res = db.engine.execute(stmt)
+        categories_by_task = {}
+        for row in res:
+            if not categories_by_task:
+                categories_by_task[row[0]] = []
+            categories_by_task[row[0]].append(row[1])
+
+        return categories_by_task
 
 
 class TaskList(db.Model):

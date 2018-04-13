@@ -141,31 +141,37 @@ li.nav.active a {
 }
 
 .delete-btn {
-    width: 16px;
-    height: 16px;
+    height: 32px;
     cursor: pointer;
-    border: 1px solid #bbb;
+    border: 1px solid #ab2915;
+    border-radius: 3px;
     text-align: center;
-    background-color: #e53a20;
+    padding: 6px;
+    padding-top: 3px;
+    color: #ab2915;
+}
+
+.delete-btn:hover {
+    color: #ccc;
+    background-color: #e0180d;
 }
 
 .task:last-child {
-    border-bottom: 1px dashed #aaa;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .task {
-    border-top: 1px dashed #aaa;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .task-content {
     max-width: 500px;
     width: 100%;
+    padding: 13px;
 }
 
 .task-description {
     cursor: text;
-    padding-top: 13px;
-    padding-bottom: 13px;
 }
 
 .task-edit {
