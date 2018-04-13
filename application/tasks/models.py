@@ -27,9 +27,10 @@ class Task(db.Model):
 
     @staticmethod
     def get_categories_by_task():
-        stmt_string = ('SELECT Task.id, Category.id, Category.name FROM Category'
-                       ' INNER JOIN CategoryTask'
-                       ' INNER JOIN Task ON Task.id = CategoryTask.task_id and Category.id = CategoryTask.category_id')
+        stmt_string = ('SELECT \"Task\".id, \"Category\".id, \"Category\".name FROM \"Category\"'
+                       ' CROSS JOIN \"CategoryTask\"'
+                       ' INNER JOIN \"Task\" ON \"Task\".id = \"CategoryTask\".task_id and'
+                       '\"Category\".id = \"CategoryTask\".category_id')
 
         res = db.engine.execute(stmt_string)
         categories_by_task = {}
@@ -43,9 +44,9 @@ class Task(db.Model):
 
     @staticmethod
     def get_categories_for_task(task_id):
-        stmt_string = ('SELECT Category.id, Category.name FROM Category'
-                       ' INNER JOIN CategoryTask ON CategoryTask.task_id = ' + str(task_id) +
-                       ' and CategoryTask.category_id = Category.id')
+        stmt_string = ('SELECT \"Category\".id, \"Category\".name FROM \"Category\"'
+                       ' INNER JOIN \"CategoryTask\" ON \"CategoryTask\".task_id = ' + str(task_id) +
+                       ' and \"CategoryTask\".category_id = \"Category\".id')
 
         res = db.engine.execute(text(stmt_string))
         categories = []
