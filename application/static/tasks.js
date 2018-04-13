@@ -1,4 +1,15 @@
 $(function() {
+    allTags = []
+
+    $.ajax({
+        type: "POST",
+        url: "/tasks/query_all_tags",
+        contentType: "application/json;charset=UTF-8",
+        success: function(tags) {
+            Array.prototype.push.apply(allTags, tags)
+        }
+    });
+
     $(".complete-btn").click(function(event) {
         taskId = $(event.target).parent().parent().parent().parent().parent().attr("id");
         jsonData = JSON.stringify({ task_id: taskId }, null, '\t');
@@ -52,18 +63,25 @@ $(function() {
                             <a href='#' id='task-edit-cancel' class='cancel'>Cancel</a> \
                         </td> \
                         <td class='td_extra' align='right'> \
-                            <i class='extra_item material-icons'>label_outline</i> \
+                            <i id='label-icon' class='extra-item material-icons'>label_outline</i> \
                         </td> \
                     </tr> \
                 </table> \
+                <div class='tag-list'></div> \
             </form> \
         </div> \
         ";
+
         elem.after(htmlElem);
         inputField = $("#edit-task-description");
         inputField.html($(event.target).text());
         inputField.focus();
         setEndOfContenteditable(inputField.get(0));
+
+        for (let tag of allTags) {
+            htmlString = "<a id=tag-" + tag.id + " class='tag-item' href='#' draggable=false>" + tag.name + "</a>";
+            $(".tag-list").append($(htmlString));
+        }
 
         $("#task-edit-submit").click(function(event) {
             editElem = $(event.target).parent().parent().parent().parent().parent().parent();
@@ -90,6 +108,64 @@ $(function() {
             editElem = $(event.target).parent().parent().parent().parent().parent().parent();
             editElem.prev().css("display", "");
             editElem.remove();
+        });
+
+        $("#label-icon").click(function(event) {
+            tagList = $(".tag-list");
+            if (tagList.css("display") === "none") {
+                editElem = tagList.parent().parent().prev();
+                jsonData = JSON.stringify({ task_id: editElem.attr("id")  }, null, '\t');
+                $.ajax({
+                    type: "POST",
+                    url: "/tasks/query_tags_for_task",
+                    data: jsonData,
+                    contentType: "application/json;charset=UTF-8",
+                    success: function(tags) {
+                        tagList = $(".tag-list");
+                        tagList.children().each(function() { $(this).removeClass("active"); });
+
+                        for (let tag of tags)
+                            $("#tag-" + tag.id).addClass("active");
+
+
+                        $(".tag-item").click(function(event) {
+                            taskId = $(event.target).parent().parent().parent().prev().attr("id");
+                            tagId = $(event.target).attr("id");
+                            jsonTagData = JSON.stringify({ task_id: taskId, tag_id: tagId });
+                            $.ajax({
+                                type: "POST",
+                                url: "/tasks/update-tags",
+                                data: jsonTagData,
+                                contentType: "application/json;charset=UTF-8",
+                                success: function(msg) {
+                                    if (msg === "added") {
+                                        htmlString = "<span id='badge-" + tagId +
+                                            "' class='badge badge-pill badge-primary'>" + $(event.target).text() +
+                                            "</span>";
+                                        $("#" + taskId).find(".task-content").append($(htmlString));
+                                        $(event.target).addClass("active");
+                                    } else if (msg === "removed") {
+                                        $("#badge-" + tagId).remove();
+                                        $(event.target).removeClass("active");
+                                    } else {
+                                        console.log(msg);
+                                    }
+                                }
+                            });
+                        });
+
+                        labelIcon = $("#label-icon");
+                        leftOffset = labelIcon.offset().left - tagList.width() + labelIcon.width();
+                        topOffset = labelIcon.offset().top + labelIcon.height() + 20;
+
+                        tagList.css("left", leftOffset);
+                        tagList.css("top", topOffset);
+                        tagList.css("display", "block");
+                    }
+                });
+            } else {
+                tagList.css("display", "none");
+            }
         });
     });
 

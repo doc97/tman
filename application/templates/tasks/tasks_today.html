@@ -12,8 +12,8 @@
                         </td>
                         <td class="task-content">
                             <div class="text-white task-description">{{ current_task.description }}</div>
-                            {% for name in categories[current_task.id] %}
-                                <span class="badge badge-pill badge-primary">{{ name }}</span>
+                            {% for tag in categories[current_task.id] %}
+                                <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
                             {% endfor %}
                         </td>
                         <td>

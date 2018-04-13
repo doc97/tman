@@ -1,8 +1,8 @@
-from flask import render_template, redirect, url_for, request, session
+from flask import render_template, redirect, url_for, request, session, jsonify
 from flask_login import login_required, current_user
 
 from application import app, db
-from application.tasks.models import category_task, Category, Task, TaskList
+from application.tasks.models import Category, Task, TaskList
 from application.tasks.forms import TaskForm
 
 
@@ -110,6 +110,30 @@ def update_task():
     return ""
 
 
+@app.route('/tasks/update-tags', methods=['POST'])
+@login_required
+def update_tags():
+    json_id_data = request.json['task_id']
+    json_tag_data = request.json['tag_id']
+    task_id = int(json_id_data[5:]) if json_id_data.startswith('task_') else -1
+    tag_id = int(json_tag_data[4:]) if json_tag_data.startswith('tag-') else -1
+    task = Task.query.filter(Task.id == task_id).first()
+    tag = Category.query.filter(Category.id == tag_id).first()
+
+    if task and tag:
+        match = task.categories.filter(Category.id == tag.id).first()
+        if match:
+            task.categories.remove(tag)
+            db.session.commit()
+            return "removed"
+        else:
+            task.categories.append(tag)
+            db.session.commit()
+            return "added"
+
+    return "error"
+
+
 @app.route('/tasks/delete', methods=['POST'])
 @login_required
 def delete_task():
@@ -120,3 +144,23 @@ def delete_task():
         db.session.delete(task)
         db.session.commit()
     return url_for(session['url_function'])
+
+
+@app.route('/tasks/query_all_tags', methods=['POST'])
+@login_required
+def query_all_tags():
+    tag_query = Category.query.all()
+    tags = []
+    for tag in tag_query:
+        tags.append({"id": tag.id, "name": tag.name})
+
+    return jsonify(tags)
+
+
+@app.route('/tasks/query_tags_for_task', methods=['POST'])
+@login_required
+def query_tags_for_task():
+    json_data = request.json['task_id']
+    task_id = int(json_data[5:]) if json_data.startswith('task_') else -1
+    categories = Task.get_categories_for_task(task_id)
+    return jsonify(categories)

@@ -14,6 +14,8 @@ class Task(db.Model):
     tasklist_id = db.Column('tasklist_id', db.Integer, db.ForeignKey('TaskList.id'))
     description = db.Column('description', db.Unicode)
     is_completed = db.Column('is_completed', db.Boolean, default=False)
+    categories = db.relationship("Category", secondary=category_task, collection_class=set,
+                                 lazy="dynamic", backref="tasks")
 
     account = db.relationship('Account', foreign_keys=account_id)
     tasklist = db.relationship('TaskList', foreign_keys=tasklist_id)
@@ -25,20 +27,33 @@ class Task(db.Model):
 
     @staticmethod
     def get_categories_by_task():
-        stmt = text('SELECT Task.id, Category.name FROM Category'
-                    ' JOIN CategoryTask'
-                    ' LEFT JOIN Task ON Task.id = CategoryTask.task_id and Category.id = CategoryTask.category_id'
-                    ' GROUP BY Task.id'
+        stmt = text('SELECT Task.id, Category.id, Category.name FROM Category'
+                    ' INNER JOIN CategoryTask'
+                    ' INNER JOIN Task ON Task.id = CategoryTask.task_id and Category.id = CategoryTask.category_id'
                     )
 
         res = db.engine.execute(stmt)
         categories_by_task = {}
         for row in res:
-            if not categories_by_task:
-                categories_by_task[row[0]] = []
-            categories_by_task[row[0]].append(row[1])
+            if row[0]:
+                if row[0] not in categories_by_task:
+                    categories_by_task[row[0]] = []
+                categories_by_task[row[0]].append({"id": row[1], "name": row[2]})
 
         return categories_by_task
+
+    @staticmethod
+    def get_categories_for_task(task_id):
+        stmt = text('SELECT Category.id, Category.name FROM Category'
+                    ' INNER JOIN CategoryTask ON CategoryTask.task_id = ' + str(task_id) +
+                    ' and CategoryTask.category_id = Category.id'
+                    )
+
+        res = db.engine.execute(stmt)
+        categories = []
+        for row in res:
+            categories.append({"id": row[0], "name": row[1]})
+        return categories
 
 
 class TaskList(db.Model):
