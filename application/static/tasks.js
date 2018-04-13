@@ -36,12 +36,12 @@ $(function() {
         elem.css("display", "none");
 
         htmlElem = "\
-        <li class='task-edit task'> \
+        <div class='task-edit task'> \
             <form> \
                 <table style='width: 100%'> \
                     <tr> \
                         <td> \
-                            <div id='edit-task-description' class='color-bg-gray text-edit' autofocus contentEditable='true'></div> \
+                            <div id='edit-task-description' class='text-edit' autofocus contentEditable='true'></div> \
                         </td> \
                     </tr> \
                 </table> \
@@ -52,7 +52,7 @@ $(function() {
                     </tr> \
                 </table> \
             </form> \
-        </li> \
+        </div> \
         ";
         elem.after(htmlElem);
         inputField = $("#edit-task-description");

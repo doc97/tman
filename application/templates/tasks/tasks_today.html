@@ -2,7 +2,7 @@
 {% block title %}Today{% endblock %}
 {% block content %}
     {% if current_task %}
-        <h3 class="color-white">Current task</h3>
+        <h3>Current task</h3>
         <div id="task_{{ current_task.id }}">
             <table>
                 <tbody>
@@ -24,7 +24,7 @@
             </table>
         </div>
     {% else %}
-        <h3 class="color-white">No tasks!</h3>
+        <h3>No tasks!</h3>
     {% endif %}
 {% endblock %}
 {% block nav_today %} <a class="nav-item nav-link active" href="{{ url_for('tasks_today') }}">Today</a> {% endblock %}
