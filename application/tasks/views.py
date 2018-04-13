@@ -8,50 +8,41 @@ from application.tasks.forms import TaskForm
 
 @app.route('/tasks/today')
 @login_required
-def tasks_today(form=None):
+def tasks_today():
     session['url_function'] = 'tasks_today'
     result = Task.query.filter(
         (Task.tasklist_id == 1) & (Task.account_id == current_user.id) & (Task.is_completed == False)
     ).first()
 
-    if not form:
-        form = TaskForm()
-
     categories = Task.get_categories_by_task()
-    return render_template('tasks/tasks_today.html', current_task=result, categories=categories, form=form)
+    return render_template('tasks/tasks_today.html', current_task=result, categories=categories, form=TaskForm())
 
 
 @app.route('/tasks/tomorrow')
 @login_required
-def tasks_tomorrow(form=None):
+def tasks_tomorrow():
     session['url_function'] = 'tasks_tomorrow'
     result = Task.query.filter(
         (Task.tasklist_id == 2) & (Task.account_id == current_user.id) & (Task.is_completed == False)
     ).all()
+
     tasks = result if result else []
-
-    if not form:
-        form = TaskForm()
-
     categories = Task.get_categories_by_task()
     return render_template('tasks/tasks_tomorrow.html',
-                           tasks=tasks, categories=categories, form=form)
+                           tasks=tasks, categories=categories, form=TaskForm())
 
 
 @app.route('/tasks/week')
 @login_required
-def tasks_week(form=None):
+def tasks_week():
     session['url_function'] = 'tasks_week'
     result = Task.query.filter(
         (Task.tasklist_id == 3) & (Task.account_id == current_user.id) & (Task.is_completed == False)
     ).all()
+
     tasks = result if result else []
-
-    if not form:
-        form = TaskForm()
-
     categories = Task.get_categories_by_task()
-    return render_template('tasks/tasks_week.html', tasks=tasks, categories=categories, form=form)
+    return render_template('tasks/tasks_week.html', tasks=tasks, categories=categories, form=TaskForm())
 
 
 @app.route('/tasks/new', methods=['POST'])
@@ -64,7 +55,7 @@ def new_task():
     form = TaskForm(request.form)
 
     if not form.validate():
-        return redirect(url_for(session['url_function']), form)
+        return redirect(url_for(session['url_function']))
 
     form_desc = form.description.data
 

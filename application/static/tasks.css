@@ -196,6 +196,8 @@ li.nav.active a {
 
 .task-description {
     cursor: text;
+    max-width: 400px;
+    overflow-x: hidden;
 }
 
 .task-edit {
@@ -245,7 +247,7 @@ li.nav.active a {
     margin-left: auto;
     display: none;
     padding: 4px;
-    width: 40%;
+    width: 250px;
     text-align: left;
     background-color: var(--theme-background-light) !important;
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
