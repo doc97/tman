@@ -44,7 +44,6 @@ def auth_login():
     if not form.validate():
         return render_template('auth/login.html', form=form)
 
-    error_msg = ''
     result = Account.query.filter(Account.username == form.username.data).first()
     if result:
         try:
@@ -58,6 +57,8 @@ def auth_login():
             error_msg = 'No such username or password'
         except VerificationError:
             error_msg = 'Something went wrong, try again.'
+    else:
+        error_msg = 'No such username or password'
 
     return render_template('auth/login.html', form=form, login_error=error_msg)
 
