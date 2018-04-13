@@ -88,8 +88,8 @@ def new_task():
 @login_required
 def complete_task():
     json_data = request.json['task_id']
-    task_id = int(json_data[5:]) if json_data.startswith('task_') else -1
-    task = db.session.query(Task).filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
+    task_id = int(json_data[5:]) if json_data.startswith('task-') else -1
+    task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
     if task:
         task.is_completed = True
         db.session.commit()
@@ -101,8 +101,8 @@ def complete_task():
 def update_task():
     json_id_data = request.json['task_id']
     json_desc_data = request.json['desc']
-    task_id = int(json_id_data[5:]) if json_id_data.startswith('task_') else -1
-    task = db.session.query(Task).filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
+    task_id = int(json_id_data[5:]) if json_id_data.startswith('task-') else -1
+    task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
     if task and json_desc_data.strip():
         task.description = json_desc_data
         db.session.commit()
@@ -115,7 +115,7 @@ def update_task():
 def update_tags():
     json_id_data = request.json['task_id']
     json_tag_data = request.json['tag_id']
-    task_id = int(json_id_data[5:]) if json_id_data.startswith('task_') else -1
+    task_id = int(json_id_data[5:]) if json_id_data.startswith('task-') else -1
     tag_id = int(json_tag_data[4:]) if json_tag_data.startswith('tag-') else -1
     task = Task.query.filter(Task.id == task_id).first()
     tag = Category.query.filter(Category.id == tag_id).first()
@@ -138,8 +138,8 @@ def update_tags():
 @login_required
 def delete_task():
     json_data = request.json['task_id']
-    task_id = int(json_data[5:]) if json_data.startswith('task_') else -1
-    task = db.session.query(Task).filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
+    task_id = int(json_data[5:]) if json_data.startswith('task-') else -1
+    task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
     if task:
         db.session.delete(task)
         db.session.commit()
@@ -161,6 +161,6 @@ def query_all_tags():
 @login_required
 def query_tags_for_task():
     json_data = request.json['task_id']
-    task_id = int(json_data[5:]) if json_data.startswith('task_') else -1
+    task_id = int(json_data[5:]) if json_data.startswith('task-') else -1
     categories = Task.get_categories_for_task(task_id)
     return jsonify(categories)
