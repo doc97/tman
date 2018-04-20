@@ -12,10 +12,11 @@ def tasks_today():
     session['url_function'] = 'tasks_today'
     result = Task.query.filter(
         (Task.tasklist_id == 1) & (Task.account_id == current_user.id) & (Task.is_completed == False)
-    ).first()
+    ).all()
 
+    tasks = result if result else []
     categories = Task.get_categories_by_task()
-    return render_template('tasks/tasks_today.html', current_task=result, categories=categories, form=TaskForm())
+    return render_template('tasks/tasks_today.html', tasks=tasks, categories=categories, form=TaskForm())
 
 
 @app.route('/tasks/tomorrow')
@@ -28,8 +29,7 @@ def tasks_tomorrow():
 
     tasks = result if result else []
     categories = Task.get_categories_by_task()
-    return render_template('tasks/tasks_tomorrow.html',
-                           tasks=tasks, categories=categories, form=TaskForm())
+    return render_template('tasks/tasks_tomorrow.html', tasks=tasks, categories=categories, form=TaskForm())
 
 
 @app.route('/tasks/week')

@@ -1,28 +1,55 @@
 {% extends "tasks/tasks_layout.html" %}
 {% block title %}Today{% endblock %}
 {% block content %}
-    {% if current_task %}
+    {% if tasks %}
         <h3>Current task</h3>
-        <div id="task-{{ current_task.id }}">
-            <table>
-                <tbody>
-                    <tr>
-                        <td class="checker">
-                            <div class="complete-btn"></div>
-                        </td>
-                        <td class="task-content">
-                            <div class="text-white task-description">{{ current_task.description }}</div>
-                            {% for tag in categories[current_task.id] %}
-                                <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            <div class="delete-btn">Delete</div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        {% if tasks[0] %}
+            <div id="task-{{ tasks[0].id }}">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="checker">
+                                <div class="complete-btn"></div>
+                            </td>
+                            <td class="task-content">
+                                <div class="text-white task-description">{{ tasks[0].description }}</div>
+                                {% for tag in categories[tasks[0].id] %}
+                                    <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <div class="delete-btn">Delete</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+        <h4 id="other-tasks-header">Other tasks</h4>
+        <ul class="task-list">
+            {% for task in tasks[1:] %}
+                <li id="task-{{ task.id }}" class="task">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="checker">
+                                    <div class="complete-btn"></div>
+                                </td>
+                                <td class="task-content">
+                                    <div class="text-white task-description">{{ task.description }}</div>
+                                    {% for tag in categories[task.id] %}
+                                        <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <div class="delete-btn">Delete</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+            {% endfor %}
+        </ul>
     {% else %}
         <h3>No tasks!</h3>
     {% endif %}
