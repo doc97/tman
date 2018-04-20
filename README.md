@@ -27,9 +27,5 @@ step at the time.
 
 ---
 
-### About 500 Internal Server Error
-Heroku's dynos seem to be unstable, try to refresh the page. If the issue persists, there might be
-an application bug, in which case submit an issue.
-
 **Note**: This project is still under active development and if you have any problems or find any
 bugs, please create a Github [issue](https://github.com/doc97/tman/issues)!
