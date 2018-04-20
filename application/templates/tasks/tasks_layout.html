@@ -14,16 +14,24 @@
     <body>
         <div id="top-bar" class="drop-shadow">
             <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-                <a class="navbar-brand" href="#">TMan</a>
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">TMan</a>
+                </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
+                    <div class="nav navbar-nav">
                         {% block nav_today %} <a class="nav-item nav-link" href="{{ url_for('tasks_today') }}">Today</a> {% endblock %}
                         {% block nav_tomorrow %} <a class="nav-item nav-link" href="{{ url_for('tasks_tomorrow') }}">Tomorrow</a> {% endblock %}
                         {% block nav_week %} <a class="nav-item nav-link" href="{{ url_for('tasks_week') }}">This week</a> {% endblock %}
+                    </div>
+                    <div class="nav navbar-nav navbar-right">
+                        <a class="nav-item nav-link" href="{{ url_for('auth_logout') }}">
+                            <i id="logout-icon" class="material-icons">exit_to_app</i>
+                            Logout
+                        </a>
                     </div>
                 </div>
             </nav>

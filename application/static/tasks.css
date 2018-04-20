@@ -91,6 +91,16 @@ li.nav.active a {
     background-color: #3498DB;
 }
 
+#logout-icon {
+    position: relative;
+    top: 6px;
+    left: 2px;
+}
+
+#logout-icon:hover {
+    color: var(--theme-accent);
+}
+
 #app-holder {
     padding: 30px;
     padding-top: 96px;
@@ -119,6 +129,11 @@ li.nav.active a {
 }
 
 /* Classes */
+.navbar-right {
+    margin-left: auto;
+}
+
+
 .margin-center-horizontal {
     margin-right: auto;
     margin-left: auto;
