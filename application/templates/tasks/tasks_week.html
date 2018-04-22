@@ -2,12 +2,15 @@
 {% block title %}Today{% endblock %}
 {% block content %}
     {% if tasks or done_tasks %}
-        <ul class="task-list">
+        <ul id="sortable">
             {% for task in tasks %}
                 <li id="task-{{ task.id }}" class="task">
                     <table class="task-item">
                         <tbody>
                             <tr>
+                                <td class="sortable-handle">
+                                    <span class="ui-icon accent-icon ui-icon-grip-dotted-vertical"></span>
+                                </td>
                                 <td class="checker">
                                     <div class="complete-btn"></div>
                                 </td>
@@ -25,6 +28,8 @@
                     </table>
                 </li>
             {% endfor %}
+        </ul>
+        <ul>
             {% for task in done_tasks %}
                 <li id="task-{{ task.id }}" class="task">
                     <table class="task-item">

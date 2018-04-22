@@ -8,7 +8,7 @@ html, body {
 
 ul {
     list-style-type: none;
-    margin: 0px;
+    margin: 0px !important;
     padding: 0px;
 }
 
@@ -147,15 +147,21 @@ li.nav.active a {
     text-align: center;
 }
 
-.task-list {
-    font-size: 14px;
-    margin-bottom: 20px;
+.task {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 table.task-item td {
     padding: 13px;
     padding-left: 6px;
     padding-right: 6px;
+}
+
+table.task-item {
+    margin-left: 6px;
+    margin-right: 6px;
 }
 
 .checker {
@@ -214,13 +220,6 @@ table.task-item td {
     background-color: var(--theme-accent-dark);
 }
 
-.task:last-child {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.task {
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-}
 
 .task-content {
     max-width: 500px;
@@ -239,8 +238,7 @@ table.task-item td {
 }
 
 .task-edit {
-    padding-top: 13px;
-    padding-bottom: 13px;
+    padding: 13px;
 }
 
 .text-edit {
@@ -318,4 +316,12 @@ table.task-item td {
     -webkit-box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
     -o-box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
     box-shadow: 0 0 8px 3px rgba(0, 0, 0, 0.2);
+}
+
+.ui-icon {
+    cursor: move;
+}
+
+.ui-icon.accent-icon {
+    background-image: url('img/accent-ui-icons.png');
 }
