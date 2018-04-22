@@ -153,13 +153,18 @@ li.nav.active a {
     margin-bottom: 10px;
 }
 
-table.task-item td {
+.task-item {
+    display: flex;
+    align-items: center;
+}
+
+.task-item-part {
     padding: 13px;
     padding-left: 6px;
     padding-right: 6px;
 }
 
-table.task-item {
+.task-item {
     margin-left: 6px;
     margin-right: 6px;
 }
@@ -224,10 +229,12 @@ table.task-item {
 .task-content {
     max-width: 500px;
     width: 100%;
+    overflow-x: hidden;
     padding: 13px;
 }
 
 .badge {
+    margin-top: 5px;
     margin-right: 5px;
 }
 

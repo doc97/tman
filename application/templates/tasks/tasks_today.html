@@ -5,75 +5,63 @@
         <h3>Current task</h3>
         {% if tasks[0] %}
             <div id="task-{{ tasks[0].id }}">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td class="checker">
-                                <div class="complete-btn"></div>
-                            </td>
-                            <td class="task-content">
-                                <div class="text-white task-description">{{ tasks[0].description }}</div>
-                                {% for tag in tags[tasks[0].id] %}
-                                    <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
-                                {% endfor %}
-                            </td>
-                            <td>
-                                <div class="task-btn delete-btn">Delete</div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="task-item">
+                    <div class="task-item-part checker">
+                        <div class="complete-btn"></div>
+                    </div>
+                    <div class="task-item-part task-content">
+                        <div class="text-white task-description">{{ tasks[0].description }}</div>
+                        {% for tag in tags[tasks[0].id] %}
+                            <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="task-item-part">
+                        <div class="task-btn delete-btn">Delete</div>
+                    </div>
+                </div>
             </div>
         {% endif %}
         <h4 id="other-tasks-header">Other tasks</h4>
         <ul id="sortable">
             {% for task in tasks[1:] %}
                 <li id="task-{{ task.id }}" class="task">
-                    <table class="task-item">
-                        <tbody>
-                            <tr>
-                                <td class="sortable-handle">
-                                    <span class="ui-icon accent-icon ui-icon-grip-dotted-vertical"></span>
-                                </td>
-                                <td class="checker">
-                                    <div class="complete-btn"></div>
-                                </td>
-                                <td class="task-content">
-                                    <div class="text-white task-description">{{ task.description }}</div>
-                                    {% for tag in tags[task.id] %}
-                                        <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
-                                    {% endfor %}
-                                </td>
-                                <td class="task-buttons">
-                                    <div class="task-btn delete-btn">Delete</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="task-item">
+                        <div class="task-item-part sortable-handle">
+                            <span class="ui-icon accent-icon ui-icon-grip-dotted-vertical"></span>
+                        </div>
+                        <div class="task-item-part checker">
+                            <div class="complete-btn"></div>
+                        </div>
+                        <div class="task-item-part task-content">
+                            <div class="text-white task-description">{{ task.description }}</div>
+                            {% for tag in tags[task.id] %}
+                                <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="task-item-part">
+                            <div class="task-btn delete-btn">Delete</div>
+                        </div>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
         <ul>
             {% for task in done_tasks %}
                 <li id="task-{{ task.id }}" class="task">
-                    <table class="task-item">
-                        <tbody>
-                            <tr>
-                                <td class="task-content">
-                                    <div class="text-white task-description">{{ task.description }}</div>
-                                    {% for tag in tags[task.id] %}
-                                        <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
-                                    {% endfor %}
-                                </td>
-                                <td>
-                                    <div class="task-btn undo-btn">Undo</div>
-                                </td>
-                                <td class="task-buttons">
-                                    <div class="task-btn delete-btn">Delete</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="task-item">
+                        <div class="task-item-part task-content">
+                            <div class="text-white task-description">{{ task.description }}</div>
+                            {% for tag in tags[task.id] %}
+                                <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="task-item-part">
+                            <div class="task-btn undo-btn">Undo</div>
+                        </div>
+                        <div class="task-item-part">
+                            <div class="task-btn delete-btn">Delete</div>
+                        </div>
+                    </div>
                 </li>
             {% endfor %}
         </ul>

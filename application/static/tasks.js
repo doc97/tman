@@ -57,7 +57,7 @@ $(function() {
         $(".task-edit").remove();
 
         $(".task-edit").remove();
-        elem = $(event.target).parent().parent().parent().parent().parent();
+        elem = $(event.target).parent().parent().parent();
         elem.css("display", "none");
 
         htmlElem = "\
