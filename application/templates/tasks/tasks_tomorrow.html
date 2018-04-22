@@ -13,7 +13,7 @@
                                 </td>
                                 <td class="task-content">
                                     <div class="text-white task-description">{{ task.description }}</div>
-                                    {% for tag in categories[task.id] %}
+                                    {% for tag in tags[task.id] %}
                                         <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
                                     {% endfor %}
                                 </td>
@@ -32,7 +32,7 @@
                             <tr>
                                 <td class="task-content">
                                     <div class="text-white task-description">{{ task.description }}</div>
-                                    {% for tag in categories[task.id] %}
+                                    {% for tag in tags[task.id] %}
                                         <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
                                     {% endfor %}
                                 </td>

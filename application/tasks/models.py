@@ -1,22 +1,23 @@
 from application import db
 from sqlalchemy.sql import text
 
-category_task = db.Table('CategoryTask',
-                         db.Column('category_id', db.Integer, db.ForeignKey('Category.id')),
-                         db.Column('task_id', db.Integer, db.ForeignKey('Task.id'))
-                         )
+task_tag = db.Table('TaskTag',
+                    db.Column('tag_id', db.Integer, db.ForeignKey('Tag.id')),
+                    db.Column('task_id', db.Integer, db.ForeignKey('Task.id'))
+                    )
 
 
 class Task(db.Model):
     __tablename__ = 'Task'
     id = db.Column('id', db.Integer, primary_key=True)
-    account_id = db.Column('account_id', db.Integer, db.ForeignKey('Account.id'))
-    tasklist_id = db.Column('tasklist_id', db.Integer, db.ForeignKey('TaskList.id'))
-    description = db.Column('description', db.Unicode)
-    is_completed = db.Column('is_completed', db.Boolean, default=False)
-    categories = db.relationship("Category", secondary=category_task, collection_class=set,
-                                 lazy="dynamic", backref="tasks")
+    account_id = db.Column('account_id', db.Integer, db.ForeignKey('Account.id'), nullable=False)
+    tasklist_id = db.Column('tasklist_id', db.Integer, db.ForeignKey('TaskList.id'), nullable=False)
 
+    description = db.Column('description', db.Unicode, nullable=False)
+    is_completed = db.Column('is_completed', db.Boolean, default=False)
+
+    tags = db.relationship("Tag", secondary=task_tag, collection_class=set,
+                                 lazy="dynamic", backref="tasks")
     account = db.relationship('Account', foreign_keys=account_id)
     tasklist = db.relationship('TaskList', foreign_keys=tasklist_id)
 
@@ -26,48 +27,48 @@ class Task(db.Model):
         self.description = description
 
     @staticmethod
-    def get_categories_by_task():
-        stmt_string = ('SELECT \"Task\".id, \"Category\".id, \"Category\".name FROM \"Category\"'
-                       ' CROSS JOIN \"CategoryTask\"'
-                       ' INNER JOIN \"Task\" ON \"Task\".id = \"CategoryTask\".task_id and'
-                       '\"Category\".id = \"CategoryTask\".category_id')
+    def get_tags_by_task():
+        stmt_string = ('SELECT \"Task\".id, \"Tag\".id, \"Tag\".name FROM \"Tag\"'
+                       ' CROSS JOIN \"TaskTag\"'
+                       ' INNER JOIN \"Task\" ON \"Task\".id = \"TaskTag\".task_id and'
+                       '\"Tag\".id = \"TaskTag\".tag_id')
 
         res = db.engine.execute(stmt_string)
-        categories_by_task = {}
+        tags_by_task = {}
         for row in res:
             if row[0]:
-                if row[0] not in categories_by_task:
-                    categories_by_task[row[0]] = []
-                categories_by_task[row[0]].append({"id": row[1], "name": row[2]})
+                if row[0] not in tags_by_task:
+                    tags_by_task[row[0]] = []
+                tags_by_task[row[0]].append({"id": row[1], "name": row[2]})
 
-        return categories_by_task
+        return tags_by_task
 
     @staticmethod
-    def get_categories_for_task(task_id):
-        stmt_string = ('SELECT \"Category\".id, \"Category\".name FROM \"Category\"'
-                       ' INNER JOIN \"CategoryTask\" ON \"CategoryTask\".task_id = ' + str(task_id) +
-                       ' and \"CategoryTask\".category_id = \"Category\".id')
+    def get_tags_for_task(task_id):
+        stmt_string = ('SELECT \"Tag\".id, \"Tag\".name FROM \"Tag\"'
+                       ' INNER JOIN \"TaskTag\" ON \"TaskTag\".task_id = ' + str(task_id) +
+                       ' and \"TaskTag\".tag_id = \"Tag\".id')
 
         res = db.engine.execute(text(stmt_string))
-        categories = []
+        tags = []
         for row in res:
-            categories.append({"id": row[0], "name": row[1]})
-        return categories
+            tags.append({"id": row[0], "name": row[1]})
+        return tags
 
 
 class TaskList(db.Model):
     __tablename__ = 'TaskList'
     id = db.Column('id', db.Integer, primary_key=True)
-    name = db.Column('name', db.Unicode)
+    name = db.Column('name', db.Unicode, nullable=False)
 
     def __init__(self, name):
         self.name = name
 
 
-class Category(db.Model):
-    __tablename__ = 'Category'
+class Tag(db.Model):
+    __tablename__ = 'Tag'
     id = db.Column('id', db.Integer, primary_key=True)
-    name = db.Column('name', db.Unicode)
+    name = db.Column('name', db.Unicode, nullable=False)
 
     def __init__(self, name):
         self.name = name

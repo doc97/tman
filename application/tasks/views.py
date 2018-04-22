@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, request, session, jsonify
 from flask_login import login_required, current_user
 
 from application import app, db
-from application.tasks.models import Category, Task, TaskList
+from application.tasks.models import Tag, Task, TaskList
 from application.tasks.forms import TaskForm
 
 
@@ -19,9 +19,9 @@ def tasks_today():
 
     tasks = not_completed_query if not_completed_query else []
     done_tasks = completed_query if completed_query else []
-    categories = Task.get_categories_by_task()
+    tags = Task.get_tags_by_task()
     return render_template('tasks/tasks_today.html', tasks=tasks, done_tasks=done_tasks,
-                           categories=categories, form=TaskForm())
+                           tags=tags, form=TaskForm())
 
 
 @app.route('/tasks/tomorrow')
@@ -37,9 +37,9 @@ def tasks_tomorrow():
 
     tasks = not_completed_query if not_completed_query else []
     done_tasks = completed_query if completed_query else []
-    categories = Task.get_categories_by_task()
+    tags = Task.get_tags_by_task()
     return render_template('tasks/tasks_tomorrow.html', tasks=tasks, done_tasks=done_tasks,
-                           categories=categories, form=TaskForm())
+                           tags=tags, form=TaskForm())
 
 
 @app.route('/tasks/week')
@@ -55,9 +55,9 @@ def tasks_week():
 
     tasks = not_completed_query if not_completed_query else []
     done_tasks = completed_query if completed_query else []
-    categories = Task.get_categories_by_task()
+    tags = Task.get_tags_by_task()
     return render_template('tasks/tasks_week.html', tasks=tasks, done_tasks=done_tasks,
-                           categories=categories, form=TaskForm())
+                           tags=tags, form=TaskForm())
 
 
 @app.route('/tasks/new', methods=['POST'])
@@ -136,10 +136,10 @@ def update_tags():
     task_id = int(json_id_data[5:]) if json_id_data.startswith('task-') else -1
     tag_id = int(json_tag_data[4:]) if json_tag_data.startswith('tag-') else -1
     task = Task.query.filter(Task.id == task_id).first()
-    tag = Category.query.filter(Category.id == tag_id).first()
+    tag = Tag.query.filter(Tag.id == tag_id).first()
 
     if task and tag:
-        match = task.categories.filter(Category.id == tag.id).first()
+        match = task.categories.filter(Tag.id == tag.id).first()
         if match:
             task.categories.remove(tag)
             db.session.commit()
@@ -167,7 +167,7 @@ def delete_task():
 @app.route('/tasks/query_all_tags', methods=['POST'])
 @login_required
 def query_all_tags():
-    tag_query = Category.query.all()
+    tag_query = Tag.query.all()
     tags = []
     for tag in tag_query:
         tags.append({"id": tag.id, "name": tag.name})
