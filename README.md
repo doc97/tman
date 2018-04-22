@@ -23,7 +23,7 @@ step at the time.
 ## Links
 [Heroku app](https://tsoha-tman.herokuapp.com)  
 [User stories](docs/user-stories.md)  
-[Database schema](docs/img/db-schema.png)  
+[Database schema](docs/img/db-schema-v2.png)  
 
 ---
 
