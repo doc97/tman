@@ -10,39 +10,54 @@ from application.tasks.forms import TaskForm
 @login_required
 def tasks_today():
     session['url_function'] = 'tasks_today'
-    result = Task.query.filter(
+    not_completed_query = Task.query.filter(
         (Task.tasklist_id == 1) & (Task.account_id == current_user.id) & (Task.is_completed == False)
     ).all()
+    completed_query = Task.query.filter(
+        (Task.tasklist_id == 1) & (Task.account_id == current_user.id) & (Task.is_completed == True)
+    ).all()
 
-    tasks = result if result else []
+    tasks = not_completed_query if not_completed_query else []
+    done_tasks = completed_query if completed_query else []
     categories = Task.get_categories_by_task()
-    return render_template('tasks/tasks_today.html', tasks=tasks, categories=categories, form=TaskForm())
+    return render_template('tasks/tasks_today.html', tasks=tasks, done_tasks=done_tasks,
+                           categories=categories, form=TaskForm())
 
 
 @app.route('/tasks/tomorrow')
 @login_required
 def tasks_tomorrow():
     session['url_function'] = 'tasks_tomorrow'
-    result = Task.query.filter(
+    not_completed_query = Task.query.filter(
         (Task.tasklist_id == 2) & (Task.account_id == current_user.id) & (Task.is_completed == False)
     ).all()
+    completed_query = Task.query.filter(
+        (Task.tasklist_id == 2) & (Task.account_id == current_user.id) & (Task.is_completed == True)
+    ).all()
 
-    tasks = result if result else []
+    tasks = not_completed_query if not_completed_query else []
+    done_tasks = completed_query if completed_query else []
     categories = Task.get_categories_by_task()
-    return render_template('tasks/tasks_tomorrow.html', tasks=tasks, categories=categories, form=TaskForm())
+    return render_template('tasks/tasks_tomorrow.html', tasks=tasks, done_tasks=done_tasks,
+                           categories=categories, form=TaskForm())
 
 
 @app.route('/tasks/week')
 @login_required
 def tasks_week():
     session['url_function'] = 'tasks_week'
-    result = Task.query.filter(
+    not_completed_query = Task.query.filter(
         (Task.tasklist_id == 3) & (Task.account_id == current_user.id) & (Task.is_completed == False)
     ).all()
+    completed_query = Task.query.filter(
+        (Task.tasklist_id == 3) & (Task.account_id == current_user.id) & (Task.is_completed == True)
+    ).all()
 
-    tasks = result if result else []
+    tasks = not_completed_query if not_completed_query else []
+    done_tasks = completed_query if completed_query else []
     categories = Task.get_categories_by_task()
-    return render_template('tasks/tasks_week.html', tasks=tasks, categories=categories, form=TaskForm())
+    return render_template('tasks/tasks_week.html', tasks=tasks, done_tasks=done_tasks,
+                           categories=categories, form=TaskForm())
 
 
 @app.route('/tasks/new', methods=['POST'])
@@ -83,6 +98,18 @@ def complete_task():
     task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
     if task:
         task.is_completed = True
+        db.session.commit()
+    return url_for(session['url_function'])
+
+
+@app.route('/tasks/undo', methods=['POST'])
+@login_required
+def undo_completed_task():
+    json_data = request.json['task_id']
+    task_id = int(json_data[5:]) if json_data.startswith('task-') else -1
+    task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
+    if task:
+        task.is_completed = False
         db.session.commit()
     return url_for(session['url_function'])
 

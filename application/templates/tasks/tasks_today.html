@@ -1,7 +1,7 @@
 {% extends "tasks/tasks_layout.html" %}
 {% block title %}Today{% endblock %}
 {% block content %}
-    {% if tasks %}
+    {% if tasks or done_tasks%}
         <h3>Current task</h3>
         {% if tasks[0] %}
             <div id="task-{{ tasks[0].id }}">
@@ -29,7 +29,7 @@
         <ul class="task-list">
             {% for task in tasks[1:] %}
                 <li id="task-{{ task.id }}" class="task">
-                    <table>
+                    <table class="task-item">
                         <tbody>
                             <tr>
                                 <td class="checker">
@@ -42,7 +42,29 @@
                                     {% endfor %}
                                 </td>
                                 <td>
-                                    <div class="delete-btn">Delete</div>
+                                    <div class="task-btn delete-btn">Delete</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+            {% endfor %}
+            {% for task in done_tasks %}
+                <li id="task-{{ task.id }}" class="task">
+                    <table class="task-item">
+                        <tbody>
+                            <tr>
+                                <td class="task-content">
+                                    <div class="text-white task-description">{{ task.description }}</div>
+                                    {% for tag in categories[task.id] %}
+                                        <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <div class="task-btn undo-btn">Undo</div>
+                                </td>
+                                <td>
+                                    <div class="task-btn delete-btn">Delete</div>
                                 </td>
                             </tr>
                         </tbody>

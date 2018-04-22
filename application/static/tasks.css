@@ -152,6 +152,12 @@ li.nav.active a {
     margin-bottom: 20px;
 }
 
+table.task-item td {
+    padding: 13px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
 .checker {
     padding-top: 13px;
     padding-bottom: 13px;
@@ -177,22 +183,35 @@ li.nav.active a {
     background-color: var(--theme-accent);
 }
 
-.delete-btn {
+.task-btn {
     height: 32px;
     cursor: pointer;
-    border: 1px solid #ab2915;
     border-radius: 3px;
     text-align: center;
     padding: 6px;
     padding-top: 3px;
-    color: #ab2915;
     transition: background-color 150ms ease-in;
     transition: color 150ms ease-in;
+}
+
+.delete-btn {
+    border: 1px solid #ab2915;
+    color: #ab2915;
 }
 
 .delete-btn:hover {
     color: var(--theme-text-secondary);
     background-color: #e0180d;
+}
+
+.undo-btn {
+    border: 1px solid var(--theme-accent);
+    color: var(--theme-accent);
+}
+
+.undo-btn:hover {
+    color: var(--theme-text-secondary);
+    background-color: var(--theme-accent-dark);
 }
 
 .task:last-child {
