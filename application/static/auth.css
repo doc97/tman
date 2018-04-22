@@ -1,7 +1,15 @@
 html, body {
     box-sizing: border-box;
-    padding: 50px;
     background: var(--theme-accent-dark) !important;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 *, *:before, *:after {
@@ -26,7 +34,6 @@ a:hover {
 
 .login-widget {
     width: 300px;
-    margin: auto;
     padding: 20px;
     border-radius: 8px;
     background-color: var(--theme-background) !important;
