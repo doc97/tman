@@ -139,13 +139,13 @@ def update_tags():
     tag = Tag.query.filter(Tag.id == tag_id).first()
 
     if task and tag:
-        match = task.categories.filter(Tag.id == tag.id).first()
+        match = task.tags.filter(Tag.id == tag.id).first()
         if match:
-            task.categories.remove(tag)
+            task.tags.remove(tag)
             db.session.commit()
             return "removed"
         else:
-            task.categories.append(tag)
+            task.tags.append(tag)
             db.session.commit()
             return "added"
 
@@ -180,5 +180,5 @@ def query_all_tags():
 def query_tags_for_task():
     json_data = request.json['task_id']
     task_id = int(json_data[5:]) if json_data.startswith('task-') else -1
-    categories = Task.get_categories_for_task(task_id)
-    return jsonify(categories)
+    tags = Task.get_tags_for_task(task_id)
+    return jsonify(tags)
