@@ -12,6 +12,18 @@ html, body {
     outline: none;
 }
 
+div {
+    color: var(--theme-text-secondary) !important;
+}
+
+a {
+    color: var(--theme-accent) !important;
+}
+
+a:hover {
+    color: var(--theme-accent-dark) !important;
+}
+
 .login-widget {
     width: 300px;
     margin: auto;
