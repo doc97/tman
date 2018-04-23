@@ -7,4 +7,7 @@
     --theme-text-primary-dark: #eee;
     --theme-text-secondary: #bbb;
     --theme-text-form: black;
+
+    --theme-accent-rgb: 80, 211, 154;
+    --theme-accent-dark-rgb: 34, 150, 100;
 }

@@ -11,7 +11,7 @@ $(function() {
     });
 
     $(".complete-btn").click(function(event) {
-        taskId = $(event.target).parent().parent().parent().attr("id");
+        taskId = $(this).parent().parent().parent().attr("id");
         jsonData = JSON.stringify({ task_id: taskId }, null, '\t');
         $.ajax({
             type: "POST",
@@ -25,7 +25,7 @@ $(function() {
     });
 
     $(".undo-btn").click(function(event) {
-        taskId = $(event.target).parent().parent().parent().attr("id");
+        taskId = $(this).parent().parent().parent().attr("id");
         jsonData = JSON.stringify({ task_id: taskId }, null, '\t');
         $.ajax({
             type: "POST",
@@ -39,7 +39,7 @@ $(function() {
     });
 
     $(".delete-btn").click(function(event) {
-        taskId = $(event.target).parent().parent().parent().attr("id");
+        taskId = $(this).parent().parent().parent().attr("id");
         jsonData = JSON.stringify({ task_id: taskId }, null, '\t');
         $.ajax({
             type: "POST",
@@ -53,55 +53,52 @@ $(function() {
     });
 
     $(".overflow-icon").click(function(event) {
-        overflowList = $(".overflow-list");
-        overflowIcon = $(event.target);
-
-        if (overflowIcon.hasClass("active")) {
-            overflowIcon.removeClass("active");
-            overflowList.css("display", "none");
-        } else {
-            $(".overflow-icon").removeClass("active");
-            leftOffset = overflowIcon.offset().left - overflowList.width() + overflowIcon.width();
-            topOffset = overflowIcon.offset().top + overflowIcon.height() + 20;
-
-            overflowList.css("left", leftOffset);
-            overflowList.css("top", topOffset);
-            overflowList.css("display", "block");
-            overflowIcon.addClass("active");
-        }
-        event.stopPropagation();
-    });
-
-    $(".overflow-list").click(function(event) {
-        event.stopPropagation();
-    });
-
-    $(document).click(function() {
-        $(".overflow-icon").removeClass("active");
-        $(".overflow-list").css("display", "none");
-    });
-
-    $(".overflow-item").click(function(event) {
-        taskId = $(".overflow-icon.active").parent().parent().parent().attr("id");
-        listId = $(event.target).attr("id");
-        jsonData = JSON.stringify({ task_id: taskId, list_id: listId }, null, '\t');
-        $.ajax({
-            type: "POST",
-            url: "/tasks/move",
-            data: jsonData,
-            contentType: "application/json;charset=UTF-8",
-            success: function(redirect_url) {
-                window.location.href = redirect_url;
+        $(document).on("mouseup.hideOverflowMenu", function(event) {
+            if (!$(event.target).is(".overflow-list *, .overflow-list")) {
+                $(".task-selected").removeClass("task-selected");
+                $(".overflow-list").css("display", "none");
+                $(document).off(".hideOverflowMenu");
             }
         });
+
+        overflowList = $(".overflow-list");
+        overflowIcon = $(this);
+        task = overflowIcon.parent().parent().parent();
+
+        $(".task-selected").removeClass("task-selected");
+        leftOffset = overflowIcon.offset().left - overflowList.width() + overflowIcon.width();
+        topOffset = overflowIcon.offset().top + overflowIcon.height() + 10;
+
+        overflowList.css("left", leftOffset);
+        overflowList.css("top", topOffset);
+        overflowList.css("display", "block");
+        task.addClass("task-selected");
+
+        $(".overflow-item").off("click");
+        $(".overflow-item").click(function(event) {
+            taskId = task.attr("id");
+            listId = $(this).attr("id");
+            jsonData = JSON.stringify({ task_id: taskId, list_id: listId }, null, '\t');
+            $.ajax({
+                type: "POST",
+                url: "/tasks/move",
+                data: jsonData,
+                contentType: "application/json;charset=UTF-8",
+                success: function(redirect_url) {
+                    window.location.href = redirect_url;
+                }
+            });
+        });
     });
+
+
 
     $(".task-content").click(function(event) {
         $(".task-edit").prev().css("display", "");
         $(".task-edit").remove();
 
         $(".task-edit").remove();
-        elem = $(event.target).parent().parent();
+        elem = $(this).parent();
         elem.css("display", "none");
 
         htmlElem = "\
@@ -132,7 +129,7 @@ $(function() {
 
         elem.after(htmlElem);
         inputField = $("#edit-task-description");
-        inputField.html($(event.target).parent().find(".task-description").text());
+        inputField.html($(this).parent().find(".task-description").text());
         inputField.focus();
         setEndOfContenteditable(inputField.get(0));
 
@@ -142,7 +139,7 @@ $(function() {
         }
 
         $("#task-edit-submit").click(function(event) {
-            editElem = $(event.target).parent().parent().parent().parent().parent().parent();
+            editElem = $(this).parent().parent().parent().parent().parent().parent();
             dataElem = editElem.find("#edit-task-description");
             updatedElem = editElem.prev();
             updatedElem.css("display", "");
@@ -163,67 +160,76 @@ $(function() {
         });
 
         $("#task-edit-cancel").click(function(event) {
-            editElem = $(event.target).parent().parent().parent().parent().parent().parent();
+            editElem = $(this).parent().parent().parent().parent().parent().parent();
             editElem.prev().css("display", "");
             editElem.remove();
         });
 
+
+        $(".tag-list").click(function(event) {
+            event.stopPropagation();
+        });
+
         $("#label-icon").click(function(event) {
+            $(document).on("mouseup.hideTagMenu", function(event) {
+                if (!$(event.target).is(".tag-list *, .tag-list")) {
+                    $(".task-selected").removeClass("task-selected");
+                    $(".tag-list").css("display", "none");
+                    $(document).off(".hideTagMenu");
+                }
+            });
+
             tagList = $(".tag-list");
-            if (tagList.css("display") === "none") {
-                editElem = tagList.parent().parent().parent().parent();
-                jsonData = JSON.stringify({ task_id: editElem.attr("id")  }, null, '\t');
-                $.ajax({
-                    type: "POST",
-                    url: "/tasks/query_tags_for_task",
-                    data: jsonData,
-                    contentType: "application/json;charset=UTF-8",
-                    success: function(tags) {
-                        tagList = $(".tag-list");
-                        tagList.children().each(function() { $(this).removeClass("active"); });
+            taskId = tagList.parent().parent().parent().attr("id");
+            jsonData = JSON.stringify({ task_id: taskId  }, null, '\t');
+            $.ajax({
+                type: "POST",
+                url: "/tasks/query_tags_for_task",
+                data: jsonData,
+                contentType: "application/json;charset=UTF-8",
+                success: function(tags) {
+                    tagList = $(".tag-list");
+                    tagList.children().each(function() { $(this).removeClass("active"); });
 
-                        for (let tag of tags)
-                            $("#tag-" + tag.id).addClass("active");
+                    for (let tag of tags)
+                        $("#tag-" + tag.id).addClass("active");
 
-
-                        $(".tag-item").click(function(event) {
-                            taskId = $(event.target).parent().parent().parent().parent().attr("id");
-                            tagId = $(event.target).attr("id");
-                            jsonTagData = JSON.stringify({ task_id: taskId, tag_id: tagId });
-                            $.ajax({
-                                type: "POST",
-                                url: "/tasks/update-tags",
-                                data: jsonTagData,
-                                contentType: "application/json;charset=UTF-8",
-                                success: function(msg) {
-                                    if (msg === "added") {
-                                        htmlString = "<span id='badge-" + tagId +
-                                            "' class='badge badge-pill badge-primary'>" + $(event.target).text() +
-                                            "</span>";
-                                        $("#" + taskId).find(".task-content").append($(htmlString));
-                                        $(event.target).addClass("active");
-                                    } else if (msg === "removed") {
-                                        $("#badge-" + tagId).remove();
-                                        $(event.target).removeClass("active");
-                                    } else {
-                                        console.log(msg);
-                                    }
+                    $(".tag-item").off("click");
+                    $(".tag-item").click(function(event) {
+                        taskId = $(this).parent().parent().parent().parent().attr("id");
+                        tagId = $(this).attr("id");
+                        jsonTagData = JSON.stringify({ task_id: taskId, tag_id: tagId });
+                        $.ajax({
+                            type: "POST",
+                            url: "/tasks/update-tags",
+                            data: jsonTagData,
+                            contentType: "application/json;charset=UTF-8",
+                            success: function(msg) {
+                                if (msg === "added") {
+                                    htmlString = "<span id='badge-" + tagId +
+                                        "' class='badge badge-pill badge-primary'>" + $(event.target).text() +
+                                        "</span>";
+                                    $("#" + taskId).find(".task-content").append($(htmlString));
+                                    $(event.target).addClass("active");
+                                } else if (msg === "removed") {
+                                    $("#badge-" + tagId).remove();
+                                    $(event.target).removeClass("active");
+                                } else {
+                                    console.log(msg);
                                 }
-                            });
+                            }
                         });
+                    });
 
-                        labelIcon = $("#label-icon");
-                        leftOffset = labelIcon.offset().left - tagList.width() + labelIcon.width();
-                        topOffset = labelIcon.offset().top + labelIcon.height() + 20;
+                    labelIcon = $("#label-icon");
+                    leftOffset = labelIcon.offset().left - tagList.width() + labelIcon.width();
+                    topOffset = labelIcon.offset().top + labelIcon.height() + 20;
 
-                        tagList.css("left", leftOffset);
-                        tagList.css("top", topOffset);
-                        tagList.css("display", "block");
-                    }
-                });
-            } else {
-                tagList.css("display", "none");
-            }
+                    tagList.css("left", leftOffset);
+                    tagList.css("top", topOffset);
+                    tagList.css("display", "block");
+                }
+            });
         });
     });
 
