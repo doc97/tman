@@ -345,13 +345,9 @@ li.nav.active a {
     box-shadow: 0 0 8px 3px rgba(0, 0, 0, 0.2);
 }
 
-.ui-icon {
+.accent-icon {
     cursor: move;
-    margin: 0 !important;
-}
-
-.ui-icon.accent-icon {
-    background-image: url('img/accent-ui-icons.png');
+    color: var(--theme-accent) !important;
 }
 
 .icon-btn {
