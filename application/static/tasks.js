@@ -11,7 +11,7 @@ $(function() {
     });
 
     $(".complete-btn").click(function(event) {
-        taskId = $(event.target).parent().parent().parent().parent().parent().attr("id");
+        taskId = $(event.target).parent().parent().parent().attr("id");
         jsonData = JSON.stringify({ task_id: taskId }, null, '\t');
         $.ajax({
             type: "POST",
@@ -25,7 +25,7 @@ $(function() {
     });
 
     $(".undo-btn").click(function(event) {
-        taskId = $(event.target).parent().parent().parent().parent().parent().attr("id");
+        taskId = $(event.target).parent().parent().parent().attr("id");
         jsonData = JSON.stringify({ task_id: taskId }, null, '\t');
         $.ajax({
             type: "POST",
@@ -39,7 +39,7 @@ $(function() {
     });
 
     $(".delete-btn").click(function(event) {
-        taskId = $(event.target).parent().parent().parent().parent().parent().attr("id");
+        taskId = $(event.target).parent().parent().parent().attr("id");
         jsonData = JSON.stringify({ task_id: taskId }, null, '\t');
         $.ajax({
             type: "POST",
@@ -182,6 +182,15 @@ $(function() {
             }
         });
     });
+
+    $( "#sortable" ).sortable({
+        handle: ".sortable-handle",
+        axis: "y",
+        update: function(event, ui) {
+            console.log(ui.item.index());
+        }
+    });
+    $( "#sortable" ).disableSelection();
 
     // Source: https://stackoverflow.com/a/3866442
     function setEndOfContenteditable(contentEditableElement) {
