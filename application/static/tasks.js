@@ -81,6 +81,21 @@ $(function() {
         $(".overflow-list").css("display", "none");
     });
 
+    $(".overflow-item").click(function(event) {
+        taskId = $(".overflow-icon.active").parent().parent().parent().attr("id");
+        listId = $(event.target).attr("id");
+        jsonData = JSON.stringify({ task_id: taskId, list_id: listId }, null, '\t');
+        $.ajax({
+            type: "POST",
+            url: "/tasks/move",
+            data: jsonData,
+            contentType: "application/json;charset=UTF-8",
+            success: function(redirect_url) {
+                window.location.href = redirect_url;
+            }
+        });
+    });
+
     $(".task-content").click(function(event) {
         $(".task-edit").prev().css("display", "");
         $(".task-edit").remove();

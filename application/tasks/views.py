@@ -152,6 +152,23 @@ def update_tags():
     return "error"
 
 
+@app.route('/tasks/move', methods=['POST'])
+@login_required
+def move_task():
+    json_id_data = request.json['task_id']
+    json_list_data = request.json['list_id']
+    task_id = int(json_id_data[5:]) if json_id_data.startswith('task-') else -1
+    list_id = int(json_list_data[5:]) if json_list_data.startswith('move-') else -1
+    task = Task.query.filter(Task.id == task_id).first()
+    tasklist = TaskList.query.filter(TaskList.id == list_id).first()
+
+    if task and tasklist:
+        task.tasklist_id = tasklist.id
+        db.session.commit()
+
+    return url_for(session['url_function'])
+
+
 @app.route('/tasks/delete', methods=['POST'])
 @login_required
 def delete_task():
