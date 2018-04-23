@@ -2,8 +2,8 @@
 {% import "tasks/macros.html" as macros %}
 {% block title %}Today{% endblock %}
 {% block content %}
+    <h3>Current task</h3>
     {% if tasks %}
-        <h3>Current task</h3>
         {% if tasks[0] %}
             <div id="task-{{ tasks[0].id }}">
                 <div class="task-item">
@@ -19,24 +19,26 @@
                     <div class="task-item-part">
                         <div class="task-btn delete-btn">Delete</div>
                     </div>
+                    <div class="task-item-part">
+                        <i class='overflow-icon icon-btn material-icons'>more_vert</i>
+                    </div>
                 </div>
             </div>
         {% endif %}
     {% endif %}
 
+    <h4 id="other-tasks-header">Other tasks</h4>
+    <ul id="sortable">
+        {{ macros.task_list(tasks[1:], tags) }}
+    </ul>
+
     {% if done_tasks %}
-        <h4 id="other-tasks-header">Other tasks</h4>
-        <ul id="sortable">
-            {{ macros.task_list(tasks[1:], tags) }}
-        </ul>
         <ul>
             {{ macros.done_list(done_tasks, tags) }}
         </ul>
     {% endif %}
 
-    {% if not tasks and not done_tasks %}
-        <h3>No tasks!</h3>
-    {% else %}
+    {% if tasks or done_tasks %}
         {{ macros.overflow_menu() }}
     {% endif %}
 {% endblock %}

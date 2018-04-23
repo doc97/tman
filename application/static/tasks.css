@@ -133,6 +133,10 @@ li.nav.active a {
 }
 
 /* Classes */
+.nav-item.active {
+    border-bottom: 3px solid var(--theme-accent);
+}
+
 .navbar-right {
     margin-left: auto;
 }
