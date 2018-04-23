@@ -17,6 +17,9 @@
                 <div class="task-item-part">
                     <div class="task-btn delete-btn">Delete</div>
                 </div>
+                <div class="task-item-part">
+                    <i class='overflow-icon icon-btn material-icons'>more_vert</i>
+                </div>
             </div>
         </li>
     {% endfor %}
@@ -38,7 +41,16 @@
                 <div class="task-item-part">
                     <div class="task-btn delete-btn">Delete</div>
                 </div>
+                <div class="task-item-part">
+                    <i class='overflow-icon icon-btn material-icons'>more_vert</i>
+                </div>
             </div>
         </li>
     {% endfor %}
+{% endmacro %}
+
+{% macro overflow_menu() %}
+    <div class="icon-list overflow-list">
+        <a class="overflow-item" href="#">Move</a>
+    </div>
 {% endmacro %}

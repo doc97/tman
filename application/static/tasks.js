@@ -52,6 +52,35 @@ $(function() {
         });
     });
 
+    $(".overflow-icon").click(function(event) {
+        overflowList = $(".overflow-list");
+        overflowIcon = $(event.target);
+
+        if (overflowIcon.hasClass("active")) {
+            overflowIcon.removeClass("active");
+            overflowList.css("display", "none");
+        } else {
+            $(".overflow-icon").removeClass("active");
+            leftOffset = overflowIcon.offset().left - overflowList.width() + overflowIcon.width();
+            topOffset = overflowIcon.offset().top + overflowIcon.height() + 20;
+
+            overflowList.css("left", leftOffset);
+            overflowList.css("top", topOffset);
+            overflowList.css("display", "block");
+            overflowIcon.addClass("active");
+        }
+        event.stopPropagation();
+    });
+
+    $(".overflow-list").click(function(event) {
+        event.stopPropagation();
+    });
+
+    $(document).click(function() {
+        $(".overflow-icon").removeClass("active");
+        $(".overflow-list").css("display", "none");
+    });
+
     $(".task-content").click(function(event) {
         $(".task-edit").prev().css("display", "");
         $(".task-edit").remove();
@@ -81,7 +110,7 @@ $(function() {
                         </td> \
                     </tr> \
                 </table> \
-                <div class='tag-list'></div> \
+                <div class='icon-list tag-list'></div> \
             </form> \
         </div> \
         ";

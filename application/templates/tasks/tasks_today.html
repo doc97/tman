@@ -2,39 +2,42 @@
 {% import "tasks/macros.html" as macros %}
 {% block title %}Today{% endblock %}
 {% block content %}
-    {% if tasks or done_tasks%}
-        {% if tasks %}
-            <h3>Current task</h3>
-            {% if tasks[0] %}
-                <div id="task-{{ tasks[0].id }}">
-                    <div class="task-item">
-                        <div class="task-item-part checker">
-                            <div class="complete-btn"></div>
-                        </div>
-                        <div class="task-item-part task-content">
-                            <div class="text-white task-description">{{ tasks[0].description }}</div>
-                            {% for tag in tags[tasks[0].id] %}
-                                <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
-                            {% endfor %}
-                        </div>
-                        <div class="task-item-part">
-                            <div class="task-btn delete-btn">Delete</div>
-                        </div>
+    {% if tasks %}
+        <h3>Current task</h3>
+        {% if tasks[0] %}
+            <div id="task-{{ tasks[0].id }}">
+                <div class="task-item">
+                    <div class="task-item-part checker">
+                        <div class="complete-btn"></div>
+                    </div>
+                    <div class="task-item-part task-content">
+                        <div class="text-white task-description">{{ tasks[0].description }}</div>
+                        {% for tag in tags[tasks[0].id] %}
+                            <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="task-item-part">
+                        <div class="task-btn delete-btn">Delete</div>
                     </div>
                 </div>
-            {% endif %}
+            </div>
         {% endif %}
-        {% if done_tasks %}
-            <h4 id="other-tasks-header">Other tasks</h4>
-            <ul id="sortable">
-                {{ macros.task_list(tasks[1:], tags) }}
-            </ul>
-            <ul>
-                {{ macros.done_list(done_tasks, tags) }}
-            </ul>
-        {% endif %}
-    {% else %}
+    {% endif %}
+
+    {% if done_tasks %}
+        <h4 id="other-tasks-header">Other tasks</h4>
+        <ul id="sortable">
+            {{ macros.task_list(tasks[1:], tags) }}
+        </ul>
+        <ul>
+            {{ macros.done_list(done_tasks, tags) }}
+        </ul>
+    {% endif %}
+
+    {% if not tasks and not done_tasks %}
         <h3>No tasks!</h3>
+    {% else %}
+        {{ macros.overflow_menu() }}
     {% endif %}
 {% endblock %}
 {% block nav_today %} <a class="nav-item nav-link active" href="{{ url_for('tasks_today') }}">Today</a> {% endblock %}
