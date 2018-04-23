@@ -105,7 +105,7 @@ $(function() {
         elem.css("display", "none");
 
         htmlElem = "\
-        <div class='task-edit task'> \
+        <div class='task-edit'> \
             <form> \
                 <table style='width: 100%'> \
                     <tr> \
@@ -132,7 +132,7 @@ $(function() {
 
         elem.after(htmlElem);
         inputField = $("#edit-task-description");
-        inputField.html($(event.target).text());
+        inputField.html($(event.target).parent().find(".task-description").text());
         inputField.focus();
         setEndOfContenteditable(inputField.get(0));
 
@@ -147,7 +147,7 @@ $(function() {
             updatedElem = editElem.prev();
             updatedElem.css("display", "");
 
-            jsonData = JSON.stringify({ task_id: updatedElem.attr("id"), desc: dataElem.text() }, null, '\t');
+            jsonData = JSON.stringify({ task_id: updatedElem.parent().attr("id"), desc: dataElem.text() }, null, '\t');
             $.ajax({
                 type: "POST",
                 url: "/tasks/update",
@@ -171,7 +171,7 @@ $(function() {
         $("#label-icon").click(function(event) {
             tagList = $(".tag-list");
             if (tagList.css("display") === "none") {
-                editElem = tagList.parent().parent().prev();
+                editElem = tagList.parent().parent().parent().parent();
                 jsonData = JSON.stringify({ task_id: editElem.attr("id")  }, null, '\t');
                 $.ajax({
                     type: "POST",
@@ -187,7 +187,7 @@ $(function() {
 
 
                         $(".tag-item").click(function(event) {
-                            taskId = $(event.target).parent().parent().parent().prev().attr("id");
+                            taskId = $(event.target).parent().parent().parent().parent().attr("id");
                             tagId = $(event.target).attr("id");
                             jsonTagData = JSON.stringify({ task_id: taskId, tag_id: tagId });
                             $.ajax({
