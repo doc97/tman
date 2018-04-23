@@ -1,40 +1,19 @@
 {% extends "tasks/tasks_layout.html" %}
+{% import "tasks/macros.html" as macros %}
 {% block title %}Today{% endblock %}
 {% block content %}
     {% if tasks or done_tasks%}
-        <h3>Current task</h3>
-        {% if tasks[0] %}
-            <div id="task-{{ tasks[0].id }}">
-                <div class="task-item">
-                    <div class="task-item-part checker">
-                        <div class="complete-btn"></div>
-                    </div>
-                    <div class="task-item-part task-content">
-                        <div class="text-white task-description">{{ tasks[0].description }}</div>
-                        {% for tag in tags[tasks[0].id] %}
-                            <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
-                        {% endfor %}
-                    </div>
-                    <div class="task-item-part">
-                        <div class="task-btn delete-btn">Delete</div>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-        <h4 id="other-tasks-header">Other tasks</h4>
-        <ul id="sortable">
-            {% for task in tasks[1:] %}
-                <li id="task-{{ task.id }}" class="task">
+        {% if tasks %}
+            <h3>Current task</h3>
+            {% if tasks[0] %}
+                <div id="task-{{ tasks[0].id }}">
                     <div class="task-item">
-                        <div class="task-item-part sortable-handle">
-                            <span class="ui-icon accent-icon ui-icon-grip-dotted-vertical"></span>
-                        </div>
                         <div class="task-item-part checker">
                             <div class="complete-btn"></div>
                         </div>
                         <div class="task-item-part task-content">
-                            <div class="text-white task-description">{{ task.description }}</div>
-                            {% for tag in tags[task.id] %}
+                            <div class="text-white task-description">{{ tasks[0].description }}</div>
+                            {% for tag in tags[tasks[0].id] %}
                                 <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
                             {% endfor %}
                         </div>
@@ -42,29 +21,18 @@
                             <div class="task-btn delete-btn">Delete</div>
                         </div>
                     </div>
-                </li>
-            {% endfor %}
-        </ul>
-        <ul>
-            {% for task in done_tasks %}
-                <li id="task-{{ task.id }}" class="task">
-                    <div class="task-item">
-                        <div class="task-item-part task-content">
-                            <div class="text-white task-description">{{ task.description }}</div>
-                            {% for tag in tags[task.id] %}
-                                <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
-                            {% endfor %}
-                        </div>
-                        <div class="task-item-part">
-                            <div class="task-btn undo-btn">Undo</div>
-                        </div>
-                        <div class="task-item-part">
-                            <div class="task-btn delete-btn">Delete</div>
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
+                </div>
+            {% endif %}
+        {% endif %}
+        {% if done_tasks %}
+            <h4 id="other-tasks-header">Other tasks</h4>
+            <ul id="sortable">
+                {{ macros.task_list(tasks[1:], tags) }}
+            </ul>
+            <ul>
+                {{ macros.done_list(done_tasks, tags) }}
+            </ul>
+        {% endif %}
     {% else %}
         <h3>No tasks!</h3>
     {% endif %}
