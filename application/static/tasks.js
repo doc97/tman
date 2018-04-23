@@ -52,12 +52,12 @@ $(function() {
         });
     });
 
-    $(".task-description").click(function(event) {
+    $(".task-content").click(function(event) {
         $(".task-edit").prev().css("display", "");
         $(".task-edit").remove();
 
         $(".task-edit").remove();
-        elem = $(event.target).parent().parent().parent();
+        elem = $(event.target).parent().parent();
         elem.css("display", "none");
 
         htmlElem = "\
@@ -77,7 +77,7 @@ $(function() {
                             <a href='#' id='task-edit-cancel' class='cancel'>Cancel</a> \
                         </td> \
                         <td class='td_extra' align='right'> \
-                            <i id='label-icon' class='extra-item material-icons'>label_outline</i> \
+                            <i id='label-icon' class='icon-btn extra-item material-icons'>label_outline</i> \
                         </td> \
                     </tr> \
                 </table> \

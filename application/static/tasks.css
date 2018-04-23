@@ -159,6 +159,9 @@ li.nav.active a {
 }
 
 .task-item-part {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
     padding: 13px;
     padding-left: 6px;
     padding-right: 6px;
@@ -231,6 +234,7 @@ li.nav.active a {
     width: 100%;
     overflow-x: hidden;
     padding: 13px;
+    cursor: text;
 }
 
 .badge {
@@ -239,8 +243,7 @@ li.nav.active a {
 }
 
 .task-description {
-    cursor: text;
-    max-width: 400px;
+    width: 100%;
     overflow-x: hidden;
 }
 
@@ -327,8 +330,13 @@ li.nav.active a {
 
 .ui-icon {
     cursor: move;
+    margin: 0 !important;
 }
 
 .ui-icon.accent-icon {
     background-image: url('img/accent-ui-icons.png');
+}
+
+.icon-btn {
+    cursor: pointer;
 }
