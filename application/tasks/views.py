@@ -1,15 +1,17 @@
-from flask import render_template, redirect, url_for, request, session, jsonify
+from flask import render_template, redirect, url_for, request, jsonify
 from flask_login import login_required, current_user
 
 from application import app, db
 from application.tasks.models import Tag, Task, TaskList
 from application.tasks.forms import TaskForm
 
+import application.tasks.session_state as state
+
 
 @app.route('/tasks/today')
 @login_required
 def tasks_today():
-    session['url_function'] = 'tasks_today'
+    state.save('url_function', 'tasks_today')
     not_completed_query = Task.query.filter(
         (Task.tasklist_id == 1) & (Task.account_id == current_user.id) & (Task.is_completed == False)
     ).all()
@@ -27,7 +29,7 @@ def tasks_today():
 @app.route('/tasks/tomorrow')
 @login_required
 def tasks_tomorrow():
-    session['url_function'] = 'tasks_tomorrow'
+    state.save('url_function', 'tasks_tomorrow')
     not_completed_query = Task.query.filter(
         (Task.tasklist_id == 2) & (Task.account_id == current_user.id) & (Task.is_completed == False)
     ).all()
@@ -45,7 +47,7 @@ def tasks_tomorrow():
 @app.route('/tasks/week')
 @login_required
 def tasks_week():
-    session['url_function'] = 'tasks_week'
+    state.save('url_function', 'tasks_week')
     not_completed_query = Task.query.filter(
         (Task.tasklist_id == 3) & (Task.account_id == current_user.id) & (Task.is_completed == False)
     ).all()
@@ -63,60 +65,65 @@ def tasks_week():
 @app.route('/tasks/new', methods=['POST'])
 @login_required
 def new_task():
-    if 'url_function' not in session:
-        session['next'] = 'new_task'
+    if not state.validate():
+        state.save('next', 'new_task')
         return redirect(url_for('auth_logout'))
 
     form = TaskForm(request.form)
 
     if not form.validate():
-        return redirect(url_for(session['url_function']))
+        return redirect(url_for(state.query('url_function')))
 
     form_desc = form.description.data
 
-    list_id = -1
-    if session['url_function'] == 'tasks_today':
-        list_id = 1
-    elif session['url_function'] == 'tasks_tomorrow':
-        list_id = 2
-    elif session['url_function'] == 'tasks_week':
-        list_id = 3
-
+    list_id = state.url_function_to_int()
     tasklist_result = TaskList.query.filter(TaskList.id == list_id).first()
     if tasklist_result:
         created_task = Task(current_user.id, list_id, form_desc)
         db.session.add(created_task)
         db.session.commit()
-    return redirect(url_for(session['url_function']))
+    return state.redirect_to_url()
 
 
 @app.route('/tasks/complete', methods=['POST'])
 @login_required
 def complete_task():
+    if not state.validate():
+        state.save('next', 'complete_task')
+        return redirect(url_for('auth_logout'))
+
     json_data = request.json['task_id']
     task_id = int(json_data[5:]) if json_data.startswith('task-') else -1
     task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
     if task:
         task.is_completed = True
         db.session.commit()
-    return url_for(session['url_function'])
+    return state.redirect_to_url()
 
 
 @app.route('/tasks/undo', methods=['POST'])
 @login_required
 def undo_completed_task():
+    if not state.validate():
+        state.save('next', 'undo_completed_task')
+        return redirect(url_for('auth_logout'))
+
     json_data = request.json['task_id']
     task_id = int(json_data[5:]) if json_data.startswith('task-') else -1
     task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
     if task:
         task.is_completed = False
         db.session.commit()
-    return url_for(session['url_function'])
+    return state.redirect_to_url()
 
 
 @app.route('/tasks/update', methods=['POST'])
 @login_required
 def update_task():
+    if not state.validate():
+        state.save('next', 'update_task')
+        return redirect(url_for('auth_logout'))
+
     json_id_data = request.json['task_id']
     json_desc_data = request.json['desc']
     task_id = int(json_id_data[5:]) if json_id_data.startswith('task-') else -1
@@ -131,6 +138,10 @@ def update_task():
 @app.route('/tasks/update-tags', methods=['POST'])
 @login_required
 def update_tags():
+    if not state.validate():
+        state.save('next', 'update_tags')
+        return redirect(url_for('auth_logout'))
+
     json_id_data = request.json['task_id']
     json_tag_data = request.json['tag_id']
     task_id = int(json_id_data[5:]) if json_id_data.startswith('task-') else -1
@@ -155,6 +166,10 @@ def update_tags():
 @app.route('/tasks/move', methods=['POST'])
 @login_required
 def move_task():
+    if not state.validate():
+        state.save('next', 'move_task')
+        return redirect(url_for('auth_logout'))
+
     json_id_data = request.json['task_id']
     json_list_data = request.json['list_id']
     task_id = int(json_id_data[5:]) if json_id_data.startswith('task-') else -1
@@ -166,24 +181,32 @@ def move_task():
         task.tasklist_id = tasklist.id
         db.session.commit()
 
-    return url_for(session['url_function'])
+    return state.redirect_to_url()
 
 
 @app.route('/tasks/delete', methods=['POST'])
 @login_required
 def delete_task():
+    if not state.validate():
+        state.save('next', 'delete_task')
+        return redirect(url_for('auth_logout'))
+
     json_data = request.json['task_id']
     task_id = int(json_data[5:]) if json_data.startswith('task-') else -1
     task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
     if task:
         db.session.delete(task)
         db.session.commit()
-    return url_for(session['url_function'])
+    return state.redirect_to_url()
 
 
 @app.route('/tasks/query_all_tags', methods=['POST'])
 @login_required
 def query_all_tags():
+    if not state.validate():
+        state.save('next', 'query_all_tags')
+        return redirect(url_for('auth_logout'))
+
     tag_query = Tag.query.all()
     tags = []
     for tag in tag_query:

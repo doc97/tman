@@ -4,8 +4,11 @@ from flask_login import login_user, logout_user, current_user
 from application import app, db
 from application.auth.models import Account
 from application.auth.forms import LoginForm, RegistrationForm
+
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError, VerificationError
+
+import application.tasks.session_state as state
 
 ph = PasswordHasher()
 
@@ -50,6 +53,7 @@ def auth_login():
             ph.verify(result.password, form.password.data)
             login_user(result, remember=form.remember.data)
 
+            state.initialize()
             if 'next' in session:
                 return redirect(session['next'])
             return redirect(url_for('tasks_today'))
