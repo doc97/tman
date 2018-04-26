@@ -80,11 +80,13 @@ def new_task():
     list_id = state.url_function_to_int()
     tasklist_result = TaskList.query.filter(TaskList.id == list_id).first()
     if tasklist_result:
-        task_count = Task.query.filter(Task.tasklist_id == tasklist_result.id).count()
+        task_count = Task.query.filter(
+            (Task.tasklist_id == list_id) & (Task.account_id == current_user.id) & (Task.is_completed == False)
+        ).count()
         created_task = Task(current_user.id, list_id, task_count, form_desc)
         db.session.add(created_task)
         db.session.commit()
-    return state.redirect_to_url()
+    return redirect(state.get_url_for_function())
 
 
 @app.route('/tasks/complete', methods=['POST'])
@@ -98,9 +100,14 @@ def complete_task():
     task_id = int(json_data[5:]) if json_data.startswith('task-') else -1
     task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
     if task:
+        list_id = state.url_function_to_int()
+        task_count = Task.query.filter(
+            (Task.tasklist_id == list_id) & (Task.account_id == current_user.id) & (Task.is_completed == True)
+        ).count()
         task.is_completed = True
+        task.order = task_count
         db.session.commit()
-    return state.redirect_to_url()
+    return state.get_url_for_function()
 
 
 @app.route('/tasks/undo', methods=['POST'])
@@ -114,9 +121,14 @@ def undo_completed_task():
     task_id = int(json_data[5:]) if json_data.startswith('task-') else -1
     task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
     if task:
+        list_id = state.url_function_to_int()
+        task_count = Task.query.filter(
+            (Task.tasklist_id == list_id) & (Task.account_id == current_user.id) & (Task.is_completed == False)
+        ).count()
         task.is_completed = False
+        task.order = task_count
         db.session.commit()
-    return state.redirect_to_url()
+    return state.get_url_for_function()
 
 
 @app.route('/tasks/update', methods=['POST'])
@@ -183,7 +195,7 @@ def move_task():
         task.tasklist_id = tasklist.id
         db.session.commit()
 
-    return state.redirect_to_url()
+    return state.get_url_for_function()
 
 
 @app.route('/tasks/delete', methods=['POST'])
@@ -199,7 +211,7 @@ def delete_task():
     if task:
         db.session.delete(task)
         db.session.commit()
-    return state.redirect_to_url()
+    return state.get_url_for_function()
 
 
 @app.route('/tasks/query_all_tags', methods=['POST'])

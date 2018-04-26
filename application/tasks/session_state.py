@@ -46,7 +46,7 @@ def url_function_to_int():
     return -1
 
 
-def redirect_to_url():
+def get_url_for_function():
     return url_for(session['url_function'])
 
 
