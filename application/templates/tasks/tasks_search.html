@@ -1,0 +1,25 @@
+{% extends "tasks/tasks_layout.html" %}
+{% import "tasks/macros.html" as macros %}
+{% block title %}Search{% endblock %}
+{% block content %}
+    {% if today_tasks %}
+        <h4>Today</h4>
+        <ul> {{ macros.task_list(today_tasks, tags, false) }} </ul>
+    {% endif %}
+
+    {% if tomorrow_tasks %}
+        <h4>Tomorrow</h4>
+        <ul> {{ macros.task_list(tomorrow_tasks, tags, false) }} </ul>
+    {% endif %}
+
+    {% if week_tasks %}
+        <h4>This week</h4>
+        <ul> {{ macros.task_list(week_tasks, tags, false) }} </ul>
+    {% endif %}
+
+    {% if not today_tasks and not tomorrow_tasks and not week_tasks %}
+        <h3>No results.</h3>
+    {% else %}
+        {{ macros.overflow_menu() }}
+    {% endif %}
+{% endblock %}

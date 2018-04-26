@@ -64,6 +64,34 @@ def tasks_week():
                            tags=tags, form=TaskForm())
 
 
+@app.route('/tasks/search')
+@login_required
+def tasks_search():
+    if not state.validate():
+        state.save('next', 'search')
+        return redirect(url_for('auth_logout'))
+    state.save('url_function', 'tasks_search')
+
+    search_param = "%" + request.args.get("q", default="", type=str) + "%"
+
+    today_query = Task.query.filter(
+        (Task.account_id == current_user.id) & (Task.tasklist_id == 1) & (Task.description.like(search_param))
+    ).all()
+    tomorrow_query = Task.query.filter(
+        (Task.account_id == current_user.id) & (Task.tasklist_id == 2) & (Task.description.like(search_param))
+    ).all()
+    week_query = Task.query.filter(
+        (Task.account_id == current_user.id) & (Task.tasklist_id == 3) & (Task.description.like(search_param))
+    ).all()
+    today_tasks = today_query if today_query else []
+    tomorrow_tasks = tomorrow_query if tomorrow_query else []
+    week_tasks = week_query if week_query else []
+    tags = Task.get_tags_by_task()
+
+    return render_template('tasks/tasks_search.html', today_tasks=today_tasks, tomorrow_tasks=tomorrow_tasks,
+                           week_tasks=week_tasks, tags=tags, form=TaskForm())
+
+
 @app.route('/tasks/new', methods=['POST'])
 @login_required
 def new_task():
