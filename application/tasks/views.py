@@ -18,7 +18,7 @@ def tasks_today():
     ).order_by('order').all()
     completed_query = Task.query.filter(
         (Task.tasklist_id == 1) & (Task.account_id == current_user.id) & (Task.is_completed == True)
-    ).all()
+    ).order_by('order').all()
 
     tasks = not_completed_query if not_completed_query else []
     done_tasks = completed_query if completed_query else []
@@ -36,7 +36,7 @@ def tasks_tomorrow():
     ).order_by('order').all()
     completed_query = Task.query.filter(
         (Task.tasklist_id == 2) & (Task.account_id == current_user.id) & (Task.is_completed == True)
-    ).all()
+    ).order_by('order').all()
 
     tasks = not_completed_query if not_completed_query else []
     done_tasks = completed_query if completed_query else []
@@ -54,7 +54,7 @@ def tasks_week():
     ).order_by('order').all()
     completed_query = Task.query.filter(
         (Task.tasklist_id == 3) & (Task.account_id == current_user.id) & (Task.is_completed == True)
-    ).all()
+    ).order_by('order').all()
 
     tasks = not_completed_query if not_completed_query else []
     done_tasks = completed_query if completed_query else []
