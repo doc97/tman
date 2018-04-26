@@ -21,7 +21,7 @@
         <div class="task-item-part task-content">
             <div class="text-white task-description">{{ task.description }}</div>
             {% for tag in tags[task.id] %}
-                <span id="badge-tag-{{ sortable_tag.id }}" class="badge badge-pill badge-primary">
+                <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">
                     {{ tag.name }}
                 </span>
             {% endfor %}
