@@ -30,7 +30,7 @@ def normalize_ordering():
 def normalize_tasklist_ordering(tasklist_id):
     today_tasks = Task.query.filter(
         (Task.tasklist_id == tasklist_id) & (Task.account_id == current_user.id) & (Task.is_completed == False)
-    ).order_by('order').all()
+    ).order_by(Task.order).all()
     for i in range(len(today_tasks)):
         today_tasks[i].order = i
 

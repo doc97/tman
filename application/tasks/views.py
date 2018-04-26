@@ -1,5 +1,6 @@
 from flask import render_template, redirect, url_for, request, jsonify
 from flask_login import login_required, current_user
+from sqlalchemy import desc
 
 from application import app, db
 from application.tasks.models import Tag, Task, TaskList
@@ -15,10 +16,10 @@ def tasks_today():
     state.save('url_function', 'tasks_today')
     not_completed_query = Task.query.filter(
         (Task.tasklist_id == 1) & (Task.account_id == current_user.id) & (Task.is_completed == False)
-    ).order_by('order').all()
+    ).order_by(Task.order).all()
     completed_query = Task.query.filter(
         (Task.tasklist_id == 1) & (Task.account_id == current_user.id) & (Task.is_completed == True)
-    ).order_by('order').all()
+    ).order_by(Task.order).all()
 
     tasks = not_completed_query if not_completed_query else []
     done_tasks = completed_query if completed_query else []
@@ -33,10 +34,10 @@ def tasks_tomorrow():
     state.save('url_function', 'tasks_tomorrow')
     not_completed_query = Task.query.filter(
         (Task.tasklist_id == 2) & (Task.account_id == current_user.id) & (Task.is_completed == False)
-    ).order_by('order').all()
+    ).order_by(Task.order).all()
     completed_query = Task.query.filter(
         (Task.tasklist_id == 2) & (Task.account_id == current_user.id) & (Task.is_completed == True)
-    ).order_by('order').all()
+    ).order_by(Task.order).all()
 
     tasks = not_completed_query if not_completed_query else []
     done_tasks = completed_query if completed_query else []
@@ -51,10 +52,10 @@ def tasks_week():
     state.save('url_function', 'tasks_week')
     not_completed_query = Task.query.filter(
         (Task.tasklist_id == 3) & (Task.account_id == current_user.id) & (Task.is_completed == False)
-    ).order_by('order').all()
+    ).order_by(Task.order).all()
     completed_query = Task.query.filter(
         (Task.tasklist_id == 3) & (Task.account_id == current_user.id) & (Task.is_completed == True)
-    ).order_by('order').all()
+    ).order_by(Task.order).all()
 
     tasks = not_completed_query if not_completed_query else []
     done_tasks = completed_query if completed_query else []
@@ -80,10 +81,11 @@ def new_task():
     list_id = state.url_function_to_int()
     tasklist_result = TaskList.query.filter(TaskList.id == list_id).first()
     if tasklist_result:
-        task_count = Task.query.filter(
+        last_task = Task.query.filter(
             (Task.tasklist_id == list_id) & (Task.account_id == current_user.id) & (Task.is_completed == False)
-        ).count()
-        created_task = Task(current_user.id, list_id, task_count, form_desc)
+        ).order_by(desc(Task.order)).first()
+        order = last_task.order + 1 if last_task else 0
+        created_task = Task(current_user.id, list_id, order, form_desc)
         db.session.add(created_task)
         db.session.commit()
     return redirect(state.get_url_for_function())
@@ -122,11 +124,11 @@ def undo_completed_task():
     task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
     if task:
         list_id = state.url_function_to_int()
-        task_count = Task.query.filter(
+        last_task = Task.query.filter(
             (Task.tasklist_id == list_id) & (Task.account_id == current_user.id) & (Task.is_completed == False)
-        ).count()
+        ).order_by(desc(Task.order)).first()
         task.is_completed = False
-        task.order = task_count
+        task.order = last_task.order + 1 if last_task else 0
         db.session.commit()
     return state.get_url_for_function()
 
