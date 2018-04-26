@@ -4,42 +4,26 @@
 {% block content %}
     <h3>Current task</h3>
     {% if tasks %}
-        {% if tasks[0] %}
-            <div id="task-{{ tasks[0].id }}">
-                <div class="task-item">
-                    <div class="task-item-part checker">
-                        <div class="complete-btn"></div>
-                    </div>
-                    <div class="task-item-part task-content">
-                        <div class="text-white task-description">{{ tasks[0].description }}</div>
-                        {% for tag in tags[tasks[0].id] %}
-                            <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
-                        {% endfor %}
-                    </div>
-                    <div class="task-item-part">
-                        <div class="task-btn delete-btn">Delete</div>
-                    </div>
-                    <div class="task-item-part">
-                        <i class='overflow-icon icon-btn material-icons'>more_vert</i>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
+        <div id="task-{{ tasks[0].id }}">
+            {{ macros.task_item(tasks[0], tags, false) }}
+        </div>
     {% endif %}
 
     <h4 id="other-tasks-header">Other tasks</h4>
     <ul id="sortable">
-        {{ macros.task_list(tasks[1:], tags) }}
+        {{ macros.task_list(tasks[1:], tags, true) }}
     </ul>
 
     {% if done_tasks %}
         <ul>
-            {{ macros.done_list(done_tasks, tags) }}
+            {{ macros.task_list(done_tasks, tags, false) }}
         </ul>
     {% endif %}
 
     {% if tasks or done_tasks %}
         {{ macros.overflow_menu() }}
     {% endif %}
+
+    {{ macros.add_task_form(form) }}
 {% endblock %}
 {% block nav_today %} <a class="nav-item nav-link active" href="{{ url_for('tasks_today') }}">Today</a> {% endblock %}

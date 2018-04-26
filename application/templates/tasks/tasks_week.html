@@ -4,13 +4,13 @@
 {% block content %}
     {% if tasks %}
         <ul id="sortable">
-            {{ macros.task_list(tasks, tags) }}
+            {{ macros.task_list(tasks, tags, true) }}
         </ul>
     {% endif %}
 
     {% if done_tasks %}
         <ul>
-            {{ macros.done_list(done_tasks, tags) }}
+            {{ macros.task_list(done_tasks, tags, false) }}
         </ul>
     {% endif %}
 
@@ -19,5 +19,7 @@
     {% else %}
         {{ macros.overflow_menu() }}
     {% endif %}
+
+    {{ macros.add_task_form(form) }}
 {% endblock %}
 {% block nav_week %} <a class="nav-item nav-link active" href="{{ url_for('tasks_week') }}">This week</a> {% endblock %}

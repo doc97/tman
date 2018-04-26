@@ -1,52 +1,43 @@
-{% macro task_list(tasks, tags) %}
+{% macro task_list(tasks, tags, sortable) %}
     {% for task in tasks %}
         <li id="task-{{ task.id }}" class="task">
-            <div class="task-item">
-                <div class="task-item-part sortable-handle">
-                    <span class="accent-icon material-icons">drag_handle</span>
-                </div>
-                <div class="task-item-part checker">
-                    <div class="complete-btn"></div>
-                </div>
-                <div class="task-item-part task-content">
-                    <div class="text-white task-description">{{ task.description }}</div>
-                    {% for tag in tags[task.id] %}
-                        <span id="badge-tag-{{ tag.id }}" class="badge badge-pill badge-primary">{{ tag.name }}</span>
-                    {% endfor %}
-                </div>
-                <div class="task-item-part">
-                    <div class="task-btn delete-btn">Delete</div>
-                </div>
-                <div class="task-item-part">
-                    <i class='overflow-icon icon-btn material-icons'>more_vert</i>
-                </div>
-            </div>
+            {{ task_item(task, tags, sortable) }}
         </li>
     {% endfor %}
 {% endmacro %}
 
-{% macro done_list(done_tasks, tags) %}
-    {% for done_task in done_tasks %}
-        <li id="task-{{ done_task.id }}" class="task">
-            <div class="task-item">
-                <div class="task-item-part task-content">
-                    <div class="text-white task-description">{{ done_task.description }}</div>
-                    {% for done_tag in tags[done_task.id] %}
-                        <span id="badge-tag-{{ done_tag.id }}" class="badge badge-pill badge-primary">{{ done_tag.name }}</span>
-                    {% endfor %}
-                </div>
-                <div class="task-item-part">
-                    <div class="task-btn undo-btn">Undo</div>
-                </div>
-                <div class="task-item-part">
-                    <div class="task-btn delete-btn">Delete</div>
-                </div>
-                <div class="task-item-part">
-                    <i class='overflow-icon icon-btn material-icons'>more_vert</i>
-                </div>
+{% macro task_item(task, tags, sortable) %}
+    <div class="task-item">
+        {% if sortable %}
+            <div class="task-item-part sortable-handle">
+                <span class="accent-icon material-icons">drag_handle</span>
             </div>
-        </li>
-    {% endfor %}
+        {% endif %}
+        {% if not task.is_completed %}
+            <div class="task-item-part checker">
+                <div class="complete-btn"></div>
+            </div>
+        {% endif %}
+        <div class="task-item-part task-content">
+            <div class="text-white task-description">{{ task.description }}</div>
+            {% for tag in tags[task.id] %}
+                <span id="badge-tag-{{ sortable_tag.id }}" class="badge badge-pill badge-primary">
+                    {{ tag.name }}
+                </span>
+            {% endfor %}
+        </div>
+        {% if task.is_completed %}
+            <div class="task-item-part">
+                <div class="task-btn undo-btn">Undo</div>
+            </div>
+        {% endif %}
+        <div class="task-item-part">
+            <div class="task-btn delete-btn">Delete</div>
+        </div>
+        <div class="task-item-part">
+            <i class='overflow-icon icon-btn material-icons'>more_vert</i>
+        </div>
+    </div>
 {% endmacro %}
 
 {% macro overflow_menu() %}
@@ -55,4 +46,21 @@
         <a id="move-2" class="overflow-item" href="#">Move to Tomorrow</a>
         <a id="move-3" class="overflow-item" href="#">Move to This week</a>
     </div>
+{% endmacro %}
+
+{% macro add_task_form(form) %}
+    <form id="new_task_form" action="{{ url_for('new_task') }}" method="POST">
+        <div class="form-group">
+            {{ form.description.label }}
+            <div>
+                {{ form.description }}
+            </div>
+            <ul>
+                {% for error in form.description.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            <input type="submit" value="Add task">
+       </div>
+    </form>
 {% endmacro %}
