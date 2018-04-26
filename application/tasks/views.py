@@ -6,6 +6,7 @@ from application.tasks.models import Tag, Task, TaskList
 from application.tasks.forms import TaskForm
 
 import application.tasks.session_state as state
+import application.tasks.functions as func
 
 
 @app.route('/tasks/today')
@@ -14,7 +15,7 @@ def tasks_today():
     state.save('url_function', 'tasks_today')
     not_completed_query = Task.query.filter(
         (Task.tasklist_id == 1) & (Task.account_id == current_user.id) & (Task.is_completed == False)
-    ).all()
+    ).order_by('order').all()
     completed_query = Task.query.filter(
         (Task.tasklist_id == 1) & (Task.account_id == current_user.id) & (Task.is_completed == True)
     ).all()
@@ -32,7 +33,7 @@ def tasks_tomorrow():
     state.save('url_function', 'tasks_tomorrow')
     not_completed_query = Task.query.filter(
         (Task.tasklist_id == 2) & (Task.account_id == current_user.id) & (Task.is_completed == False)
-    ).all()
+    ).order_by('order').all()
     completed_query = Task.query.filter(
         (Task.tasklist_id == 2) & (Task.account_id == current_user.id) & (Task.is_completed == True)
     ).all()
@@ -50,7 +51,7 @@ def tasks_week():
     state.save('url_function', 'tasks_week')
     not_completed_query = Task.query.filter(
         (Task.tasklist_id == 3) & (Task.account_id == current_user.id) & (Task.is_completed == False)
-    ).all()
+    ).order_by('order').all()
     completed_query = Task.query.filter(
         (Task.tasklist_id == 3) & (Task.account_id == current_user.id) & (Task.is_completed == True)
     ).all()
@@ -79,7 +80,8 @@ def new_task():
     list_id = state.url_function_to_int()
     tasklist_result = TaskList.query.filter(TaskList.id == list_id).first()
     if tasklist_result:
-        created_task = Task(current_user.id, list_id, form_desc)
+        task_count = Task.query.filter(Task.tasklist_id == tasklist_result.id).count()
+        created_task = Task(current_user.id, list_id, task_count, form_desc)
         db.session.add(created_task)
         db.session.commit()
     return state.redirect_to_url()
@@ -218,7 +220,47 @@ def query_all_tags():
 @app.route('/tasks/query_tags_for_task', methods=['POST'])
 @login_required
 def query_tags_for_task():
+    if not state.validate():
+        state.save('next', 'query_tags_for_task')
+        return redirect(url_for('auth_logout'))
+
     json_data = request.json['task_id']
     task_id = int(json_data[5:]) if json_data.startswith('task-') else -1
     tags = Task.get_tags_for_task(task_id)
     return jsonify(tags)
+
+
+@app.route('/tasks/order_task', methods=['POST'])
+@login_required
+def order_task():
+    if not state.validate():
+        state.save('next', 'order_task')
+        return redirect(url_for('auth_logout'))
+
+    json_id_data = request.json['task_id'] if 'task_id' in request.json else ''
+    json_prev_id_data = request.json['prev_task_id'] if 'prev_task_id' in request.json else ''
+    json_next_id_data = request.json['next_task_id'] if 'next_task_id' in request.json else ''
+    task_id = int(json_id_data[5:]) if json_id_data.startswith('task-') else -1
+    prev_task_id = int(json_prev_id_data[5:]) if json_prev_id_data.startswith('task-') else -1
+    next_task_id = int(json_next_id_data[5:]) if json_next_id_data.startswith('task-') else -1
+
+    task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
+    prev_task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == prev_task_id)).first()
+    next_task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == next_task_id)).first()
+
+    if task:
+        prev_task_order = 0
+        next_task_order = 0
+        if prev_task:
+            prev_task_order = prev_task.order
+        if next_task:
+            next_task_order = next_task.order
+
+        new_task_order = (prev_task_order + next_task_order) / 2
+        task.order = new_task_order
+        db.session.commit()
+
+        func.update_ordering_count()
+        func.normalize_ordering()
+
+    return ""

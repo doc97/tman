@@ -9,6 +9,8 @@ from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError, VerificationError
 
 import application.tasks.session_state as state
+import application.tasks.functions as func
+
 
 ph = PasswordHasher()
 
@@ -54,6 +56,9 @@ def auth_login():
             login_user(result, remember=form.remember.data)
 
             state.initialize()
+            func.normalize_tasklist_ordering(1)
+            func.normalize_tasklist_ordering(2)
+            func.normalize_tasklist_ordering(3)
             if 'next' in session:
                 return redirect(session['next'])
             return redirect(url_for('tasks_today'))

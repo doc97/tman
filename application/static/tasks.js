@@ -237,7 +237,17 @@ $(function() {
         handle: ".sortable-handle",
         axis: "y",
         update: function(event, ui) {
-            console.log(ui.item.index());
+            prevId = ui.item.prev().attr("id");
+            movedId = ui.item.attr("id");
+            nextId = ui.item.next().attr("id");
+
+            jsonTagData = JSON.stringify({ task_id: movedId, next_task_id: nextId, prev_task_id: prevId });
+            $.ajax({
+                type: "POST",
+                url: "/tasks/order_task",
+                data: jsonTagData,
+                contentType: "application/json;charset=UTF-8",
+            });
         }
     });
     $( "#sortable" ).disableSelection();

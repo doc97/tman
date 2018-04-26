@@ -13,6 +13,7 @@ class Task(db.Model):
     account_id = db.Column('account_id', db.Integer, db.ForeignKey('Account.id'), nullable=False)
     tasklist_id = db.Column('tasklist_id', db.Integer, db.ForeignKey('TaskList.id'), nullable=False)
 
+    order = db.Column('order', db.Numeric(precision=16), nullable=False)
     description = db.Column('description', db.Unicode, nullable=False)
     is_completed = db.Column('is_completed', db.Boolean, default=False)
 
@@ -21,9 +22,10 @@ class Task(db.Model):
     account = db.relationship('Account', foreign_keys=account_id)
     tasklist = db.relationship('TaskList', foreign_keys=tasklist_id)
 
-    def __init__(self, account_id, tasklist_id, description):
+    def __init__(self, account_id, tasklist_id, order, description):
         self.account_id = account_id
         self.tasklist_id = tasklist_id
+        self.order = order
         self.description = description
 
     @staticmethod
