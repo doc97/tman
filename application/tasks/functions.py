@@ -6,6 +6,16 @@ from application.tasks.models import Task
 import application.session_state as state
 
 
+def url_function_to_int():
+    if state.query('url_function') == 'tasks_today':
+        return 1
+    elif state.query('url_function') == 'tasks_tomorrow':
+        return 2
+    elif state.query('url_function') == 'tasks_week':
+        return 3
+    return -1
+
+
 def update_ordering_count():
     if state.equals('url_function', 'tasks_today'):
         state.inc('today_ordering_count')

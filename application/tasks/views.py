@@ -109,7 +109,7 @@ def new_task():
 
     form_desc = form.description.data
 
-    list_id = state.url_function_to_int()
+    list_id = func.url_function_to_int()
     tasklist_result = TaskList.query.filter(TaskList.id == list_id).first()
     if tasklist_result:
         last_task = Task.query.filter(
@@ -133,7 +133,7 @@ def complete_task():
     task_id = int(json_data[5:]) if json_data.startswith('task-') else -1
     task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
     if task:
-        list_id = state.url_function_to_int()
+        list_id = func.url_function_to_int()
         task_count = Task.query.filter(
             (Task.tasklist_id == list_id) & (Task.account_id == current_user.id) & (Task.is_completed == True)
         ).count()
@@ -154,7 +154,7 @@ def undo_completed_task():
     task_id = int(json_data[5:]) if json_data.startswith('task-') else -1
     task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
     if task:
-        list_id = state.url_function_to_int()
+        list_id = func.url_function_to_int()
         last_task = Task.query.filter(
             (Task.tasklist_id == list_id) & (Task.account_id == current_user.id) & (Task.is_completed == False)
         ).order_by(desc(Task.order)).first()

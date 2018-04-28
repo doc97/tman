@@ -36,16 +36,6 @@ def validate():
     return True
 
 
-def url_function_to_int():
-    if session['url_function'] == 'tasks_today':
-        return 1
-    elif session['url_function'] == 'tasks_tomorrow':
-        return 2
-    elif session['url_function'] == 'tasks_week':
-        return 3
-    return -1
-
-
 def get_url_for_function():
     return url_for(session['url_function'])
 
