@@ -14,7 +14,7 @@ def tags_all():
         state.save('next', 'tags_all')
         return redirect(url_for('auth_logout'))
     state.save('url_function', 'tags_all')
-    tags = Tag.query.all()
+    tags = Tag.query.filter(Tag.account_id == current_user.id).all()
     return render_template('tags/tags_all.html', tags=tags)
 
 
@@ -79,7 +79,7 @@ def query_all_tags():
         state.save('next', 'tasks_today')
         return redirect(url_for('auth_logout'))
 
-    tag_query = Tag.query.all()
+    tag_query = Tag.query.filter(Tag.account_id == current_user.id).all()
     tags = []
     for tag in tag_query:
         tags.append({"id": tag.id, "name": tag.name})

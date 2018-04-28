@@ -1,18 +1,4 @@
 $(function() {
-    allTags = []
-
-    $.ajax({
-        type: "POST",
-        url: "/tags/query",
-        contentType: "application/json;charset=UTF-8",
-        success: function(tags) {
-            if ($.isArray(tags))
-                Array.prototype.push.apply(allTags, tags)
-            else
-                window.location.href = redirect_url;
-        }
-    });
-
     $(".complete-task-btn").click(completeTaskBtnClick);
     $(".undo-task-btn").click(undoTaskBtnClick);
     $(".delete-task-btn").click(deleteTaskBtnClick);
@@ -280,9 +266,28 @@ $(function() {
         inputField.focus();
         setEndOfContenteditable(inputField.get(0));
 
-        for (let tag of allTags) {
-            htmlString = "<a id=tag-" + tag.id + " class='tag-list-item' href='#' draggable=false>" + tag.name + "</a>";
-            $(".tag-list").append($(htmlString));
-        }
+        $.ajax({
+            type: "POST",
+            url: "/tags/query",
+            contentType: "application/json;charset=UTF-8",
+            success: function(tags) {
+                if ($.isArray(tags)) {
+                    for (let tag of tags) {
+                        htmlString = "<a id=tag-" + tag.id + " class='tag-list-item' href='#' draggable=false>" + tag.name + "</a>";
+                        $(".tag-list").append($(htmlString));
+                    }
+
+                    addBtnString = "\
+                    <a class='theme-btn icon-btn add-tag-btn' href='/tags/edit'> \
+                        <span class='icon material-icons'>add</span> \
+                        <span>Add tag</span> \
+                    </a> \
+                    ";
+                    $(".tag-list").append($(addBtnString));
+                } else {
+                    window.location.href = redirect_url;
+                }
+            }
+        });
     }
 });
