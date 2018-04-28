@@ -167,6 +167,8 @@ li.nav.active a {
 }
 
 .icon-btn {
+    display: flex;
+    justify-content: center;
     cursor: pointer;
 }
 

@@ -20,7 +20,7 @@ step at the time.
 - [x] Order tasks
 - [x] Search tasks by description
 - [x] Search tasks by tags
-- [ ] Create and delete tags
+- [x] Create, edit, delete tags
 - [ ] Account settings
 
 ## Links

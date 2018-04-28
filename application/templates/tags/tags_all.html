@@ -3,17 +3,17 @@
 {% block content %}
     <ul>
         {% for tag in tags %}
-            <li class="tag">
+            <li id="tag-{{ tag.id }}" class="tag">
                 <div class="tag-item">
                     <div class="tag-name">{{ tag.name }}</div>
                     <div class="tag-item-part">
-                        <div class="tag-btn theme-btn">
+                        <div class="tag-btn theme-btn edit-tag-btn">
                             <span class="icon icon-btn material-icons">mode_edit</span>
                             <span class="icon-text">Edit</span>
                         </div>
                     </div>
                     <div class="tag-item-part">
-                        <div class="tag-btn delete-btn">
+                        <div class="tag-btn delete-btn delete-tag-btn">
                             <span class="icon icon-btn material-icons">delete</span>
                             <span class="icon-text">Delete</span>
                         </div>
@@ -22,5 +22,9 @@
             </li>
         {% endfor %}
     </ul>
+    <a class="theme-btn icon-btn add-tag-btn" href="/tags/edit">
+        <span class="icon material-icons">add</span>
+        <span>Add tag</span>
+    </a>
 {% endblock %}
 {% block nav_tags %} <a class="nav-item nav-link active" href="{{ url_for('tags_all') }}">Tags</a> {% endblock %}

@@ -1,0 +1,29 @@
+{% extends "tags/tags_layout.html" %}
+{% block title %}Edit tag{% endblock %}
+{% block content %}
+    {% if tag %}
+        <h1>Edit task '{{ tag.name }}'</h1>
+        <form action="{{ url_for('tags_edit') }}?tagId={{ tag.id }}" method="POST">
+    {% else %}
+        <h1>New task</h1>
+        <form action="{{ url_for('tags_edit') }}?tagId={{ tag.id }}" method="POST">
+    {% endif %}
+        <div class="form-group">
+            {{ form.name.label }}
+            <div>
+                {{ form.name }}
+            </div>
+            <ul>
+                {% for error in form.name.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% if tag %}
+                <input type="submit" value="Done">
+            {% else %}
+                <input type="submit" value="Add tag">
+            {% endif %}
+       </div>
+    </form>
+{% endblock %}
+{% block nav_tags %} <a class="nav-item nav-link active" href="{{ url_for('tags_all') }}">Tags</a> {% endblock %}

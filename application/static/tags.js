@@ -1,5 +1,11 @@
 $(function() {
+    $(".edit-tag-btn").click(editTagBtnClick);
     $(".delete-tag-btn").click(deleteTagBtnClick);
+
+    function editTagBtnClick(event) {
+        tagId = $(this).parent().parent().parent().attr("id");
+        window.location.href = "/tags/edit?tag=" + tagId;
+    }
 
     function deleteTagBtnClick(event) {
         tagId = $(this).parent().parent().parent().attr("id");
