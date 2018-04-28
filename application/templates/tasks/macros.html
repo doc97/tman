@@ -10,12 +10,12 @@
     <div class="task-item">
         {% if sortable %}
             <div class="task-item-part sortable-handle">
-                <span class="accent-icon material-icons">drag_handle</span>
+                <span class="icon icon-draggable accent-color material-icons">drag_handle</span>
             </div>
         {% endif %}
         {% if not task.is_completed %}
             <div class="task-item-part checker">
-                <div class="complete-btn"></div>
+                <div class="complete-btn complete-task-btn"></div>
             </div>
         {% endif %}
         <div class="task-item-part task-content">
@@ -28,14 +28,20 @@
         </div>
         {% if task.is_completed %}
             <div class="task-item-part">
-                <div class="task-btn undo-btn">Undo</div>
+                <div class="icon task-btn theme-btn undo-task-btn">
+                    <span class="icon icon-btn material-icons">undo</span>
+                    <span class="icon-text">Undo</span>
+                </div>
             </div>
         {% endif %}
         <div class="task-item-part">
-            <div class="task-btn delete-btn">Delete</div>
+            <div class="task-btn delete-btn delete-task-btn">
+                <span class="icon icon-btn material-icons">delete</span>
+                <span class="icon-text">Delete</span>
+            </div>
         </div>
         <div class="task-item-part">
-            <i class='overflow-icon icon-btn material-icons'>more_vert</i>
+            <span class="icon overflow-icon icon-btn accent-color material-icons">more_vert</span>
         </div>
     </div>
 {% endmacro %}

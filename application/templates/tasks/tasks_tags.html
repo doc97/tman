@@ -1,0 +1,26 @@
+{% extends "tasks/tasks_layout.html" %}
+{% block title %}Tags{% endblock %}
+{% block content %}
+    <ul>
+        {% for tag in tags %}
+            <li class="tag">
+                <div class="tag-item">
+                    <div class="tag-name">{{ tag.name }}</div>
+                    <div class="tag-item-part">
+                        <div class="tag-btn theme-btn">
+                            <span class="icon icon-btn material-icons">mode_edit</span>
+                            <span class="icon-text">Edit</span>
+                        </div>
+                    </div>
+                    <div class="tag-item-part">
+                        <div class="tag-btn delete-btn">
+                            <span class="icon icon-btn material-icons">delete</span>
+                            <span class="icon-text">Delete</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+{% block nav_tags %} <a class="nav-item nav-link active" href="{{ url_for('tasks_tags') }}">Tags</a> {% endblock %}

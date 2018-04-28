@@ -10,7 +10,7 @@ $(function() {
         }
     });
 
-    $(".complete-btn").click(function(event) {
+    $(".complete-task-btn").click(function(event) {
         taskId = $(this).parent().parent().parent().attr("id");
         jsonData = JSON.stringify({ task_id: taskId }, null, '\t');
         $.ajax({
@@ -24,7 +24,7 @@ $(function() {
         });
     });
 
-    $(".undo-btn").click(function(event) {
+    $(".undo-task-btn").click(function(event) {
         taskId = $(this).parent().parent().parent().attr("id");
         jsonData = JSON.stringify({ task_id: taskId }, null, '\t');
         $.ajax({
@@ -38,7 +38,7 @@ $(function() {
         });
     });
 
-    $(".delete-btn").click(function(event) {
+    $(".delete-task-btn").click(function(event) {
         taskId = $(this).parent().parent().parent().attr("id");
         jsonData = JSON.stringify({ task_id: taskId }, null, '\t');
         $.ajax({
@@ -134,7 +134,7 @@ $(function() {
         setEndOfContenteditable(inputField.get(0));
 
         for (let tag of allTags) {
-            htmlString = "<a id=tag-" + tag.id + " class='tag-item' href='#' draggable=false>" + tag.name + "</a>";
+            htmlString = "<a id=tag-" + tag.id + " class='tag-list-item' href='#' draggable=false>" + tag.name + "</a>";
             $(".tag-list").append($(htmlString));
         }
 
@@ -194,8 +194,8 @@ $(function() {
                     for (let tag of tags)
                         $("#tag-" + tag.id).addClass("active");
 
-                    $(".tag-item").off("click");
-                    $(".tag-item").click(function(event) {
+                    $(".tag-list-item").off("click");
+                    $(".tag-list-item").click(function(event) {
                         taskId = $(this).parent().parent().parent().parent().attr("id");
                         tagId = $(this).attr("id");
                         jsonTagData = JSON.stringify({ task_id: taskId, tag_id: tagId });

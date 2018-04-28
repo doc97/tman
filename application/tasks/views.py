@@ -68,7 +68,7 @@ def tasks_week():
 @login_required
 def tasks_search():
     if not state.validate():
-        state.save('next', 'search')
+        state.save('next', 'tasks_search')
         return redirect(url_for('auth_logout'))
     state.save('url_function', 'tasks_search')
 
@@ -93,6 +93,17 @@ def tasks_search():
 
     return render_template('tasks/tasks_search.html', today_tasks=today_tasks, tomorrow_tasks=tomorrow_tasks,
                            week_tasks=week_tasks, tags=tags, form=TaskForm())
+
+
+@app.route('/tasks/tags')
+@login_required
+def tasks_tags():
+    if not state.validate():
+        state.save('next', 'tasks_tags')
+        return redirect(url_for('auth_logout'))
+    state.save('url_function', 'tasks_tags')
+    tags = Tag.query.all()
+    return render_template('tasks/tasks_tags.html', tags=tags)
 
 
 @app.route('/tasks/new', methods=['POST'])
