@@ -100,13 +100,13 @@ def tasks_search():
 @login_required
 def new_task():
     if not state.validate():
-        state.save('next', 'new_task')
+        state.save('next', 'tasks_today')
         return redirect(url_for('auth_logout'))
 
     form = TaskForm(request.form)
 
     if not form.validate():
-        return redirect(url_for(state.query('url_function')))
+        return redirect(state.get_url_for_function())
 
     form_desc = form.description.data
 
@@ -127,7 +127,7 @@ def new_task():
 @login_required
 def complete_task():
     if not state.validate():
-        state.save('next', 'complete_task')
+        state.save('next', 'tasks_today')
         return redirect(url_for('auth_logout'))
 
     json_data = request.json['task_id']
@@ -148,7 +148,7 @@ def complete_task():
 @login_required
 def undo_completed_task():
     if not state.validate():
-        state.save('next', 'undo_completed_task')
+        state.save('next', 'tasks_today')
         return redirect(url_for('auth_logout'))
 
     json_data = request.json['task_id']
@@ -169,7 +169,7 @@ def undo_completed_task():
 @login_required
 def update_task():
     if not state.validate():
-        state.save('next', 'update_task')
+        state.save('next', 'tasks_today')
         return redirect(url_for('auth_logout'))
 
     json_id_data = request.json['task_id']
@@ -187,7 +187,7 @@ def update_task():
 @login_required
 def update_tags():
     if not state.validate():
-        state.save('next', 'update_tags')
+        state.save('next', 'tasks_today')
         return redirect(url_for('auth_logout'))
 
     json_id_data = request.json['task_id']
@@ -215,7 +215,7 @@ def update_tags():
 @login_required
 def move_task():
     if not state.validate():
-        state.save('next', 'move_task')
+        state.save('next', 'tasks_today')
         return redirect(url_for('auth_logout'))
 
     json_id_data = request.json['task_id']
@@ -236,7 +236,7 @@ def move_task():
 @login_required
 def delete_task():
     if not state.validate():
-        state.save('next', 'delete_task')
+        state.save('next', 'tasks_today')
         return redirect(url_for('auth_logout'))
 
     json_data = request.json['task_id']
@@ -246,21 +246,6 @@ def delete_task():
         db.session.delete(task)
         db.session.commit()
     return state.get_url_for_function()
-
-
-@app.route('/tasks/query_all_tags', methods=['POST'])
-@login_required
-def query_all_tags():
-    if not state.validate():
-        state.save('next', 'query_all_tags')
-        return redirect(url_for('auth_logout'))
-
-    tag_query = Tag.query.all()
-    tags = []
-    for tag in tag_query:
-        tags.append({"id": tag.id, "name": tag.name})
-
-    return jsonify(tags)
 
 
 @app.route('/tasks/query_tags_for_task', methods=['POST'])

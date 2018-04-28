@@ -3,10 +3,13 @@ $(function() {
 
     $.ajax({
         type: "POST",
-        url: "/tasks/query_all_tags",
+        url: "/tags/query",
         contentType: "application/json;charset=UTF-8",
         success: function(tags) {
-            Array.prototype.push.apply(allTags, tags)
+            if ($.isArray(tags))
+                Array.prototype.push.apply(allTags, tags)
+            else
+                window.location.href = redirect_url;
         }
     });
 
