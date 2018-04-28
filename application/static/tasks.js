@@ -262,7 +262,7 @@ $(function() {
                             <a href='#' id='task-edit-cancel' class='cancel'>Cancel</a> \
                         </td> \
                         <td class='td_extra' align='right'> \
-                            <i id='label-icon' class='icon-btn extra-item material-icons'>label_outline</i> \
+                            <span id='label-icon' class='icon icon-btn accent-color extra-item material-icons'>label_outline</span> \
                         </td> \
                     </tr> \
                 </table> \
