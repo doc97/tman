@@ -8,7 +8,7 @@ from application.auth.forms import LoginForm, RegistrationForm
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError, VerificationError
 
-import application.tasks.session_state as state
+import application.session_state as state
 import application.tasks.functions as func
 
 

@@ -6,7 +6,7 @@ from application import app, db
 from application.tasks.models import Tag, Task, TaskList
 from application.tasks.forms import TaskForm
 
-import application.tasks.session_state as state
+import application.session_state as state
 import application.tasks.functions as func
 
 
@@ -93,17 +93,6 @@ def tasks_search():
 
     return render_template('tasks/tasks_search.html', today_tasks=today_tasks, tomorrow_tasks=tomorrow_tasks,
                            week_tasks=week_tasks, tags=tags, form=TaskForm())
-
-
-@app.route('/tasks/tags')
-@login_required
-def tasks_tags():
-    if not state.validate():
-        state.save('next', 'tasks_tags')
-        return redirect(url_for('auth_logout'))
-    state.save('url_function', 'tasks_tags')
-    tags = Tag.query.all()
-    return render_template('tasks/tasks_tags.html', tags=tags)
 
 
 @app.route('/tasks/new', methods=['POST'])

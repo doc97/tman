@@ -1,0 +1,40 @@
+.tag-item {
+    display: flex;
+    align-items: center;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+.tag-item-part {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 13px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.tag-btn {
+    display: flex;
+    height: 32px;
+    cursor: pointer;
+    border-radius: 3px;
+    text-align: center;
+    padding: 6px;
+    padding-top: 3px;
+    transition: background-color 150ms ease-in;
+    transition: color 150ms ease-in;
+}
+
+.tag {
+    margin-bottom: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.tag-name {
+    width: 100%;
+    max-width: 500px;
+    overflow-x: hidden;
+    cursor: text;
+}

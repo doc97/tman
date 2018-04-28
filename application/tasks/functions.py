@@ -3,7 +3,7 @@ from flask_login import current_user
 from application import db
 from application.tasks.models import Task
 
-import application.tasks.session_state as state
+import application.session_state as state
 
 
 def update_ordering_count():

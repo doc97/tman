@@ -1,4 +1,4 @@
-{% extends "tasks/tasks_layout.html" %}
+{% extends "tags/tags_layout.html" %}
 {% block title %}Tags{% endblock %}
 {% block content %}
     <ul>
@@ -23,4 +23,4 @@
         {% endfor %}
     </ul>
 {% endblock %}
-{% block nav_tags %} <a class="nav-item nav-link active" href="{{ url_for('tasks_tags') }}">Tags</a> {% endblock %}
+{% block nav_tags %} <a class="nav-item nav-link active" href="{{ url_for('tags_all') }}">Tags</a> {% endblock %}
