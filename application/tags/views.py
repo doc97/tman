@@ -1,7 +1,7 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, request, redirect, url_for
 from flask_login import login_required
-from application import app
-from application.tasks.models import Tag
+from application import app, db
+from application.tags.models import Tag
 
 import application.session_state as state
 
@@ -15,3 +15,19 @@ def tags_all():
     state.save('url_function', 'tags_all')
     tags = Tag.query.all()
     return render_template('tags/tags_all.html', tags=tags)
+
+
+@app.route('/tags/delete', methods=['POST'])
+@login_required
+def delete_tag():
+    if not state.validate():
+        state.save('next', 'delete_task')
+        return redirect(url_for('auth_logout'))
+
+    json_id_data = request.json['task_id']
+    tag_id = int(json_id_data[5:]) if json_id_data.startswith('tag-') else -1
+    tag = Tag.query.filter((Tag.account_id == Tag.id) & (Tag.id == tag_id)).first()
+    if tag:
+        db.session.delete(tag)
+        db.session.commit()
+    return state.get_url_for_function()

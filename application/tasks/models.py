@@ -65,12 +65,3 @@ class TaskList(db.Model):
 
     def __init__(self, name):
         self.name = name
-
-
-class Tag(db.Model):
-    __tablename__ = 'Tag'
-    id = db.Column('id', db.Integer, primary_key=True)
-    name = db.Column('name', db.Unicode, nullable=False)
-
-    def __init__(self, name):
-        self.name = name
