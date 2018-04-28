@@ -2,10 +2,10 @@
 {% block title %}Edit tag{% endblock %}
 {% block content %}
     {% if tag %}
-        <h1>Edit task '{{ tag.name }}'</h1>
+        <h1>Edit tag '{{ tag.name }}'</h1>
         <form action="{{ url_for('tags_edit') }}?tagId={{ tag.id }}" method="POST">
     {% else %}
-        <h1>New task</h1>
+        <h1>New tag</h1>
         <form action="{{ url_for('tags_edit') }}?tagId={{ tag.id }}" method="POST">
     {% endif %}
         <div class="form-group">

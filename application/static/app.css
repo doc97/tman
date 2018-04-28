@@ -180,4 +180,16 @@ li.nav.active a {
     padding-left: 5px;
 }
 
+.add-tag-btn {
+    width: 100%;
+    padding: 5px;
+    border-radius: 3px;
+}
 
+.add-tag-btn:hover {
+    text-decoration: none;
+}
+
+.add-tag-btn .icon {
+    padding-top: 1px;
+}
