@@ -54,13 +54,30 @@ img {
 .content-background {
     display: flex;
     flex: 1 1 auto;
+    flex-flow: column;
     justify-content: center;
-    flex-wrap: wrap;
     padding-top: 20px;
     padding-bottom: 20px;
     margin-top: 10px;
     background-color: var(--theme-background);
     text-align: center;
+}
+
+.feature-wrapper {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.feature-wrapper-text-left {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap-reverse;
+}
+
+.feature-wrapper-text-right {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .text-container {
