@@ -24,6 +24,7 @@ img {
 
 .headline {
     display: flex;
+    flex: 1 0 auto;
     flex-flow: column;
     justify-content: center;
     align-items: center;
@@ -33,6 +34,7 @@ img {
 
 .link-section {
     display: flex;
+    flex: 1 0 auto;
     justify-content: center;
 }
 
@@ -53,7 +55,7 @@ img {
 
 .content-background {
     display: flex;
-    flex: 1 1 auto;
+    flex: 1 0 auto;
     flex-flow: column;
     justify-content: center;
     padding-top: 20px;
