@@ -1,7 +1,25 @@
 {% extends "layout.html" %}
-
-{% block body %}
-<h3>Links</h3>
-<a href="auth/login">Login</a>
-<a href="auth/register">Register</a>
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="/static/front_page.css">
+{% endblock %}
+{% block content %}
+    <div id="background">
+        <div class="headline">
+            <h1>Conquer your life, one day at a time.</h1>
+            <span>More than just a simple todo-list. It offers easy-to-use features to manage your day.</span>
+        </div>
+        <div class="link-section">
+            <a href="auth/login">Login</a>
+            <a href="auth/register">Register</a>
+        </div>
+        <div class="content-background">
+            <div class="image-container">
+                <img src="/static/img/demo1.png" alt="Demo picture" style="width: 100%">
+            </div>
+            <div class="text-container">
+                <h3>Beautiful UI.</h2>
+            </div>
+        </div>
+    </div>
 {% endblock %}
