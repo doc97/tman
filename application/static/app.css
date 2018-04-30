@@ -104,7 +104,7 @@ li.nav.active a {
 }
 
 .nav-item.active {
-    border-bottom: 3px solid var(--theme-accent);
+    border-bottom: 3px solid var(--theme-accent-light);
 }
 
 .navbar-right {
@@ -125,7 +125,7 @@ li.nav.active a {
 }
 
 .logout-btn:hover span.icon {
-    color: var(--theme-accent);
+    color: var(--theme-accent-light);
 }
 
 .delete-btn {
@@ -139,8 +139,8 @@ li.nav.active a {
 }
 
 .theme-btn {
-    border: 1px solid var(--theme-accent);
-    color: var(--theme-accent);
+    border: 1px solid var(--theme-accent-light);
+    color: var(--theme-accent-light);
 }
 
 .theme-btn:hover {
@@ -156,7 +156,7 @@ li.nav.active a {
 }
 
 .accent-color {
-    color: var(--theme-accent) !important;
+    color: var(--theme-accent-light) !important;
 }
 
 .icon {

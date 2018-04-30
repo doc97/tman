@@ -1,3 +1,9 @@
 {% extends "app_layout.html" %}
-{% block custom_css %} <link rel="stylesheet" type="text/css" href="/static/tags.css"> {% endblock %}
-{% block custom_scripts %} <script src="/static/tags.js"></script> {% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="/static/tags.css">
+{% endblock %}
+{% block body %}
+    {{ super() }}
+    <script src="/static/tags.js"></script>
+{% endblock %}

@@ -13,7 +13,7 @@
     font-weight: bold;
     border-radius: 3px;
     color: var(--theme-text-primary);
-    background-color: var(--theme-accent);
+    background-color: var(--theme-accent-light);
 }
 
 #task-edit-submit:hover {
@@ -65,7 +65,7 @@
     text-align: center;
     line-height: 16px;
     border-radius: 50%;
-    border: 2px solid var(--theme-accent);
+    border: 2px solid var(--theme-accent-light);
     display: block;
     justify-content: center;
     background-size: 2px 2px;
@@ -74,7 +74,7 @@
 }
 
 .complete-btn:hover {
-    background-color: var(--theme-accent);
+    background-color: var(--theme-accent-light);
 }
 
 .task-btn {
@@ -175,11 +175,11 @@
 }
 
 .tag-list-item:hover {
-    color: var(--theme-accent) !important;
+    color: var(--theme-accent-light) !important;
 }
 
 .tag-list-item.active {
-    color: var(--theme-accent) !important;
+    color: var(--theme-accent-light) !important;
     font-weight: bold;
 }
 
@@ -197,5 +197,5 @@
 }
 
 .overflow-item:hover {
-    color: var(--theme-accent) !important;
+    color: var(--theme-accent-light) !important;
 }
