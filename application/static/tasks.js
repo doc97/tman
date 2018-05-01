@@ -74,16 +74,7 @@ $(function() {
 
     function deleteTaskBtnClick(event) {
         taskId = $(this).parent().parent().parent().attr("id");
-        jsonData = JSON.stringify({ task_id: taskId }, null, '\t');
-        $.ajax({
-            type: "POST",
-            url: "/tasks/delete",
-            data: jsonData,
-            contentType: "application/json;charset=UTF-8",
-            success: function(redirect_url) {
-                window.location.href = redirect_url;
-            }
-        });
+        deleteTask(taskId);
     }
 
     function overflowIconClick(event) {
@@ -115,16 +106,10 @@ $(function() {
     function overflowItemClick(event) {
         taskId = task.attr("id");
         listId = $(this).attr("id");
-        jsonData = JSON.stringify({ task_id: taskId, list_id: listId }, null, '\t');
-        $.ajax({
-            type: "POST",
-            url: "/tasks/move",
-            data: jsonData,
-            contentType: "application/json;charset=UTF-8",
-            success: function(redirect_url) {
-                window.location.href = redirect_url;
-            }
-        });
+        if (listId.startsWith("move"))
+            moveTask(taskId, listId);
+        else if (listId.startsWith("delete"))
+            deleteTask(taskId);
     }
 
     function taskContentClick(event) {
@@ -292,6 +277,32 @@ $(function() {
                 } else {
                     window.location.href = redirect_url;
                 }
+            }
+        });
+    }
+
+    function deleteTask(taskId) {
+        jsonData = JSON.stringify({ task_id: taskId }, null, '\t');
+        $.ajax({
+            type: "POST",
+            url: "/tasks/delete",
+            data: jsonData,
+            contentType: "application/json;charset=UTF-8",
+            success: function(redirect_url) {
+                window.location.href = redirect_url;
+            }
+        });
+    }
+
+    function moveTask(taskId, listId) {
+        jsonData = JSON.stringify({ task_id: taskId, list_id: listId }, null, '\t');
+        $.ajax({
+            type: "POST",
+            url: "/tasks/move",
+            data: jsonData,
+            contentType: "application/json;charset=UTF-8",
+            success: function(redirect_url) {
+                window.location.href = redirect_url;
             }
         });
     }

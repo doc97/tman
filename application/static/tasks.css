@@ -206,3 +206,12 @@
 .overflow-item:hover {
     color: var(--theme-accent-light) !important;
 }
+
+.overflow-item#delete {
+    color: #e53434 !important;
+}
+
+.overflow-divider {
+    height: 2px;
+    background-color: var(--theme-background-light);
+}

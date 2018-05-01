@@ -158,16 +158,6 @@ li.nav.active a {
     color: var(--theme-accent-light);
 }
 
-.delete-btn {
-    border: 1px solid #ab2915;
-    color: #ab2915;
-}
-
-.delete-btn:hover {
-    color: var(--theme-text-secondary);
-    background-color: #e0180d;
-}
-
 .theme-btn {
     border: 1px solid var(--theme-accent-light);
     color: var(--theme-accent-light);
