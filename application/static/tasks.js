@@ -273,7 +273,12 @@ $(function() {
             success: function(tags) {
                 if ($.isArray(tags)) {
                     for (let tag of tags) {
-                        htmlString = "<a id=tag-" + tag.id + " class='tag-list-item' href='#' draggable=false>" + tag.name + "</a>";
+                        htmlString = [
+                        "<div id=\"tag-" + tag.id + "\" class=\"tag-list-item\">",
+                        tag.name,
+                        "<span class=\"material-icons\">done</span>",
+                        "</div>"
+                        ].join("");
                         $(".tag-list").append($(htmlString));
                     }
 
