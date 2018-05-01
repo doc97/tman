@@ -2,23 +2,30 @@
 {% import "tasks/tasks_macros.html" as macros %}
 {% block title %}Search{% endblock %}
 {% block content %}
+    <p class="app-header app-header-primary">SEARCH RESULTS</p>
     {% if today_tasks %}
-        <h4>Today</h4>
-        <ul> {{ macros.task_list(today_tasks, tags, false) }} </ul>
+        <p class="app-header app-header-secondary">Today</p>
+        <div class="app-content">
+            <ul> {{ macros.task_list(today_tasks, tags, false) }} </ul>
+        </div>
     {% endif %}
 
     {% if tomorrow_tasks %}
-        <h4>Tomorrow</h4>
-        <ul> {{ macros.task_list(tomorrow_tasks, tags, false) }} </ul>
+        <p class="app-header app-header-secondary">Tomorrow</p>
+        <div class="app-content">
+            <ul> {{ macros.task_list(tomorrow_tasks, tags, false) }} </ul>
+        </div>
     {% endif %}
 
     {% if week_tasks %}
-        <h4>This week</h4>
-        <ul> {{ macros.task_list(week_tasks, tags, false) }} </ul>
+        <p class="app-header app-header-secondary">This week</p>
+        <div class="app-content">
+            <ul> {{ macros.task_list(week_tasks, tags, false) }} </ul>
+        </div>
     {% endif %}
 
     {% if not today_tasks and not tomorrow_tasks and not week_tasks %}
-        <h3>No results.</h3>
+        <p class="app-text">No results.</p>
     {% else %}
         {{ macros.overflow_menu() }}
     {% endif %}

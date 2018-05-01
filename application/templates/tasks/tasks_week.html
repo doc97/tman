@@ -2,24 +2,27 @@
 {% import "tasks/tasks_macros.html" as macros %}
 {% block title %}Today{% endblock %}
 {% block content %}
-    {% if tasks %}
-        <ul id="sortable">
-            {{ macros.task_list(tasks, tags, true) }}
-        </ul>
-    {% endif %}
+    <p class="app-header app-header-secondary">THIS WEEK</p>
+    <div class="app-content">
+        {% if tasks %}
+            <ul id="sortable">
+                {{ macros.task_list(tasks, tags, true) }}
+            </ul>
+        {% endif %}
 
-    {% if done_tasks %}
-        <ul>
-            {{ macros.task_list(done_tasks, tags, false) }}
-        </ul>
-    {% endif %}
+        {% if done_tasks %}
+            <ul>
+                {{ macros.task_list(done_tasks, tags, false) }}
+            </ul>
+        {% endif %}
 
-    {% if not tasks and not done_tasks %}
-        <h3>No tasks</h3>
-    {% else %}
-        {{ macros.overflow_menu() }}
-    {% endif %}
+        {% if not tasks and not done_tasks %}
+            <p class="app-text">No tasks</p>
+        {% else %}
+            {{ macros.overflow_menu() }}
+        {% endif %}
 
-    {{ macros.add_task_form(form) }}
+        {{ macros.add_task_form(form) }}
+    </div>
 {% endblock %}
 {% block nav_week %} <a class="nav-item nav-link active" href="{{ url_for('tasks_week') }}">This week</a> {% endblock %}

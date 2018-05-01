@@ -1,7 +1,4 @@
 /* Id's */
-#other-tasks-header {
-    margin-top: 50px;
-}
 
 #task-edit-submit {
     display: inline-block;
@@ -22,7 +19,7 @@
 }
 
 #edit-task-description {
-    background-color: var(--theme-background-light);
+    background-color: var(--theme-background-lighter);
 }
 
 /* Classes */

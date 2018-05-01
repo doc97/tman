@@ -1,6 +1,7 @@
 :root {
     --theme-background: #343a40;
-    --theme-background-light: #6c757d;
+    --theme-background-light: #454a4f;
+    --theme-background-lighter: #6c757d;
     --theme-background-dark: #1f262d;
     --theme-accent-light: #50d39a;
     --theme-accent: #33af79;

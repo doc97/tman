@@ -2,28 +2,34 @@
 {% import "tasks/tasks_macros.html" as macros %}
 {% block title %}Today{% endblock %}
 {% block content %}
-    <h3>Current task</h3>
+    <p id="current-task-header" class="app-header app-header-primary">CURRENT TASK</p>
     {% if tasks %}
-        <div id="task-{{ tasks[0].id }}">
-            {{ macros.task_item(tasks[0], tags, false) }}
+        <div class="app-content">
+            <div id="task-{{ tasks[0].id }}">
+                {{ macros.task_item(tasks[0], tags, false) }}
+            </div>
         </div>
     {% endif %}
 
-    <h4 id="other-tasks-header">Other tasks</h4>
-    <ul id="sortable">
-        {{ macros.task_list(tasks[1:], tags, true) }}
-    </ul>
-
-    {% if done_tasks %}
-        <ul>
-            {{ macros.task_list(done_tasks, tags, false) }}
+    <p id="other-tasks-header" class="app-header app-header-secondary">OTHER TASKS</p>
+    <div class="app-content">
+        <ul id="sortable">
+            {{ macros.task_list(tasks[1:], tags, true) }}
         </ul>
-    {% endif %}
+
+        {% if done_tasks %}
+            <ul>
+                {{ macros.task_list(done_tasks, tags, false) }}
+            </ul>
+        {% endif %}
+    </div>
 
     {% if tasks or done_tasks %}
         {{ macros.overflow_menu() }}
     {% endif %}
 
-    {{ macros.add_task_form(form) }}
+    <div class="app-content">
+        {{ macros.add_task_form(form) }}
+    </div>
 {% endblock %}
 {% block nav_today %} <a class="nav-item nav-link active" href="{{ url_for('tasks_today') }}">Today</a> {% endblock %}
