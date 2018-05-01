@@ -75,15 +75,15 @@ def tasks_search():
 
     search_param = "%" + request.args.get("q", default="", type=str) + "%"
 
-    today_query = Task.query.join(Task.tags).filter(
+    today_query = Task.query.outerjoin(Task.tags).filter(
         (Task.account_id == current_user.id) & (Task.tasklist_id == 1) &
         (Task.description.like(search_param) | (Tag.name.like(search_param)))
     ).all()
-    tomorrow_query = Task.query.join(Task.tags).filter(
+    tomorrow_query = Task.query.outerjoin(Task.tags).filter(
         (Task.account_id == current_user.id) & (Task.tasklist_id == 2) &
         (Task.description.like(search_param) | (Tag.name.like(search_param)))
     ).all()
-    week_query = Task.query.join(Task.tags).filter(
+    week_query = Task.query.outerjoin(Task.tags).filter(
         (Task.account_id == current_user.id) & (Task.tasklist_id == 3) &
         (Task.description.like(search_param) | (Tag.name.like(search_param)))
     ).all()
