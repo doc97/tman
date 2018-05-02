@@ -96,14 +96,17 @@ li.nav.active a {
 /* Classes */
 .nav-search-bar {
     min-width: 300px;
-    margin-right: 25px;
 }
 
 .nav-search-bar input {
-    width: 90% !important;
+    width: 100% !important;
     border: none;
     background-color: rgba(255, 255, 255, 0.1) !important;
     color: white !important;
+}
+
+.navbar-collapse {
+    margin-top: 10px;
 }
 
 .nav-item.active {
@@ -213,3 +216,14 @@ li.nav.active a {
 .add-tag-btn .icon {
     padding-top: 1px;
 }
+
+@media (min-width: 992px) {
+    .nav-search-bar {
+        margin-right: 25px;
+    }
+
+    .navbar-collapse {
+        margin-top: 0;
+    }
+}
+

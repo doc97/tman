@@ -10,8 +10,8 @@
     align-items: center;
     flex-wrap: wrap;
     padding: 13px;
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .tag-btn {
