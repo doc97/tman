@@ -42,6 +42,6 @@ def normalize_tasklist_ordering(tasklist_id):
         (Task.tasklist_id == tasklist_id) & (Task.account_id == current_user.id) & (Task.is_completed == False)
     ).order_by(Task.order).all()
     for i in range(len(today_tasks)):
-        today_tasks[i].order = i
+        today_tasks[i].order = i + 1
 
     db.session.commit()

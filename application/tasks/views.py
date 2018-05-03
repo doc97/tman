@@ -269,23 +269,36 @@ def order_task():
         return redirect(url_for('auth_logout'))
 
     json_id_data = request.json['task_id'] if 'task_id' in request.json else ''
-    json_prev_id_data = request.json['prev_task_id'] if 'prev_task_id' in request.json else ''
-    json_next_id_data = request.json['next_task_id'] if 'next_task_id' in request.json else ''
+    json_offset_data = request.json['offset'] if 'offset' in request.json else -1
     task_id = int(json_id_data[5:]) if json_id_data.startswith('task-') else -1
-    prev_task_id = int(json_prev_id_data[5:]) if json_prev_id_data.startswith('task-') else -1
-    next_task_id = int(json_next_id_data[5:]) if json_next_id_data.startswith('task-') else -1
+    offset = int(json_offset_data)
+    offset_amount = abs(offset) + 1
 
     task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == task_id)).first()
-    prev_task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == prev_task_id)).first()
-    next_task = Task.query.filter((Task.account_id == current_user.id) & (Task.id == next_task_id)).first()
 
-    if task:
-        prev_task_order = 0
-        next_task_order = 0
-        if prev_task:
-            prev_task_order = prev_task.order
-        if next_task:
-            next_task_order = next_task.order
+    if offset < 0:
+        surrounding_tasks = Task.query.filter((Task.account_id == current_user.id) &
+                                              (Task.tasklist_id == task.tasklist_id) &
+                                              (Task.order < task.order)
+                                              ).order_by(Task.order.desc()).limit(offset_amount).all()
+    else:
+        surrounding_tasks = Task.query.filter((Task.account_id == current_user.id) &
+                                              (Task.tasklist_id == task.tasklist_id) &
+                                              (Task.order > task.order)
+                                              ).order_by(Task.order.asc()).limit(offset_amount).all()
+
+    if task and surrounding_tasks:
+        if len(surrounding_tasks) == offset_amount:
+            prev_task_order = surrounding_tasks[0].order
+            next_task_order = surrounding_tasks[1].order
+        elif offset < 0:
+            prev_task_order = 0
+            next_task_order = surrounding_tasks[0].order
+        elif offset > 0:
+            prev_task_order = surrounding_tasks[0].order
+            next_task_order = prev_task_order + 2
+        else:
+            return ""
 
         new_task_order = (prev_task_order + next_task_order) / 2
         task.order = new_task_order

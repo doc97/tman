@@ -8,21 +8,15 @@ $(function() {
     $( "#sortable" ).sortable({
         handle: ".sortable-handle",
         axis: "y",
+        start: function(event, ui) {
+            ui.item.data("previndex", ui.item.index());
+        },
         update: function(event, ui) {
-            prevId = ui.item.prev().attr("id");
-            movedId = ui.item.attr("id");
-            nextId = ui.item.next().attr("id");
-
-            jsonTagData = JSON.stringify({ task_id: movedId, next_task_id: nextId, prev_task_id: prevId });
-            $.ajax({
-                type: "POST",
-                url: "/tasks/order_task",
-                data: jsonTagData,
-                contentType: "application/json;charset=UTF-8",
-            });
+            diff = ui.item.index() - ui.item.data("previndex");
+            ui.item.removeData("previndex");
+            orderTask(ui.item.attr("id"), diff);
         }
-    });
-    $( "#sortable" ).disableSelection();
+    }).disableSelection();
 
     // Source: https://stackoverflow.com/a/3866442
     function setEndOfContenteditable(contentEditableElement) {
@@ -108,6 +102,10 @@ $(function() {
         listId = $(this).attr("id");
         if (listId.startsWith("move"))
             moveTask(taskId, listId);
+        else if (listId.startsWith("order-up"))
+            orderTask(taskId, -1);
+        else if (listId.startsWith("order-down"))
+            orderTask(taskId, 1);
         else if (listId.startsWith("delete"))
             deleteTask(taskId);
     }
@@ -303,6 +301,19 @@ $(function() {
             contentType: "application/json;charset=UTF-8",
             success: function(redirect_url) {
                 window.location.href = redirect_url;
+            }
+        });
+    }
+
+    function orderTask(taskId, offset) {
+        jsonTagData = JSON.stringify({ task_id: taskId, offset: offset });
+        $.ajax({
+            type: "POST",
+            url: "/tasks/order_task",
+            data: jsonTagData,
+            contentType: "application/json;charset=UTF-8",
+            success: function() {
+                location.reload();
             }
         });
     }
