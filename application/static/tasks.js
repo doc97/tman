@@ -200,17 +200,17 @@ $(function() {
             data: jsonTagData,
             contentType: "application/json;charset=UTF-8",
             success: function(msg) {
-                if (msg === "added") {
-                    htmlString = "<span id='badge-" + tagId +
-                        "' class='badge badge-pill badge-primary'>" + $(event.target).text() +
-                        "</span>";
-                    $("#" + taskId).find(".task-content").append($(htmlString));
-                    $(event.target).addClass("active");
+                if (msg === "error") {
+                    console.log(msg);
                 } else if (msg === "removed") {
                     $("#badge-" + tagId).remove();
                     $(event.target).removeClass("active");
                 } else {
-                    console.log(msg);
+                    htmlString = "<span id='badge-" + tagId +
+                        "' class='badge badge-pill badge-primary'>" + msg +
+                        "</span>";
+                    $("#" + taskId).find(".task-content").append($(htmlString));
+                    $(event.target).addClass("active");
                 }
             }
         });

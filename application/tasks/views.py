@@ -206,7 +206,7 @@ def update_tags():
         else:
             task.tags.append(tag)
             db.session.commit()
-            return "added"
+            return tag.name
 
     return "error"
 
