@@ -25,7 +25,9 @@
     {% endif %}
 
     {% if not today_tasks and not tomorrow_tasks and not week_tasks %}
-        <p class="app-text">No results.</p>
+        <div class="app-content">
+            <p class="app-text">No results.</p>
+        </div>
     {% else %}
         {{ macros.overflow_menu() }}
     {% endif %}

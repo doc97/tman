@@ -3,13 +3,15 @@
 {% block title %}Today{% endblock %}
 {% block content %}
     <p id="current-task-header" class="app-header app-header-primary">CURRENT TASK</p>
-    {% if tasks %}
-        <div class="app-content">
+    <div class="app-content">
+        {% if tasks %}
             <div id="task-{{ tasks[0].id }}">
                 {{ macros.task_item(tasks[0], tags, false) }}
             </div>
-        </div>
-    {% endif %}
+        {% else %}
+            <p class="app-text">No current task.</p>
+        {% endif %}
+    </div>
 
     <p id="other-tasks-header" class="app-header app-header-secondary">OTHER TASKS</p>
     <div class="app-content">
