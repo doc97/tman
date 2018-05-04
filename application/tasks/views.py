@@ -116,7 +116,7 @@ def new_task():
         last_task = Task.query.filter(
             (Task.tasklist_id == list_id) & (Task.account_id == current_user.id) & (Task.is_completed == False)
         ).order_by(desc(Task.order)).first()
-        order = last_task.order + 1 if last_task else 0
+        order = last_task.order + 1 if last_task else 1
         created_task = Task(current_user.id, list_id, order, form_desc)
         db.session.add(created_task)
         db.session.commit()
@@ -139,7 +139,7 @@ def complete_task():
             (Task.tasklist_id == list_id) & (Task.account_id == current_user.id) & (Task.is_completed == True)
         ).count()
         task.is_completed = True
-        task.order = task_count
+        task.order = task_count + 1
         db.session.commit()
     return state.get_url_for_function()
 
@@ -160,7 +160,7 @@ def undo_completed_task():
             (Task.tasklist_id == list_id) & (Task.account_id == current_user.id) & (Task.is_completed == False)
         ).order_by(desc(Task.order)).first()
         task.is_completed = False
-        task.order = last_task.order + 1 if last_task else 0
+        task.order = last_task.order + 1 if last_task else 1
         db.session.commit()
     return state.get_url_for_function()
 
