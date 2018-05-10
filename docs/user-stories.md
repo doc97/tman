@@ -1,5 +1,7 @@
 # User stories
 
+There is only one role, the user. The app serves every user separately.
+
 _As a user I want to..._  
 &nbsp;&nbsp;&nbsp;&nbsp;**add tasks** to a 'This week'-list  
 _so that I..._  
@@ -25,14 +27,26 @@ _so that I can..._
 **Status**: :heavy_check_mark:
 
 _As a user I want to..._  
+&nbsp;&nbsp;&nbsp;&nbsp;organize my tasks into categories or **assign tags**  
+_so that I can..._  
+&nbsp;&nbsp;&nbsp;&nbsp;keep track of what projects which task belongs to  
+**Status**: :heavy_check_mark:
+
+_As a user I want to..._  
+&nbsp;&nbsp;&nbsp;&nbsp;be able to create and modify my **own tags**  
+_so that I can..._  
+&nbsp;&nbsp;&nbsp;&nbsp;customize how I use my tags.  
+**Status**: :heavy_check_mark:
+
+_As a user I want to..._  
+&nbsp;&nbsp;&nbsp;&nbsp;be able to use the app with my **phone**  
+_so that I can..._  
+&nbsp;&nbsp;&nbsp;&nbsp;use my phone and not having to rely on having a desktop computer.  
+**Status**: :heavy_check_mark:
+
+_As a user I want to..._  
 &nbsp;&nbsp;&nbsp;&nbsp;**not** need to **manually move** tasks from 'Tomorrow' to 'Today' every morning  
 _so that I can..._  
 &nbsp;&nbsp;&nbsp;&nbsp;focus on actual planning  
 **Status**: :x:
-
-_As a user I want to..._  
-&nbsp;&nbsp;&nbsp;&nbsp;organize my tasks into categories or **assign tags**  
-_so that I can..._  
-&nbsp;&nbsp;&nbsp;&nbsp;keep track of what projects which task belongs to  
-**Status**: :ballot_box_with_check:
 
