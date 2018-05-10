@@ -65,6 +65,7 @@
                 {% endfor %}
             </ul>
             <input type="submit" value="Add task">
+            {{ form.hidden_tag() }}
        </div>
     </form>
 {% endmacro %}

@@ -7,9 +7,6 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', [validators.Length(min=7)])
     remember = BooleanField('Remember me')
 
-    class Meta:
-        csrf = False
-
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', [validators.InputRequired()])
@@ -19,5 +16,3 @@ class RegistrationForm(FlaskForm):
     ])
     confirm = PasswordField('Repeat password')
 
-    class Meta:
-        csrf = False
