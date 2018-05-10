@@ -3,12 +3,12 @@ from flask_login import login_required, current_user
 from sqlalchemy import desc
 
 from application import app, db
-from application.tags.models import Tag
-from application.tasks.models import Task, TaskList
-from application.tasks.forms import TaskForm
+from application.classes.tags.models import Tag
+from application.classes.tasks.models import Task, TaskList
+from application.classes.tasks.forms import TaskForm
 
 import application.session_state as state
-import application.tasks.functions as func
+import application.classes.tasks.functions as func
 
 
 @app.route('/tasks/today')

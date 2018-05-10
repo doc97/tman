@@ -2,14 +2,14 @@ from flask import render_template, request, redirect, session, url_for
 from flask_login import login_user, logout_user, current_user
 
 from application import app, db
-from application.auth.models import Account
-from application.auth.forms import LoginForm, RegistrationForm
+from application.classes.auth.models import Account
+from application.classes.auth.forms import LoginForm, RegistrationForm
 
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError, VerificationError
 
 import application.session_state as state
-import application.tasks.functions as func
+import application.classes.tasks.functions as func
 
 
 ph = PasswordHasher()

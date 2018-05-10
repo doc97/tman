@@ -8,12 +8,12 @@ app.config.from_pyfile('config.py')
 db = SQLAlchemy(app)
 
 from application import views
-from application.tasks import models
-from application.tasks import views
-from application.tags import views
-from application.auth import models
-from application.auth import views
-from application.auth.models import Account
+from application.classes.tasks import models
+from application.classes.tasks import views
+from application.classes.tags import views
+from application.classes.auth import models
+from application.classes.auth import views
+from application.classes.auth.models import Account
 
 login_manager = LoginManager()
 login_manager.init_app(app)

@@ -1,8 +1,8 @@
 from flask import render_template, request, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 from application import app, db
-from application.tags.models import Tag
-from application.tags.forms import TagForm
+from application.classes.tags.models import Tag
+from application.classes.tags.forms import TagForm
 
 import application.session_state as state
 
