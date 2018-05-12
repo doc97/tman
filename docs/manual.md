@@ -21,7 +21,8 @@
     3. Delete a tag
 5. Task lists
     1. Moving a task to another list
-6. The intended way to use TMan
+6. Searching
+7. The intended way to use TMan
 
 ### 1. Account
 
@@ -48,9 +49,9 @@ If you have forgotten your password, please contact the administrator at daniel.
 
 When logged in you will notice that the navigation bar at the top has a search bar and few tabs.
 
-**Today**: Today's task list - Add tasks here that you want to get done today
-**Tomorrow**: Tomorrow's task list - Add tasks here that you can't get done today but are important
-**This week**: This week's task list - This is your week's backlog
+**Today**: Today's task list - Add tasks here that you want to get done today  
+**Tomorrow**: Tomorrow's task list - Add tasks here that you can't get done today but are important  
+**This week**: This week's task list - This is your week's backlog  
 **Tags**: Manage your tags here
 
 ### 3. Tasks
@@ -86,7 +87,7 @@ All actions require you to be logged in, and being in a tasklist tab (Today, Tom
 #### 3.5 Delete a task
 
 - Check that you are in a tasklist tab
-- **Caution!** There is no confirmation so be careful when deleting a task
+- :no_entry: **Caution!** There is no confirmation so be careful when deleting a task
 - Click on the overflow icon (three dots) of a task and select the 'Delete task' option
 
 #### 3.6 Assign tags to a task
@@ -129,7 +130,7 @@ All actions require you to be logged in, and being in the 'Tags' tab.
 #### 4.3 Delete a tag
 
 - Check that you are in the tags tab
-- **Caution!** There is no confirmation so be careful when deleting a tag
+- :no_entry: **Caution!** There is no confirmation so be careful when deleting a tag
 - Click the trash can icon to delete the tag
 
 
@@ -151,7 +152,13 @@ This is your week's backlog.
 - Select the task list you want to move the task to
 
 
-### The intended way to use TMan
+### 6. Searching
+
+You can use the search bar in the navigation bar to search for tasks with a certain description or tag.
+The search bar supports only one search term at a time, but it should suffice.
+
+
+### 7. The intended way to use TMan
 
 **Weekly planning**
 

@@ -1,6 +1,9 @@
 # TMan
 This is a database project for a [course](https://materiaalit.github.io/tsoha-18/) at The University of Helsinki.
 
+**Note**: This project is **not** under active development but if you have any problems or find any
+bugs, please create a Github [issue](https://github.com/doc97/tman/issues)!
+
 ## Description
 TMan is an application that can help you manage your time you spend during your day. It offers 
 easy-to-use features to manage your day. But it is more than just a simple todo-list. You can categorize 
@@ -64,12 +67,16 @@ contact me at daniel.riissanen[at]helsinki.fi.
 
 For any other issue, create a Github [issue](https://github.com/doc97/tman/issues).
 
+## Feature requests
+
+I accept feature request but do not promise to implement them. Please use Github's issue system to submit a
+feature request.
+
 ## Links
 [Heroku app](https://tsoha-tman.herokuapp.com)  
 [User stories](docs/user-stories.md)  
 [Database schema](docs/db-schema.md)  
 
----
+## Contact
 
-**Note**: This project is **not** under active development but if you have any problems or find any
-bugs, please create a Github [issue](https://github.com/doc97/tman/issues)!
+daniel.riissanen[at]helsinki.fi
